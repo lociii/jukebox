@@ -18,6 +18,12 @@ libshout3, libshout3-dev and python-dev are required to build the dependecy `pyt
    :alt: Jukebox - your democratic media player
    :align: center
 
+General
+========
+
+- Jukebox is available in english and german
+- Jukebox uses Facebook, Twitter and Github for authentication (see `django-social-auth <https://github.com/omab/django-social-auth>`_ for more authentication providers)
+
 Setup
 ==================
 
