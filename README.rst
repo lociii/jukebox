@@ -88,6 +88,7 @@ Dependencies
     django-social-auth==0.6.0
     djangorestframework==0.2.3
     python-shout==0.2
+    python-daemon==1.6
 
 License
 ========
