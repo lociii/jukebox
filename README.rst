@@ -95,6 +95,11 @@ License
 
 MIT License. See `License <https://github.com/lociii/jukebox/blob/master/LICENSE.rst>`_
 
+Developers
+===========
+
+Clone the git repository, change directory to jukebox/jukebox/ and replace the calls to "bin/jukebox" by "python manage.py"
+
 Release Notes
 ==============
 
