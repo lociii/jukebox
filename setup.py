@@ -1,4 +1,5 @@
 import ez_setup
+import glob
 ez_setup.use_setuptools()
 from setuptools import setup, find_packages
 
@@ -22,15 +23,16 @@ setup(
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
-        "Topic :: Multimedia :: Sound/Audio :: Players :: Players",
+        "Topic :: Multimedia :: Sound/Audio :: Players",
     ],
-    long_description=open("README.rst").read(),
     install_requires=[
         "Django==1.3",
         "mutagen==1.20",
         "django-social-auth==0.6.0",
         "djangorestframework==0.2.3",
         "python-shout==0.2",
+        "python-daemon==1.6",
     ],
-    include_package_data = True
+    include_package_data=True,
+    scripts=glob.glob("bin/*")
 )

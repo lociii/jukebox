@@ -11,7 +11,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'db.sqlite',
+        'NAME': BASE_DIR + '/db.sqlite',
     }
 }
 
@@ -35,12 +35,16 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
+TEMPLATE_DIRS = (
+    BASE_DIR + "/jukebox_web/templates"
+)
+
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 
 ROOT_URLCONF = 'jukebox.urls'
 
 LOCALE_PATHS = (
-    'jukebox_web/locale',
+    BASE_DIR + '/jukebox_web/locale',
 )
 
 INSTALLED_APPS = (

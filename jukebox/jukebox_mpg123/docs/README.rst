@@ -8,12 +8,12 @@ Startup
 
 ::
 
-    python manage.py jukebox_mpg123 --start
+    bin/jukebox jukebox_mpg123 --start
 
 Shutdown
 =====
 
 ::
 
-    python manage.py jukebox_mpg123 --stop
+    bin/jukebox jukebox_mpg123 --stop
 

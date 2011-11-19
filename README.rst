@@ -21,6 +21,28 @@ libshout3, libshout3-dev and python-dev are required to build the dependecy `pyt
 Setup
 ==================
 
+Install `virtualenv <http://pypi.python.org/pypi/virtualenv>`_ via `pip <http://pypi.python.org/pypi/pip>`_ if not alreay done:
+
+::
+
+    sudo pip install virtualenv
+
+Set up a virtualenv for jukebox:
+
+::
+
+    virtualenv --no-site-packages jukebox
+
+Install ez_setup and finally jukebox in your fresh virtual environment:
+
+::
+
+    cd jukebox
+    bin/pip install ez_setup
+    bin/pip install jukebox
+
+Now it's time to configure the jukebox
+
 1. Enter admin credentials and select authentication providers
 2. Create the database
 3. Index your music
@@ -29,15 +51,15 @@ That's all
 
 ::
 
-    python manage.py jukebox_setup
-    python manage.py syncdb
-    python manage.py jukebox_index --path=/path/to/library
+    bin/jukebox jukebox_setup
+    bin/jukebox syncdb
+    bin/jukebox jukebox_index --path=/path/to/library
 
 The django builtin development webserver will be sufficient to serve your office or party. Just start it up:
 
 ::
 
-    python manage.py runserver ip:port
+    bin/jukebox runserver ip:port
 
 Now you're ready to put music in the queue. Jukebox offers several methods to play it:
 

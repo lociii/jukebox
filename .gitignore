@@ -1,4 +1,6 @@
 .idea/
+dist/
+jukebox.egg-info/
 *.pyc
 *.sqlite
 daemon.pid

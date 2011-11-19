@@ -14,12 +14,12 @@ Startup
 
 ::
 
-    python manage.py jukebox_shout --start --host=[shoutcast_host] --port[shoutcast_port] --password=[shoutcast_source_password]
+    bin/jukebox jukebox_shout --start --host=[shoutcast_host] --port[shoutcast_port] --password=[shoutcast_source_password]
 
 Stop
 =====
 
 ::
 
-    python manage.py jukebox_shout --stop
+    bin/jukebox jukebox_shout --stop
 

@@ -9,6 +9,7 @@ import sys, os, subprocess
 import time
 import jukebox_core.api
 
+
 class Command(BaseCommand):
     daemon = None
     proc = None

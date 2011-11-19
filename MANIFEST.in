@@ -1,0 +1,7 @@
+include CHANGES.txt LICENSE.rst README.rst
+recursive-include jukebox/jukebox_core/docs/ *
+recursive-include jukebox/jukebox_mpg123/docs/ *
+recursive-include jukebox/jukebox_shout/docs/ *
+recursive-include jukebox/jukebox_web/locale/ *
+recursive-include jukebox/jukebox_web/static/ *
+recursive-include jukebox/jukebox_web/templates/ *
