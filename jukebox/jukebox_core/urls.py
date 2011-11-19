@@ -34,7 +34,6 @@ urlpatterns = patterns("",
         views.history.as_view(),
         name="jukebox_api_history"
     ),
-
     url(
         r"^api/v1/favourites$",
         views.favourites.as_view(),
@@ -55,5 +54,10 @@ urlpatterns = patterns("",
         r"^api/v1/queue/(?P<song_id>[0-9]+)$",
         views.queue_item.as_view(),
         name="jukebox_api_queue_item"
+    ),
+    url(
+        r"^api/v1/ping$",
+        views.ping.as_view(),
+        name="jukebox_api_ping"
     ),
 )

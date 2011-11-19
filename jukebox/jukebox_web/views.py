@@ -52,10 +52,3 @@ def login_error(request):
 def logout(request):
     auth_logout(request)
     return HttpResponseRedirect('/')
-
-def ping(request):
-    request.session.modified = True
-    return HttpResponse(
-        simplejson.dumps({"ping": True}),
-        mimetype="application/json"
-    )

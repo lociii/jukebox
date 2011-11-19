@@ -18,6 +18,7 @@ GET methods
     /api/v1/queue/[song_id]
     /api/v1/favourites
     /api/v1/favourites/[song_id]
+    /api/v1/ping
 
 *Sort parameters for list functions*
 
@@ -127,6 +128,10 @@ Get single play queue entry
 **/api/v1/favourites/[song_id]**
 
 Get single favourite list entry
+
+**/api/v1/ping**
+
+Ping the api for session keepalive
 
 POST methods
 ============

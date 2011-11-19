@@ -14,6 +14,5 @@ urlpatterns = patterns("",
     url(r"^login$", views.login, name="jukebox_web_login"),
     url(r"^login/error$", views.login_error, name="jukebox_web_login_error"),
     url(r"^logout$", views.logout, name="jukebox_web_logout"),
-    url(r"^ping", views.ping, name="jukebox_ping"),
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
 )

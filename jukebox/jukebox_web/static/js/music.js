@@ -220,7 +220,7 @@ Music = {
 
     ping: function() {
         $.ajax({
-            url: "/ping",
+            url: "/api/v1/ping",
             success: function() {
                 setTimeout("Music.ping()", Music.sessionPing);
             }

@@ -401,3 +401,13 @@ class favourites_item(View):
             return Response(status.HTTP_404_NOT_FOUND)
         except:
             return Response(status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class ping(View):
+    permissions = (IsAuthenticated, )
+
+    def get(self, request):
+        request.session.modified = True
+        return {
+            "ping": True
+        }
