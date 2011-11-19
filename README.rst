@@ -82,7 +82,7 @@ Feel free to fork jukebox and add additional playback modules.
 API
 =============
 
-jukebox_core provides a fully fledged REST API. See `API reference <https://github.com/lociii/jukebox/blob/master/jukebox/jukebox_core/docs/API.rst>`_
+jukebox_core provides a fully fledged REST API for authenticated users. See `API reference <https://github.com/lociii/jukebox/blob/master/jukebox/jukebox_core/docs/API.rst>`_
 
 Dependencies
 =============
