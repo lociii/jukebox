@@ -1,0 +1,391 @@
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td, button {
+    margin: 0;
+    padding: 0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+
+fieldset, img {
+    border: 0;
+}
+
+address, caption, cite, code, dfn, em, strong, th, var {
+    font-style: normal;
+    font-weight: normal;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+caption, th {
+    text-align: left;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: 100%;
+    font-weight: normal;
+}
+
+label {
+    cursor: pointer;
+}
+
+q:before, q:after {
+    content: '';
+}
+
+abbr, acronym {
+    border: 0;
+}
+
+strong {
+    font-weight: bold;
+}
+
+hr {
+    display: block;
+    margin: 10px 0;
+    border: 0;
+    border-top: 1px dotted #999999;
+}
+
+blockquote {
+    margin: 10px 5px;
+    padding: 0 10px;
+    border-left: 1px solid #3a8bcc;
+}
+
+a, a:hover, a:visited {
+    color: #ED9005;
+    text-decoration: none;
+}
+
+.invisible {
+    display: none;
+}
+
+body {
+    color: #444444;
+    font-size: 9pt;
+    font-family: verdana, helvetica, sans-serif;
+    line-height: 150%;
+}
+
+/*
+------------------------------------------------------------------------------------
+ header
+------------------------------------------------------------------------------------
+*/
+
+#header {
+    height: 60px;
+    background-color: #F5F5F5;
+    border-bottom: 1px solid #E5E5E5;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 350;
+    width: 100%;
+}
+
+#logo {
+    position: relative;
+    float: left;
+    width: 220px;
+    padding: 10px 0 0 10px;
+}
+
+#logo span.author {
+    position: absolute;
+    top: 38px;
+    left: 107px;
+    font-size: 8pt;
+}
+
+#logo span.author span.grey {
+    color: #444444;
+}
+
+#search {
+    position: relative;
+    margin-left: 220px;
+}
+
+#search div.searchbox {
+    position: absolute;
+    top: 15px;
+}
+
+#search h1 {
+    position: absolute;
+    top: 22px;
+    left: 28px;
+    font-size: 18pt;
+    font-weight: bold;
+}
+
+#search input.searchterm {
+    position: absolute;
+    left: 25px;
+    height: 30px;
+    width: 330px;
+    margin: 0 !important;
+    padding: 3px 22px 3px 8px;
+    font-family: verdana, helvetica, sans-serif;
+
+    border: 1px solid #D9D9D9 !important;
+    border-top: 1px solid silver !important;
+    border-radius: 1px;
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+
+    background-color: #FFFFFF;
+}
+
+#searchoptions {
+    position: absolute;
+    left: 335px;
+    height: 4px;
+    width: 7px;
+    padding: 13px 6px;
+    cursor: pointer;
+    background: url("../img/arrow_down.png") no-repeat center;
+}
+
+#search span.searchoptions:hover {
+    background: url("../img/arrow_down_active.png") no-repeat center;
+}
+
+span.searchsubmit {
+    display: block;
+    height: 27px;
+    width: 54px;
+    padding: 0 8px;
+
+    background-color: #F07F09;
+    background: -webkit-linear-gradient(top,#EFA73D,#ED9005);
+    background: -moz-linear-gradient(top,#EFA73D,#ED9005);
+    background: -ms-linear-gradient(top,#EFA73D,#ED9005);
+    background: -o-linear-gradient(top,#EFA73D,#ED9005);
+    background: linear-gradient(top,#EFA73D,#ED9005);
+
+    border: 1px solid #964E06;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    outline: 0;
+
+    font-size: 8pt;
+    line-height: 27px;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+
+#search span.searchsubmit {
+    position: absolute;
+    left: 370px;
+    margin-right: 16px;
+}
+
+#searchdetails {
+    display: none;
+
+    position: absolute;
+    top: 44px;
+    left: 245px;
+    background-color: #FFFFFF;
+
+    width: 318px;
+    border: 1px solid #CCC;
+    padding: 5px;
+
+    z-index: 400;
+}
+
+#searchdetails label {
+    display: block;
+    font-size: 8pt;
+    margin-bottom: 3px;
+}
+
+#searchdetails input[type=text], #searchdetails select {
+    width: 100%;
+    padding: 3px;
+    font-family: verdana, helvetica, sans-serif;
+
+    border: 1px solid #D9D9D9 !important;
+    border-top: 1px solid silver !important;
+    border-radius: 1px;
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+#searchdetails div.option {
+    margin-bottom: 10px;
+}
+
+#profile {
+    float: right;
+    width: 200px;
+    margin: 10px 20px 0 0;
+    text-align: right;
+}
+
+/*
+------------------------------------------------------------------------------------
+ content
+------------------------------------------------------------------------------------
+*/
+
+#content {
+    margin-top: 75px;
+}
+
+#sidebar {
+    width: 220px;
+    margin-right: 10px;
+    position: fixed;
+    top: 76px;
+    left: 0;
+    z-index: 350;
+}
+
+#sidebar h1 {
+    font-size: 12pt;
+    padding-left: 20px;
+}
+
+#sidebar ul {
+    margin: 5px 0 15px 0;
+}
+
+#sidebar ul li {
+    padding: 0 0 5px 35px;
+    border-left:  3px solid #FFFFFF;
+}
+
+#sidebar ul li.active {
+    font-weight: bold;
+    border-left:  3px solid #ED9005;
+}
+
+#main_spacer {
+    position: fixed;
+    top: 61px;
+    left: 250px;
+    right: 30px;
+    height: 15px;
+    width: 100%;
+    background-color: #FFFFFF;
+    z-index: 350;
+}
+
+#main {
+    position: absolute;
+    top: 76px;
+    left: 250px;
+    right: 30px;
+    padding-bottom: 15px;
+}
+
+#main div.login {
+    margin-top: 30px;
+}
+
+#main div.login div {
+    margin-bottom: 30px;
+}
+
+#main p.login_error {
+    color: #FF0000;
+}
+
+#main div.noContent {
+
+}
+
+#main table.list {
+    width: 100%;
+}
+
+#main table.list th {
+    padding:  0 0 10px 0;
+}
+
+#main table.list th.options {
+    width: 6%;
+    min-width: 80px;
+}
+
+#main table.list th.song_title, #main table.list th.favourite_title {
+    width: 27%;
+}
+
+#main table.list th.song_artist, #main table.list th.favourite_artist {
+    width: 22%;
+}
+
+#main table.list th.song_album, #main table.list th.favourite_album {
+    width: 20%;
+}
+
+#main table.list th.favourite_added {
+    width: 15%;
+}
+
+#main table.list th.song_year {
+    width: 7%;
+}
+
+#main table.list th.song_length {
+    width: 8%;
+}
+
+#main table.list th.song_genre, #main table.list th.favourite_genre {
+    width: 10%
+}
+
+#main table.list th.options_small {
+    width: 3%;
+}
+
+#main table.list th.name, #main table.list th.year {
+    width: 97%;
+}
+
+#main table.list th.album_title {
+    width: 49%
+}
+
+#main table.list th.album_artist {
+    width: 48%;
+}
+
+#main table.list td {
+    height: 34px;
+    font-size: 9pt;
+    background-color: #F5F5F5;
+    border-bottom: 1px solid #E5E5E5;
+    padding:  5px 0 5px 15px;
+    overflow: hidden;
+}
+
+#main table.list td img {
+    margin-right: 10px;
+    cursor: pointer;
+}

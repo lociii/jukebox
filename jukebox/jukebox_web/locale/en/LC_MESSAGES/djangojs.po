@@ -1,0 +1,97 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-11-19 14:24+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Jens Nistler <opensource@jensnistler.de>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: static/js/music.js:1
+msgid "function"
+msgstr ""
+
+#: static/js/music.js:105 static/js/music.js.py:106 static/js/music.js:414
+#: static/js/music.js.py:436 static/js/music.js:458 static/js/music.js.py:475
+msgid "Revoke vote"
+msgstr "Revoke vote"
+
+#: static/js/music.js:122 static/js/music.js.py:123 static/js/music.js:439
+#: static/js/music.js.py:461 static/js/music.js:478
+msgid "Vote to play"
+msgstr "Vote to pla"
+
+#: static/js/music.js:140 static/js/music.js.py:141 static/js/music.js:417
+msgid "Support vote"
+msgstr "Support vote"
+
+#: static/js/music.js:170 static/js/music.js.py:171 static/js/music.js:420
+#: static/js/music.js.py:442 static/js/music.js:463 static/js/music.js.py:481
+msgid "Remove from favourites"
+msgstr "Remove from favourites"
+
+#: static/js/music.js:186 static/js/music.js.py:187 static/js/music.js:423
+#: static/js/music.js.py:445 static/js/music.js:484
+msgid "Add to favourites"
+msgstr "Add to favourites"
+
+#: static/js/music.js:286
+msgid "No data found"
+msgstr "No data found"
+
+#: static/js/music.js:351 static/js/music.js.py:359 static/js/music.js:367
+#: static/js/music.js.py:375 static/js/music.js:388
+msgid "Title"
+msgstr "Title"
+
+#: static/js/music.js:352 static/js/music.js.py:360 static/js/music.js:368
+#: static/js/music.js.py:376 static/js/music.js:389
+msgid "Artist"
+msgstr "Artist"
+
+#: static/js/music.js:353 static/js/music.js.py:361 static/js/music.js:369
+#: static/js/music.js.py:377
+msgid "Album"
+msgstr "Album"
+
+#: static/js/music.js:354 static/js/music.js.py:362
+msgid "Votes"
+msgstr "Votes"
+
+#: static/js/music.js:355
+msgid "First voted"
+msgstr "First voted"
+
+#: static/js/music.js:363 static/js/music.js.py:371
+msgid "Date added"
+msgstr "Date added"
+
+#: static/js/music.js:370 static/js/music.js.py:378
+msgid "Genre"
+msgstr "Genre"
+
+#: static/js/music.js:379 static/js/music.js.py:397
+msgid "Year"
+msgstr "Year"
+
+#: static/js/music.js:380
+msgid "Length"
+msgstr "Length"
+
+#: static/js/music.js:384 static/js/music.js.py:393
+msgid "Name"
+msgstr "Name"
+
+#: static/js/music.js:451
+msgid "Autoplay"
+msgstr "Autoplay"

@@ -1,0 +1,46 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>{% trans 'Jukebox - your democratic media player' %}</title>
+        <meta name="description" content="{% trans 'Jukebox - your democratic media player' %}">
+        <meta charset="UTF-8"/>
+        <link type="text/css" rel="stylesheet" href="/static/css/music.css" />
+    </head>
+    <body>
+        <div id="header">
+            <div id="logo">
+                <a href="http://jensnistler.de/jukebox">
+                    <img src="/static/img/jukebox.png" alt="{% trans 'Jukebox logo' %}" width="156" height="40" />
+                    <span class="author">
+                        <span class="grey">by</span>
+                        Jens Nistler
+                    </span>
+                </a>
+            </div>
+            <div id="profile">
+            </div>
+            <div id="search">
+                <h1>{% trans 'Login' %}</h1>
+            </div>
+        </div>
+        <div id="content">
+            <div id="main">
+                {% if error %}
+                    {% for msg in error %}
+                        <p class="login_error">{{ msg.message }}</p>
+                    {% endfor %}
+                {% endif %}
+                <div class="login">
+                    {% for backend in backends %}
+                        <div>
+                            <a rel="nofollow" href="{% url socialauth_begin backend %}">
+                                <img src="/static/img/{{ backend }}.png" alt="{% blocktrans %}Login with your {{ backend }} account{% endblocktrans %}" title="{% blocktrans %}Login with your {{ backend }} account{% endblocktrans %}" />
+                            </a>
+                        </div>
+                    {%  endfor %}
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
