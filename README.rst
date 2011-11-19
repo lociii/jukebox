@@ -59,11 +59,13 @@ jukebox_core provides a fully fledged REST API. See `API reference <https://gith
 Dependencies
 =============
 
-Django==1.3
-mutagen==1.20
-django-social-auth==0.6.0
-djangorestframework==0.2.3
-python-shout==0.2
+::
+
+    Django==1.3
+    mutagen==1.20
+    django-social-auth==0.6.0
+    djangorestframework==0.2.3
+    python-shout==0.2
 
 License
 ========
