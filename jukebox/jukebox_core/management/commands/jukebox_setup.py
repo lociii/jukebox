@@ -136,9 +136,9 @@ class Command(BaseCommand):
                 auth_data += "TWITTER_CONSUMER_SECRET = \"" + \
                      value["secret"] + "\"\n"
             else:
-                auth_data += value.upper() + "_APP_ID = \"" + \
+                auth_data += key.upper() + "_APP_ID = \"" + \
                      value["id"] + "\"\n"
-                auth_data += value.upper() + "API_SECRET = \"" + \
+                auth_data += key.upper() + "API_SECRET = \"" + \
                      value["secret"] + "\"\n"
             auth_data += "\n"
 
