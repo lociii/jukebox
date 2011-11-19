@@ -1,0 +1,5 @@
+.idea/
+*.pyc
+*.sqlite
+daemon.pid
+jukebox/settings_local.py

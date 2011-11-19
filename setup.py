@@ -30,7 +30,7 @@ setup(
         "mutagen==1.20",
         "django-social-auth==0.6.0",
         "djangorestframework==0.2.3",
-        "python-shout>=0.2",
+        "python-shout==0.2",
     ],
     include_package_data = True
 )

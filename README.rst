@@ -43,25 +43,32 @@ Now you're ready to put music in the queue. Jukebox offers several methods to pl
 
 **shoutcast**
 
-see `jukebox_shout <https://github.com/lociii/jukebox/blob/master/jukebox/jukebox_shout/docs/README.rst>`_
+See `jukebox_shout <https://github.com/lociii/jukebox/blob/master/jukebox/jukebox_shout/docs/README.rst>`_
 
 **mpg123**
 
-see `jukebox_mpg123 <https://github.com/lociii/jukebox/blob/master/jukebox/jukebox_mpg123/docs/README.rst>`_
+See `jukebox_mpg123 <https://github.com/lociii/jukebox/blob/master/jukebox/jukebox_mpg123/docs/README.rst>`_
 
 Feel free to fork jukebox and add additional playback modules.
 
 API
 =============
 
-The jukebox_core app provides a fully fledged REST API.
-API documentation is available here: `API reference <https://github.com/lociii/jukebox/blob/master/jukebox/jukebox_core/docs/API.rst>`_
+jukebox_core provides a fully fledged REST API. See `API reference <https://github.com/lociii/jukebox/blob/master/jukebox/jukebox_core/docs/API.rst>`_
+
+Dependencies
+=============
+
+Django==1.3
+mutagen==1.20
+django-social-auth==0.6.0
+djangorestframework==0.2.3
+python-shout==0.2
 
 License
 ========
 
-MIT License
-see `License <https://github.com/lociii/jukebox/blob/master/LICENSE.rst>`_
+MIT License. See `License <https://github.com/lociii/jukebox/blob/master/LICENSE.rst>`_
 
 Release Notes
 ==============
