@@ -471,7 +471,7 @@ class favourites(api_base):
 
     def get(self, song_id):
         song = Song.objects.get(id=song_id)
-        item = Favourite.objects.get(Song=song)
+        item = Favourite.objects.get(Song=song,User__id=self.user_id)
 
         result = {
             "id": item.Song.id,
