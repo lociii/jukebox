@@ -2,3 +2,4 @@
 
 from .api_songs import *
 from .api_artists import *
+from .api_albums import *
