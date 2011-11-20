@@ -7,6 +7,15 @@ from jukebox_core.tests.api import ApiTestBase
 
 class ApiSongsTest(ApiTestBase):
     def testIndex(self):
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/songs"
+            ).content
+        )
+
+        self.assertEquals(len(result["itemList"]), 0)
+    
+    def testIndex(self):
         artist = self.addArtist()
         song = self.addSong(artist)
 
@@ -343,6 +352,7 @@ class ApiSongsTest(ApiTestBase):
         )
         self.assertEquals(len(result["itemList"]), 1)
         self.assertEquals(result["itemList"][0]["id"], song_a.id)
+        self.assertTrue(result["hasNextPage"])
 
         result = simplejson.loads(
             self.httpGet(
@@ -353,6 +363,7 @@ class ApiSongsTest(ApiTestBase):
         self.assertEquals(result["itemList"][0]["id"], song_a.id)
         self.assertEquals(result["itemList"][1]["id"], song_b.id)
         self.assertEquals(result["itemList"][2]["id"], song_c.id)
+        self.assertFalse(result["hasNextPage"])
 
     def testCountAndPage(self):
         artist = self.addArtist()
@@ -367,6 +378,7 @@ class ApiSongsTest(ApiTestBase):
         )
         self.assertEquals(len(result["itemList"]), 1)
         self.assertEquals(result["itemList"][0]["id"], song_a.id)
+        self.assertTrue(result["hasNextPage"])
 
         result = simplejson.loads(
             self.httpGet(
@@ -375,6 +387,7 @@ class ApiSongsTest(ApiTestBase):
         )
         self.assertEquals(len(result["itemList"]), 1)
         self.assertEquals(result["itemList"][0]["id"], song_b.id)
+        self.assertTrue(result["hasNextPage"])
 
         result = simplejson.loads(
             self.httpGet(
@@ -383,6 +396,7 @@ class ApiSongsTest(ApiTestBase):
         )
         self.assertEquals(len(result["itemList"]), 1)
         self.assertEquals(result["itemList"][0]["id"], song_c.id)
+        self.assertFalse(result["hasNextPage"])
 
     def testGetNextSongRandom(self):
         artist = self.addArtist()
