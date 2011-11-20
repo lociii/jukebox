@@ -330,6 +330,60 @@ class ApiSongsTest(ApiTestBase):
         self.assertEquals(result["itemList"][0]["id"], song_b.id)
         self.assertEquals(result["itemList"][1]["id"], song_a.id)
 
+    def testCount(self):
+        artist = self.addArtist()
+        song_a = self.addSong(artist)
+        song_b = self.addSong(artist)
+        song_c = self.addSong(artist)
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/songs?count=1"
+            ).content
+        )
+        self.assertEquals(len(result["itemList"]), 1)
+        self.assertEquals(result["itemList"][0]["id"], song_a.id)
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/songs?count=3"
+            ).content
+        )
+        self.assertEquals(len(result["itemList"]), 3)
+        self.assertEquals(result["itemList"][0]["id"], song_a.id)
+        self.assertEquals(result["itemList"][1]["id"], song_b.id)
+        self.assertEquals(result["itemList"][2]["id"], song_c.id)
+
+    def testCountAndPage(self):
+        artist = self.addArtist()
+        song_a = self.addSong(artist)
+        song_b = self.addSong(artist)
+        song_c = self.addSong(artist)
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/songs?count=1&page=1"
+            ).content
+        )
+        self.assertEquals(len(result["itemList"]), 1)
+        self.assertEquals(result["itemList"][0]["id"], song_a.id)
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/songs?count=1&page=2"
+            ).content
+        )
+        self.assertEquals(len(result["itemList"]), 1)
+        self.assertEquals(result["itemList"][0]["id"], song_b.id)
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/songs?count=1&page=3"
+            ).content
+        )
+        self.assertEquals(len(result["itemList"]), 1)
+        self.assertEquals(result["itemList"][0]["id"], song_c.id)
+
     def testGetNextSongRandom(self):
         artist = self.addArtist()
         song = self.addSong(artist, None, None, "TestTitle", 2000, 100, __file__)
