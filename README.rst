@@ -16,7 +16,6 @@ libshout3, libshout3-dev and python-dev are required to build the dependecy `pyt
    :width: 872px
    :scale: 100%
    :alt: Jukebox - your democratic media player
-   :align: center
 
 General
 ========
