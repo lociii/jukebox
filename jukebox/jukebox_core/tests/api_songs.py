@@ -6,7 +6,7 @@ from jukebox_core.tests.api import ApiTestBase
 
 
 class ApiSongsTest(ApiTestBase):
-    def testIndex(self):
+    def testIndexEmpty(self):
         result = simplejson.loads(
             self.httpGet(
                 "/api/v1/songs"
