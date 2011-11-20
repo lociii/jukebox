@@ -15,6 +15,8 @@ DATABASES = {
     }
 }
 
+SITE_ID = 1
+
 TIME_ZONE = 'Europe/Berlin'
 LANGUAGE_CODE = 'en-us'
 LANGUAGES = (
