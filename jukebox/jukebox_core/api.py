@@ -222,29 +222,28 @@ class songs(api_base):
             data = data.annotate(VoteCount=Count("User"))
             data = data.annotate(MinCreated=Min("Created"))
             data = data.order_by("-VoteCount", "MinCreated")[0:1].get()
+            self.addToHistory(data.Song, data.User)
             song_instance = data.Song
-            user_list = data.User
             data.delete()
         except ObjectDoesNotExist:
             song_instance = Song.objects.order_by('?')[0:1].get()
-            user_list = None
 
         # remove missing files
         if not os.path.exists(song_instance.Filename):
             Song.objects.all().filter(id=song_instance.id).delete()
             return self.getNextSong()
 
-        # store in history
+        return song_instance
+
+    def addToHistory(self, song_instance, user_list):
         history_instance = History(
             Song=song_instance
         )
         history_instance.save()
-        if None != user_list and user_list.count() > 0:
+
+        if user_list is not None and user_list.count() > 0:
             for user_instance in user_list.all():
                 history_instance.User.add(user_instance)
-
-        return song_instance
-
 
 class history(api_base):
     order_by_fields = {
@@ -312,7 +311,7 @@ class history(api_base):
 
             if not item.User.count() == 0:
                 for user in item.User.all():
-                    result["users"].append({
+                    dataset["users"].append({
                         "id": user.id,
                         "name": user.username
                     })
