@@ -25,13 +25,10 @@ Music = {
             Music.setActiveMenu($("#sidebar ul li a.loadSongs"));
             return false;
         });
-        $("#searchform input.searchterm").bind("keydown", function() {
-            if (event.which == 13) {
-                $("input.searchterm").blur();
-                Music.loadList("/api/v1/songs", {"search_term": $("input.searchterm").val()});
-                Music.setActiveMenu($("#sidebar ul li a.loadSongs"));
-                return false;
-            }
+        $("#searchform").bind("submit", function() {
+            Music.loadList("/api/v1/songs", {"search_term": $("input.searchterm").val()});
+            Music.setActiveMenu($("#sidebar ul li a.loadSongs"));
+            return false;
         });
 
         $("#searchdetailsform span.searchsubmit").bind("click", function() {
@@ -40,6 +37,13 @@ Music = {
             $("#searchoptions").click();
             return false;
         });
+        $("#searchdetailsform").bind("submit", function() {
+            Music.loadList("/api/v1/songs", Music.getSearchOptions());
+            Music.setActiveMenu($("#sidebar ul li a.loadSongs"));
+            $("#searchoptions").click();
+            return false;
+        });
+        // chrome doesn't fire submit on #searchdetailsform -> dirty workaround
         $("#search_title, #search_artist, #search_album, #search_album").bind("keydown", function() {
             if (event.which == 13) {
                 Music.loadList("/api/v1/songs", Music.getSearchOptions());
