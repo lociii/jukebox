@@ -227,6 +227,7 @@ class songs(api_base):
             data.delete()
         except ObjectDoesNotExist:
             song_instance = Song.objects.order_by('?')[0:1].get()
+            self.addToHistory(song_instance, None)
 
         # remove missing files
         if not os.path.exists(song_instance.Filename):
