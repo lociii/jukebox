@@ -215,6 +215,35 @@ class history(View):
         return history_api.index(page)
 
 
+class history_my(View):
+    permissions = (IsAuthenticated, )
+
+    def get(self, request):
+        request.session.modified = True
+
+        page = 1
+        history_api = api.history_my()
+        history_api.set_user_id(request.user.id)
+
+        form = forms.HistoryForm(request.GET)
+        if form.is_valid():
+            if (not form.cleaned_data["order_by"] == "" and
+                not form.cleaned_data["order_direction"] == ""):
+                history_api.set_order_by(
+                    form.cleaned_data["order_by"],
+                    form.cleaned_data["order_direction"]
+                )
+            elif not form.cleaned_data["order_by"] == "":
+                history_api.set_order_by(form.cleaned_data["order_by"])
+
+            if not form.cleaned_data["count"] is None:
+                history_api.set_count(form.cleaned_data["count"])
+            if not form.cleaned_data["page"] is None:
+                page = form.cleaned_data["page"]
+
+        return history_api.index(page)
+
+
 class queue(View):
     permissions = (IsAuthenticated, )
     form = forms.IdForm

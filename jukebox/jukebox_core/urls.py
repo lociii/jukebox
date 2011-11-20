@@ -35,6 +35,11 @@ urlpatterns = patterns("",
         name="jukebox_api_history"
     ),
     url(
+        r"^api/v1/history/my$",
+        views.history_my.as_view(),
+        name="jukebox_api_history_my"
+    ),
+    url(
         r"^api/v1/favourites$",
         views.favourites.as_view(),
         name="jukebox_api_favourites"

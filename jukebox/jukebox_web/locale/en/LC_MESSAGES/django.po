@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-19 14:28+0100\n"
+"POT-Creation-Date: 2011-11-20 12:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Jens Nistler <opensource@jensnistler.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,7 +39,7 @@ msgstr "Logout"
 msgid "Search term"
 msgstr "Search term"
 
-#: templates/index.html:31 templates/index.html.py:129
+#: templates/index.html:31 templates/index.html.py:134
 msgid "Search"
 msgstr "Search"
 
@@ -56,58 +56,63 @@ msgid "History"
 msgstr "History"
 
 #: templates/index.html:55
+#, fuzzy
+msgid "My History"
+msgstr "My History"
+
+#: templates/index.html:60
 msgid "Favourites"
 msgstr "Favourites"
 
-#: templates/index.html:61
+#: templates/index.html:66
 msgid "Music"
 msgstr "Music"
 
-#: templates/index.html:66
+#: templates/index.html:71
 msgid "Songs"
 msgstr "Songs"
 
-#: templates/index.html:71
+#: templates/index.html:76
 msgid "Artists"
 msgstr "Artists"
 
-#: templates/index.html:76
+#: templates/index.html:81
 msgid "Albums"
 msgstr "Albums"
 
-#: templates/index.html:81
+#: templates/index.html:86
 msgid "Genres"
 msgstr "Genres"
 
-#: templates/index.html:86
+#: templates/index.html:91
 msgid "Years"
 msgstr "Years"
 
-#: templates/index.html:99
+#: templates/index.html:104
 msgid "Title"
 msgstr "Title"
 
-#: templates/index.html:103
+#: templates/index.html:108
 msgid "Artist"
 msgstr "Artist"
 
-#: templates/index.html:107
+#: templates/index.html:112
 msgid "Album"
 msgstr "Album"
 
-#: templates/index.html:111
+#: templates/index.html:116
 msgid "Genre"
 msgstr "Genre"
 
-#: templates/index.html:113
+#: templates/index.html:118
 msgid "All genres"
 msgstr "All genres"
 
-#: templates/index.html:120
+#: templates/index.html:125
 msgid "Year"
 msgstr "Year"
 
-#: templates/index.html:122
+#: templates/index.html:127
 msgid "All years"
 msgstr "All years"
 

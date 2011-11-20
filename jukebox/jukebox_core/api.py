@@ -258,7 +258,9 @@ class history(api_base):
     def index(self, page=1):
         object_list = History.objects.all()
         object_list = self.source_set_order(object_list)
+        return self.build_result(object_list, page)
 
+    def build_result(self, object_list, page):
         # prepare result
         result = self.get_default_result("history", page)
 
@@ -319,6 +321,24 @@ class history(api_base):
             dataset = self.result_add_queue_and_favourite(item.Song, dataset)
             result["itemList"].append(dataset)
 
+        return result
+
+
+class history_my(history):
+    order_by_fields = {
+        "title": "Song__Title",
+        "artist": "Song__Artist__Name",
+        "album": "Song__Album__Title",
+        "year": "Song__Year",
+        "genre": "Song__Genre__Name",
+        "created": "Created",
+    }
+
+    def index(self, page=1):
+        object_list = History.objects.all().filter(User__id=self.user_id)
+        object_list = self.source_set_order(object_list)
+        result = self.build_result(object_list, page)
+        result["type"] = "history/my"
         return result
 
 

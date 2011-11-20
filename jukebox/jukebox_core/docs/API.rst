@@ -14,6 +14,7 @@ GET methods
     /api/v1/genres
     /api/v1/years
     /api/v1/history
+    /api/v1/history/my
     /api/v1/queue
     /api/v1/queue/[song_id]
     /api/v1/favourites
@@ -95,6 +96,12 @@ List all played songs
 - year
 - genre
 - created (default, desc)
+
+**/api/v1/history/my**
+
+List all played songs the authenticated user voted for
+
+See /api/v1/history for details
 
 **/api/v1/queue**
 

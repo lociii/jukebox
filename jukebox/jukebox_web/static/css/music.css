@@ -279,6 +279,10 @@ span.searchsubmit {
     border-left:  3px solid #FFFFFF;
 }
 
+#sidebar ul li.second {
+    padding: 0 0 5px 55px;
+}
+
 #sidebar ul li.active {
     font-weight: bold;
     border-left:  3px solid #ED9005;

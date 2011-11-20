@@ -361,6 +361,7 @@ Music = {
                 html+= "<th class=\"favourite_added\">" + gettext("First voted") + "</th>";
                 break;
             case "history":
+            case "history/my":
                 html+= "<th class=\"options\">&#160;</th>";
                 html+= "<th class=\"favourite_title\">" + gettext("Title") + "</th>";
                 html+= "<th class=\"favourite_artist\">" + gettext("Artist") + "</th>";
@@ -436,6 +437,7 @@ Music = {
                     html+= "<td>" + item.created + "</td>";
                     break;
                 case "history":
+                case "history/my":
                     html+= "<tr class=\"row_history\">";
                     html+= "<td>";
                     if (item.queued) {
