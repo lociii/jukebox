@@ -25,6 +25,18 @@ class ApiTestBase(TestCase):
         c = Client()
         return c.get(url, params, HTTP_AUTHORIZATION=auth)
 
+    def httpPost(self, url, params={}):
+        auth = '%s:%s' % (self.username, self.password)
+        auth = "Basic %s" % base64.encodestring(auth).strip()
+        c = Client()
+        return c.post(url, params, HTTP_AUTHORIZATION=auth)
+
+    def httpDelete(self, url, params={}):
+        auth = '%s:%s' % (self.username, self.password)
+        auth = "Basic %s" % base64.encodestring(auth).strip()
+        c = Client()
+        return c.delete(url, params, HTTP_AUTHORIZATION=auth)
+
     def addArtist(self, name="TestArist"):
         artist = Artist(
             Name=name

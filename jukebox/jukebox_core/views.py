@@ -6,11 +6,33 @@ from djangorestframework.views import View
 from djangorestframework.response import Response
 from djangorestframework import status
 from djangorestframework.permissions import IsAuthenticated
-import api
+from django.contrib.auth.models import User
+from django.core.exceptions import ObjectDoesNotExist
+import api, base64
 import forms
 
 
-class songs(View):
+class apiView(View):
+    # djangorestframework does not set request.user on authenticated requests
+    # is there any better way to get the authenticated user id???
+    def set_user_id(self, request, api):
+        if request.user.id is None:
+            foo, auth = request.META["HTTP_AUTHORIZATION"].split(" ", 2)
+            auth = base64.decodestring(auth)
+            username, password = auth.split(":", 2)
+            try:
+                user = User.objects.all().filter(username=username)[0:1].get()
+                if user.check_password(password):
+                    api.set_user_id(user.id)
+            except ObjectDoesNotExist:
+                pass
+        else:
+            api.set_user_id(request.user.id)
+
+        return api
+
+
+class songs(apiView):
     permissions = (IsAuthenticated, )
 
     def get(self, request):
@@ -18,7 +40,7 @@ class songs(View):
 
         page = 1
         songs_api = api.songs()
-        songs_api.set_user_id(request.user.id)
+        songs_api = self.set_user_id(request, songs_api)
 
         form = forms.SongsForm(request.GET)
         if form.is_valid():
@@ -75,7 +97,7 @@ class songs(View):
         return result
 
 
-class artists(View):
+class artists(apiView):
     permissions = (IsAuthenticated, )
 
     def get(self, request):
@@ -103,7 +125,7 @@ class artists(View):
         return artists_api.index(page)
 
 
-class albums(View):
+class albums(apiView):
     permissions = (IsAuthenticated, )
 
     def get(self, request):
@@ -131,7 +153,7 @@ class albums(View):
         return albums_api.index(page)
 
 
-class genres(View):
+class genres(apiView):
     permissions = (IsAuthenticated, )
 
     def get(self, request):
@@ -159,7 +181,7 @@ class genres(View):
         return genres_api.index(page)
 
 
-class years(View):
+class years(apiView):
     permissions = (IsAuthenticated, )
 
     def get(self, request):
@@ -187,7 +209,7 @@ class years(View):
         return years_api.index(page)
 
 
-class history(View):
+class history(apiView):
     permissions = (IsAuthenticated, )
 
     def get(self, request):
@@ -215,7 +237,7 @@ class history(View):
         return history_api.index(page)
 
 
-class history_my(View):
+class history_my(apiView):
     permissions = (IsAuthenticated, )
 
     def get(self, request):
@@ -223,7 +245,7 @@ class history_my(View):
 
         page = 1
         history_api = api.history_my()
-        history_api.set_user_id(request.user.id)
+        history_api = self.set_user_id(request, history_api)
 
         form = forms.HistoryForm(request.GET)
         if form.is_valid():
@@ -244,7 +266,7 @@ class history_my(View):
         return history_api.index(page)
 
 
-class queue(View):
+class queue(apiView):
     permissions = (IsAuthenticated, )
     form = forms.IdForm
 
@@ -253,7 +275,7 @@ class queue(View):
 
         page = 1
         queue_api = api.queue()
-        queue_api.set_user_id(request.user.id)
+        queue_api = self.set_user_id(request, queue_api)
 
         form = forms.QueueForm(request.GET)
         if form.is_valid():
@@ -283,7 +305,7 @@ class queue(View):
         request.session.modified = True
 
         queue_api = api.queue()
-        queue_api.set_user_id(request.user.id)
+        queue_api = self.set_user_id(request, queue_api)
 
         try:
             song_id = queue_api.add(self.CONTENT["id"])
@@ -301,7 +323,7 @@ class queue(View):
             return Response(status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class queue_item(View):
+class queue_item(apiView):
     permissions = (IsAuthenticated, )
     form = forms.IdForm
 
@@ -309,8 +331,7 @@ class queue_item(View):
         request.session.modified = True
 
         queue_api = api.queue()
-        if not request.user is None and not request.user.id is None:
-            queue_api.set_user_id(request.user.id)
+        queue_api = self.set_user_id(request, queue_api)
 
         try:
             item = queue_api.get(song_id)
@@ -328,7 +349,7 @@ class queue_item(View):
         request.session.modified = True
 
         queue_api = api.queue()
-        queue_api.set_user_id(request.user.id)
+        queue_api = self.set_user_id(request, queue_api)
 
         try:
             return queue_api.remove(song_id)
@@ -338,7 +359,7 @@ class queue_item(View):
             return Response(status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class favourites(View):
+class favourites(apiView):
     permissions = (IsAuthenticated, )
     form = forms.IdForm
 
@@ -347,7 +368,7 @@ class favourites(View):
 
         page = 1
         favourites_api = api.favourites()
-        favourites_api.set_user_id(request.user.id)
+        favourites_api = self.set_user_id(request, favourites_api)
 
         form = forms.FavouritesForm(request.GET)
         if form.is_valid():
@@ -377,7 +398,7 @@ class favourites(View):
         request.session.modified = True
 
         favourites_api = api.favourites()
-        favourites_api.set_user_id(request.user.id)
+        favourites_api = self.set_user_id(request, favourites_api)
 
         try:
             song_id = favourites_api.add(self.CONTENT["id"])
@@ -395,7 +416,7 @@ class favourites(View):
             return Response(status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class favourites_item(View):
+class favourites_item(apiView):
     permissions = (IsAuthenticated, )
     form = forms.IdForm
 
@@ -403,8 +424,7 @@ class favourites_item(View):
         request.session.modified = True
 
         favourites_api = api.favourites()
-        if not request.user is None and not request.user.id is None:
-            favourites_api.set_user_id(request.user.id)
+        favourites_api = self.set_user_id(request, favourites_api)
 
         try:
             item = favourites_api.get(song_id)
@@ -422,7 +442,7 @@ class favourites_item(View):
         request.session.modified = True
 
         favourites_api = api.favourites()
-        favourites_api.set_user_id(request.user.id)
+        favourites_api = self.set_user_id(request, favourites_api)
 
         try:
             return favourites_api.remove(song_id)
@@ -432,7 +452,7 @@ class favourites_item(View):
             return Response(status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class ping(View):
+class ping(apiView):
     permissions = (IsAuthenticated, )
 
     def get(self, request):

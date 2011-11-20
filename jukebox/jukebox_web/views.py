@@ -2,14 +2,12 @@
 
 from django.shortcuts import render_to_response
 from django.core.context_processors import csrf
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.contrib.auth import logout as auth_logout
 from django.template import RequestContext
-from django.utils import simplejson
 from django.contrib.messages.api import get_messages
 from django.conf import settings
-from jukebox_core.models import Song, Artist, Album, Genre, \
-                                Queue, Favourite, History
+from jukebox_core.models import Song, Genre
 
 def index(request):
     if request.user.is_authenticated():

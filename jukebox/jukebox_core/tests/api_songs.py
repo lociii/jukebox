@@ -14,7 +14,7 @@ class ApiSongsTest(ApiTestBase):
         )
 
         self.assertEquals(len(result["itemList"]), 0)
-    
+
     def testIndex(self):
         artist = self.addArtist()
         song = self.addSong(artist)
