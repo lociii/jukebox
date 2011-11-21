@@ -81,4 +81,7 @@ LOGIN_REDIRECT_URL = '/'
 
 SESSION_TTL = 300
 
-from settings_local import *
+try:
+    from settings_local import *
+except ImportError:
+    pass
