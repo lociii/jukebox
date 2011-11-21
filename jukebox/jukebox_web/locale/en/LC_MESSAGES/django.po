@@ -19,8 +19,8 @@ msgstr ""
 
 #: templates/index.html:5 templates/index.html.py:6 templates/login.html:5
 #: templates/login.html.py:6
-msgid "Jukebox - your democratic media player"
-msgstr "Jukebox - your democratic media player"
+msgid "Democratic Jukebox - your democratic music player"
+msgstr "Democratic Jukebox - your democratic music player"
 
 #: templates/index.html:14 templates/login.html:14
 msgid "Jukebox logo"

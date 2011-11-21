@@ -7,7 +7,7 @@ setup(
     name="jukebox",
     packages=find_packages(),
     version="0.1.0",
-    description="Jukebox - your democratic music player",
+    description="Democratic Jukebox - your democratic music player",
     author="Jens Nistler",
     author_email="opensource@jensnistler.de",
     url="https://jensnistler.de/jukebox",

@@ -1,4 +1,4 @@
-Jukebox - your democratic media player
+Democratic Jukebox - your democratic music player
 =======================================
 
 Ever wanted to listen to music with a larger group of people e.g. in your office? Who decides what to play?
@@ -15,7 +15,7 @@ libshout3, libshout3-dev and python-dev are required to build the dependecy `pyt
    :height: 404px
    :width: 872px
    :scale: 100%
-   :alt: Jukebox - your democratic media player
+   :alt: Democratic Jukebox - your democratic music player
 
 General
 ========
