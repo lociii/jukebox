@@ -1,5 +1,5 @@
 Democratic Jukebox - your democratic music player
-=======================================
+==================================================
 
 Ever wanted to listen to music with a larger group of people e.g. in your office? Who decides what to play?
 Make your music player democratic and give everyone the chance to promote their favourite song.
