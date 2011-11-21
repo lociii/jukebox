@@ -2,6 +2,13 @@ API
 =====
 
 Jukebox core provides a REST API for authenticated users to control the jukebox.
+Please register a Django User in the admin interface and use HTTP basic authentication for external API access.
+Alternatively the API is accessible for authenticated users sending a session key.
+
+Tests
+======
+
+The API is completely unit tested. See jukebox_core/tests
 
 GET methods
 ============
