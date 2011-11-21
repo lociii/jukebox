@@ -3,7 +3,8 @@
 import simplejson
 from jukebox_core.tests.api import ApiTestBase
 
-
+# ATTENTION: order tests
+# favourites are ordered by insertion date DESC per default
 class ApiFavouritesTest(ApiTestBase):
     def testIndexEmpty(self):
         result = simplejson.loads(
@@ -13,7 +14,10 @@ class ApiFavouritesTest(ApiTestBase):
         )
         self.assertEquals(len(result["itemList"]), 0)
 
-    def testAdd(self):
+    def testAddAndIndex(self):
+        # register second user
+        user = self.addUser("TestUser2", "test2@domain.org", "TestPassword2")
+
         artist = self.addArtist()
         song = self.addSong(artist)
 
@@ -47,7 +51,7 @@ class ApiFavouritesTest(ApiTestBase):
         self.assertEquals(len(result["itemList"]), 1)
         self.assertEquals(result["itemList"][0]["id"], song.id)
 
-        # check that song is a favourite
+        # check that song is marked as favourite
         result = simplejson.loads(
             self.httpGet(
                 "/api/v1/songs"
@@ -57,3 +61,264 @@ class ApiFavouritesTest(ApiTestBase):
         self.assertEquals(result["itemList"][0]["id"], song.id)
         self.assertTrue(result["itemList"][0]["favourite"])
 
+        # check favourites list of second user
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/favourites",
+                {},
+                user
+            ).content
+        )
+        self.assertEquals(len(result["itemList"]), 0)
+
+        # check that song is not marked as favourite for second user
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/songs",
+                {},
+                user
+            ).content
+        )
+        self.assertEquals(len(result["itemList"]), 1)
+        self.assertEquals(result["itemList"][0]["id"], song.id)
+        self.assertFalse(result["itemList"][0]["favourite"])
+
+    def addFavourite(self, song):
+        return self.httpPost(
+            "/api/v1/favourites",
+            {"id": song.id}
+        )
+
+    def testIndexOrderByTitle(self):
+        artist = self.addArtist()
+        album = self.addAlbum(artist)
+        genre = self.addGenre()
+        song_a = self.addSong(artist, album, genre, "A Title")
+        song_b = self.addSong(artist, album, genre, "B Title")
+        self.addFavourite(song_a)
+        self.addFavourite(song_b)
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/favourites?order_by=title"
+            ).content
+        )
+
+        self.assertEquals(len(result["itemList"]), 2)
+        self.assertEquals(result["itemList"][0]["id"], song_a.id)
+        self.assertEquals(result["itemList"][1]["id"], song_b.id)
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/favourites?order_by=title&order_direction=desc"
+            ).content
+        )
+
+        self.assertEquals(len(result["itemList"]), 2)
+        self.assertEquals(result["itemList"][0]["id"], song_b.id)
+        self.assertEquals(result["itemList"][1]["id"], song_a.id)
+
+    def testIndexOrderByArtist(self):
+        artist_a = self.addArtist("A Name")
+        artist_b = self.addArtist("B Name")
+        song_a = self.addSong(artist_a)
+        song_b = self.addSong(artist_b)
+        self.addFavourite(song_a)
+        self.addFavourite(song_b)
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/favourites?order_by=artist"
+            ).content
+        )
+
+        self.assertEquals(len(result["itemList"]), 2)
+        self.assertEquals(result["itemList"][0]["id"], song_a.id)
+        self.assertEquals(result["itemList"][1]["id"], song_b.id)
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/favourites?order_by=artist&order_direction=desc"
+            ).content
+        )
+
+        self.assertEquals(len(result["itemList"]), 2)
+        self.assertEquals(result["itemList"][0]["id"], song_b.id)
+        self.assertEquals(result["itemList"][1]["id"], song_a.id)
+
+    def testIndexOrderByAlbum(self):
+        artist = self.addArtist()
+        album_a = self.addAlbum(artist, "A Title")
+        album_b = self.addAlbum(artist, "B Title")
+        song_a = self.addSong(artist, album_a)
+        song_b = self.addSong(artist, album_b)
+        self.addFavourite(song_a)
+        self.addFavourite(song_b)
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/favourites?order_by=album"
+            ).content
+        )
+
+        self.assertEquals(len(result["itemList"]), 2)
+        self.assertEquals(result["itemList"][0]["id"], song_a.id)
+        self.assertEquals(result["itemList"][1]["id"], song_b.id)
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/favourites?order_by=album&order_direction=desc"
+            ).content
+        )
+
+        self.assertEquals(len(result["itemList"]), 2)
+        self.assertEquals(result["itemList"][0]["id"], song_b.id)
+        self.assertEquals(result["itemList"][1]["id"], song_a.id)
+
+    def testIndexOrderByYear(self):
+        artist = self.addArtist()
+        song_a = self.addSong(artist, None, None, "TestTitle", 2000)
+        song_b = self.addSong(artist, None, None, "TestTitle", 2001)
+        self.addFavourite(song_a)
+        self.addFavourite(song_b)
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/favourites?order_by=year"
+            ).content
+        )
+
+        self.assertEquals(len(result["itemList"]), 2)
+        self.assertEquals(result["itemList"][0]["id"], song_a.id)
+        self.assertEquals(result["itemList"][1]["id"], song_b.id)
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/favourites?order_by=year&order_direction=desc"
+            ).content
+        )
+
+        self.assertEquals(len(result["itemList"]), 2)
+        self.assertEquals(result["itemList"][0]["id"], song_b.id)
+        self.assertEquals(result["itemList"][1]["id"], song_a.id)
+
+    def testIndexOrderByGenre(self):
+        artist = self.addArtist()
+        genre_a = self.addGenre("A Genre")
+        genre_b = self.addGenre("B Genre")
+        song_a = self.addSong(artist, None, genre_a)
+        song_b = self.addSong(artist, None, genre_b)
+        self.addFavourite(song_a)
+        self.addFavourite(song_b)
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/favourites?order_by=genre"
+            ).content
+        )
+
+        self.assertEquals(len(result["itemList"]), 2)
+        self.assertEquals(result["itemList"][0]["id"], song_a.id)
+        self.assertEquals(result["itemList"][1]["id"], song_b.id)
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/favourites?order_by=genre&order_direction=desc"
+            ).content
+        )
+
+        self.assertEquals(len(result["itemList"]), 2)
+        self.assertEquals(result["itemList"][0]["id"], song_b.id)
+        self.assertEquals(result["itemList"][1]["id"], song_a.id)
+
+    def testIndexOrderByCreated(self):
+        artist = self.addArtist()
+        song_a = self.addSong(artist)
+        song_b = self.addSong(artist)
+        self.addFavourite(song_a)
+        self.addFavourite(song_b)
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/favourites?order_by=created"
+            ).content
+        )
+
+        self.assertEquals(len(result["itemList"]), 2)
+        self.assertEquals(result["itemList"][0]["id"], song_a.id)
+        self.assertEquals(result["itemList"][1]["id"], song_b.id)
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/favourites?order_by=created&order_direction=desc"
+            ).content
+        )
+
+        self.assertEquals(len(result["itemList"]), 2)
+        self.assertEquals(result["itemList"][0]["id"], song_b.id)
+        self.assertEquals(result["itemList"][1]["id"], song_a.id)
+
+    def testCount(self):
+        artist = self.addArtist()
+        song_a = self.addSong(artist)
+        song_b = self.addSong(artist)
+        song_c = self.addSong(artist)
+        self.addFavourite(song_a)
+        self.addFavourite(song_b)
+        self.addFavourite(song_c)
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/favourites?count=1"
+            ).content
+        )
+        self.assertEquals(len(result["itemList"]), 1)
+        self.assertEquals(result["itemList"][0]["id"], song_c.id)
+        self.assertTrue(result["hasNextPage"])
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/favourites?count=3"
+            ).content
+        )
+        self.assertEquals(len(result["itemList"]), 3)
+        self.assertEquals(result["itemList"][0]["id"], song_c.id)
+        self.assertEquals(result["itemList"][1]["id"], song_b.id)
+        self.assertEquals(result["itemList"][2]["id"], song_a.id)
+        self.assertFalse(result["hasNextPage"])
+
+    def testCountAndPage(self):
+        artist = self.addArtist()
+        song_a = self.addSong(artist)
+        song_b = self.addSong(artist)
+        song_c = self.addSong(artist)
+        self.addFavourite(song_a)
+        self.addFavourite(song_b)
+        self.addFavourite(song_c)
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/favourites?count=1&page=1"
+            ).content
+        )
+        self.assertEquals(len(result["itemList"]), 1)
+        self.assertEquals(result["itemList"][0]["id"], song_c.id)
+        self.assertTrue(result["hasNextPage"])
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/favourites?count=1&page=2"
+            ).content
+        )
+        self.assertEquals(len(result["itemList"]), 1)
+        self.assertEquals(result["itemList"][0]["id"], song_b.id)
+        self.assertTrue(result["hasNextPage"])
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/favourites?count=1&page=3"
+            ).content
+        )
+        self.assertEquals(len(result["itemList"]), 1)
+        self.assertEquals(result["itemList"][0]["id"], song_a.id)
+        self.assertFalse(result["hasNextPage"])

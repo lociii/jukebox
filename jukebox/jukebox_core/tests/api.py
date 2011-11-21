@@ -12,6 +12,7 @@ class ApiTestBase(TestCase):
     username = "TestUser"
     email = "test@domain.org"
     password = "TestPassword"
+    passwords = {}
 
     def setUp(self):
         transaction.rollback()
@@ -19,23 +20,28 @@ class ApiTestBase(TestCase):
         # register test user and setup auth
         self.user = self.addUser(self.username, self.email, self.password)
 
-    def httpGet(self, url, params={}):
-        auth = '%s:%s' % (self.username, self.password)
-        auth = "Basic %s" % base64.encodestring(auth).strip()
+    def httpGet(self, url, params={}, user=None):
         c = Client()
-        return c.get(url, params, HTTP_AUTHORIZATION=auth)
+        return c.get(url, params, HTTP_AUTHORIZATION=self.getAuth(user))
 
-    def httpPost(self, url, params={}):
-        auth = '%s:%s' % (self.username, self.password)
-        auth = "Basic %s" % base64.encodestring(auth).strip()
+    def httpPost(self, url, params={}, user=None):
         c = Client()
-        return c.post(url, params, HTTP_AUTHORIZATION=auth)
+        return c.post(url, params, HTTP_AUTHORIZATION=self.getAuth(user))
 
-    def httpDelete(self, url, params={}):
-        auth = '%s:%s' % (self.username, self.password)
-        auth = "Basic %s" % base64.encodestring(auth).strip()
+    def httpDelete(self, url, params={}, user=None):
         c = Client()
-        return c.delete(url, params, HTTP_AUTHORIZATION=auth)
+        return c.delete(url, params, HTTP_AUTHORIZATION=self.getAuth(user))
+
+    def getAuth(self, user=None):
+        if user is None:
+            user = self.user
+        username = user.username
+        password = self.passwords[user.id]
+
+        return "Basic %s" % base64.encodestring(
+            '%s:%s' % (username, password)
+        ).strip()
+
 
     def addArtist(self, name="TestArist"):
         artist = Artist(
@@ -83,4 +89,6 @@ class ApiTestBase(TestCase):
         return song
 
     def addUser(self, username, email, password):
-        return User.objects.create_user(username, email, password)
+        user = User.objects.create_user(username, email, password)
+        self.passwords[user.id] = password
+        return user
