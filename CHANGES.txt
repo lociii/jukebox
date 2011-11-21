@@ -1,1 +1,2 @@
 v0.1.0, 2011-11-17 -- Initial release
+v0.1.1, 2011-11-21 -- Fixed installer bugs, added personal history, added system tests for api

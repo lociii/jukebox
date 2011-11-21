@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 setup(
     name="jukebox",
     packages=find_packages(),
-    version="0.1.0",
+    version="0.1.1",
     description="Democratic Jukebox - your democratic music player",
     author="Jens Nistler",
     author_email="opensource@jensnistler.de",

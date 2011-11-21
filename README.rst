@@ -109,4 +109,11 @@ Release Notes
 ==============
 
 0.1.0
+
 - Initial release
+
+0.1.1
+
+- Fixed installer bugs
+- Added personal history
+- Added system tests for api
