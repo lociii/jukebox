@@ -73,6 +73,21 @@ Music = {
             }
         });
 
+        $("#profile").bind("click", function() {
+            if ($("#accountoptions:visible").length == 1) {
+                $(document).unbind("click.account");
+                $("#accountoptions").hide();
+            }
+            else {
+                $("#accountoptions").show();
+                $(document).bind("click.account", function(event) {
+                    if ($(event.target).closest("#accountoptions").length == 0 && $(event.target).closest("#profile").length == 0) {
+                        $("#profile").click();
+                    }
+                });
+            }
+        });
+
         $("#main table.list img.filter").live("click", function() {
             var id = $(this).closest("tr").find(".value").html();
             if ($(this).hasClass("filter_artist")) {

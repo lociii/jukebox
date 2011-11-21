@@ -50,3 +50,17 @@ def login_error(request):
 def logout(request):
     auth_logout(request)
     return HttpResponseRedirect('/')
+
+def language(request, language):
+    from django.utils.translation import check_for_language
+    from django.utils import translation
+
+    response = HttpResponseRedirect("/")
+    if language and check_for_language(language):
+        if hasattr(request, "session"):
+            request.session["django_language"] = language
+        else:
+            response.set_cookie(settings.LANGUAGE_COOKIE_NAME, language)
+        translation.activate(language)
+
+    return response

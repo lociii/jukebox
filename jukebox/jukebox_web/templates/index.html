@@ -18,16 +18,16 @@
                     </span>
                 </a>
             </div>
-            <div id="profile">
-                {% blocktrans %}Logged in as: {{ username }}{% endblocktrans %}<br />
-                <a href="/logout">{% trans 'Logout' %}</a>
+            <div id="profile" title="{% trans 'Account options' %}">
+                <span class="username">{{ username }}</span>
+                <span class="options"></span>
             </div>
             <div id="search">
                 <div class="searchbox">
                     <form action="/api/v1/songs" method="get" id="searchform">
                         <label for="term" class="invisible">{% trans 'Search term' %}</label>
                         <input type="text" name="term" id="term" maxlength="100" class="searchterm" />
-                        <span id="searchoptions"></span>
+                        <span id="searchoptions" class="options"></span>
                         <span class="searchsubmit">{% trans 'Search' %}</span>
                         <button type="submit" class="invisible"></button>
                     </form>
@@ -135,6 +135,23 @@
                     <button type="submit" class="invisible"></button>
                 </div>
             </form>
+        </div>
+        <div id="accountoptions">
+            <h1>{%  trans 'Switch language' %}</h1>
+            <ul>
+                <li>
+                    <a href="/language/set/en">{% trans 'English' %}</a>
+                </li>
+                <li>
+                    <a href="/language/set/de">{% trans 'German' %}</a>
+                </li>
+            </ul>
+            <h1>{% trans 'Misc' %}</h1>
+            <ul>
+                <li>
+                    <a href="/logout">{% trans 'Logout' %}</a>
+                </li>
+            </ul>
         </div>
         <div id="csrf_token">
             {% csrf_token %}

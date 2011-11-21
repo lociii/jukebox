@@ -154,6 +154,9 @@ body {
 #searchoptions {
     position: absolute;
     left: 335px;
+}
+
+span.options {
     height: 4px;
     width: 7px;
     padding: 13px 6px;
@@ -161,7 +164,7 @@ body {
     background: url("../img/arrow_down.png") no-repeat center;
 }
 
-#search span.searchoptions:hover {
+span.options:hover, #profile:hover span.options {
     background: url("../img/arrow_down_active.png") no-repeat center;
 }
 
@@ -241,9 +244,48 @@ span.searchsubmit {
 
 #profile {
     float: right;
-    width: 200px;
-    margin: 10px 20px 0 0;
+    margin: 20px 20px 0 0;
     text-align: right;
+    cursor: pointer;
+}
+
+#profile span.username {
+    float: left;
+    margin-right: 5px;
+}
+
+#accountoptions {
+    display: none;
+
+    position: absolute;
+    top: 44px;
+    right: 20px;
+    background-color: #FFFFFF;
+
+    width: 200px;
+    border: 1px solid #CCC;
+    padding: 15px 5px;
+
+    z-index: 400;
+}
+
+#accountoptions h1 {
+    font-size: 11pt;
+    padding-left: 10px;
+}
+
+#accountoptions ul {
+    margin: 5px 0 15px 0;
+}
+
+#accountoptions ul li {
+    padding: 0 0 5px 20px;
+    border-left:  3px solid #FFFFFF;
+}
+
+#accountoptions ul li.active {
+    font-weight: bold;
+    border-left:  3px solid #ED9005;
 }
 
 /*

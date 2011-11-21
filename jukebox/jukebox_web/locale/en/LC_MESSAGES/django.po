@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-20 12:18+0100\n"
+"POT-Creation-Date: 2011-11-21 16:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Jens Nistler <opensource@jensnistler.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,14 +26,9 @@ msgstr "Democratic Jukebox - your democratic music player"
 msgid "Jukebox logo"
 msgstr "Jukebox logo"
 
-#: templates/index.html:22
-#, python-format
-msgid "Logged in as: %(username)s"
-msgstr "Logged in as: %(username)s"
-
-#: templates/index.html:23
-msgid "Logout"
-msgstr "Logout"
+#: templates/index.html:21
+msgid "Account options"
+msgstr "Account options"
 
 #: templates/index.html:28
 msgid "Search term"
@@ -115,6 +110,26 @@ msgstr "Year"
 #: templates/index.html:127
 msgid "All years"
 msgstr "All years"
+
+#: templates/index.html:140
+msgid "Switch language"
+msgstr "Switch language"
+
+#: templates/index.html:143
+msgid "English"
+msgstr "English"
+
+#: templates/index.html:146
+msgid "German"
+msgstr "German"
+
+#: templates/index.html:149
+msgid "Misc"
+msgstr "Misc"
+
+#: templates/index.html:152
+msgid "Logout"
+msgstr "Logout"
 
 #: templates/login.html:24
 msgid "Login"
