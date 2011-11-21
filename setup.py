@@ -34,5 +34,6 @@ setup(
         "python-daemon==1.6",
     ],
     include_package_data=True,
-    scripts=glob.glob("bin/*")
+    scripts=glob.glob("bin/*"),
+    long_description=open("README.rst").read()
 )
