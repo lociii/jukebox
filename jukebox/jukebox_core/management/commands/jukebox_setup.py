@@ -138,7 +138,7 @@ class Command(BaseCommand):
             else:
                 auth_data += key.upper() + "_APP_ID = \"" + \
                      value["id"] + "\"\n"
-                auth_data += key.upper() + "API_SECRET = \"" + \
+                auth_data += key.upper() + "_API_SECRET = \"" + \
                      value["secret"] + "\"\n"
             auth_data += "\n"
 
