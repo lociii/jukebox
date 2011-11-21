@@ -27,8 +27,8 @@ class ApiArtistsTest(ApiTestBase):
         self.assertEquals(result["itemList"][0]["id"], artist.id)
 
     def testIndexOrderBy(self):
-        artist_a = self.addArtist("A Name")
-        artist_b = self.addArtist("B Name")
+        artist_a = self.addArtist(name="A Name")
+        artist_b = self.addArtist(name="B Name")
 
         result = simplejson.loads(
             self.httpGet(

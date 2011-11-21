@@ -27,8 +27,8 @@ class ApiGenresTest(ApiTestBase):
         self.assertEquals(result["itemList"][0]["id"], genre.id)
 
     def testIndexOrderBy(self):
-        genre_a = self.addGenre("A Name")
-        genre_b = self.addGenre("B Name")
+        genre_a = self.addGenre(name="A Name")
+        genre_b = self.addGenre(name="B Name")
 
         result = simplejson.loads(
             self.httpGet(

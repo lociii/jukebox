@@ -18,8 +18,7 @@ class ApiFavouritesTest(ApiTestBase):
         # register second user
         user = self.addUser("TestUser2", "test2@domain.org", "TestPassword2")
 
-        artist = self.addArtist()
-        song = self.addSong(artist)
+        song = self.addSong(artist=self.addArtist())
 
         # check that song is not a favourite
         result = simplejson.loads(
@@ -83,6 +82,47 @@ class ApiFavouritesTest(ApiTestBase):
         self.assertEquals(result["itemList"][0]["id"], song.id)
         self.assertFalse(result["itemList"][0]["favourite"])
 
+    def testDeleteAndIndex(self):
+        song = self.addSong(artist=self.addArtist())
+
+        # add to favourites
+        response = self.httpPost(
+            "/api/v1/favourites",
+            {"id": song.id}
+        )
+        content = simplejson.loads(
+            response.content
+        )
+        self.assertEqual(response.status_code, 201)
+        self.assertEqual(content["id"], song.id)
+
+        # check favourites list
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/favourites"
+            ).content
+        )
+        self.assertEquals(len(result["itemList"]), 1)
+        self.assertEquals(result["itemList"][0]["id"], song.id)
+
+        # remove from favourites
+        response = self.httpDelete(
+            "/api/v1/favourites/" + str(song.id),
+        )
+        content = simplejson.loads(
+            response.content
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(content["id"], str(song.id))
+
+        # check favourites list
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/favourites"
+            ).content
+        )
+        self.assertEquals(len(result["itemList"]), 0)
+
     def addFavourite(self, song):
         return self.httpPost(
             "/api/v1/favourites",
@@ -90,11 +130,8 @@ class ApiFavouritesTest(ApiTestBase):
         )
 
     def testIndexOrderByTitle(self):
-        artist = self.addArtist()
-        album = self.addAlbum(artist)
-        genre = self.addGenre()
-        song_a = self.addSong(artist, album, genre, "A Title")
-        song_b = self.addSong(artist, album, genre, "B Title")
+        song_a = self.addSong(artist=self.addArtist(), title="A Title")
+        song_b = self.addSong(artist=self.addArtist(), title="B Title")
         self.addFavourite(song_a)
         self.addFavourite(song_b)
 
@@ -119,10 +156,8 @@ class ApiFavouritesTest(ApiTestBase):
         self.assertEquals(result["itemList"][1]["id"], song_a.id)
 
     def testIndexOrderByArtist(self):
-        artist_a = self.addArtist("A Name")
-        artist_b = self.addArtist("B Name")
-        song_a = self.addSong(artist_a)
-        song_b = self.addSong(artist_b)
+        song_a = self.addSong(artist=self.addArtist(name="A Name"))
+        song_b = self.addSong(artist=self.addArtist(name="B Name"))
         self.addFavourite(song_a)
         self.addFavourite(song_b)
 
@@ -147,11 +182,10 @@ class ApiFavouritesTest(ApiTestBase):
         self.assertEquals(result["itemList"][1]["id"], song_a.id)
 
     def testIndexOrderByAlbum(self):
-        artist = self.addArtist()
-        album_a = self.addAlbum(artist, "A Title")
-        album_b = self.addAlbum(artist, "B Title")
-        song_a = self.addSong(artist, album_a)
-        song_b = self.addSong(artist, album_b)
+        album_a = self.addAlbum(artist=self.addArtist(), title="A Title")
+        album_b = self.addAlbum(artist=self.addArtist(), title="B Title")
+        song_a = self.addSong(artist=self.addArtist(), album=album_a)
+        song_b = self.addSong(artist=self.addArtist(), album=album_b)
         self.addFavourite(song_a)
         self.addFavourite(song_b)
 
@@ -176,9 +210,8 @@ class ApiFavouritesTest(ApiTestBase):
         self.assertEquals(result["itemList"][1]["id"], song_a.id)
 
     def testIndexOrderByYear(self):
-        artist = self.addArtist()
-        song_a = self.addSong(artist, None, None, "TestTitle", 2000)
-        song_b = self.addSong(artist, None, None, "TestTitle", 2001)
+        song_a = self.addSong(artist=self.addArtist(), year=2000)
+        song_b = self.addSong(artist=self.addArtist(), year=2001)
         self.addFavourite(song_a)
         self.addFavourite(song_b)
 
@@ -203,11 +236,14 @@ class ApiFavouritesTest(ApiTestBase):
         self.assertEquals(result["itemList"][1]["id"], song_a.id)
 
     def testIndexOrderByGenre(self):
-        artist = self.addArtist()
-        genre_a = self.addGenre("A Genre")
-        genre_b = self.addGenre("B Genre")
-        song_a = self.addSong(artist, None, genre_a)
-        song_b = self.addSong(artist, None, genre_b)
+        song_a = self.addSong(
+            artist=self.addArtist(),
+            genre=self.addGenre(name="A Genre")
+        )
+        song_b = self.addSong(
+            artist=self.addArtist(),
+            genre=self.addGenre(name="B Genre")
+        )
         self.addFavourite(song_a)
         self.addFavourite(song_b)
 
@@ -232,9 +268,8 @@ class ApiFavouritesTest(ApiTestBase):
         self.assertEquals(result["itemList"][1]["id"], song_a.id)
 
     def testIndexOrderByCreated(self):
-        artist = self.addArtist()
-        song_a = self.addSong(artist)
-        song_b = self.addSong(artist)
+        song_a = self.addSong(artist=self.addArtist())
+        song_b = self.addSong(artist=self.addArtist())
         self.addFavourite(song_a)
         self.addFavourite(song_b)
 
@@ -259,10 +294,9 @@ class ApiFavouritesTest(ApiTestBase):
         self.assertEquals(result["itemList"][1]["id"], song_a.id)
 
     def testCount(self):
-        artist = self.addArtist()
-        song_a = self.addSong(artist)
-        song_b = self.addSong(artist)
-        song_c = self.addSong(artist)
+        song_a = self.addSong(artist=self.addArtist())
+        song_b = self.addSong(artist=self.addArtist())
+        song_c = self.addSong(artist=self.addArtist())
         self.addFavourite(song_a)
         self.addFavourite(song_b)
         self.addFavourite(song_c)
@@ -288,10 +322,9 @@ class ApiFavouritesTest(ApiTestBase):
         self.assertFalse(result["hasNextPage"])
 
     def testCountAndPage(self):
-        artist = self.addArtist()
-        song_a = self.addSong(artist)
-        song_b = self.addSong(artist)
-        song_c = self.addSong(artist)
+        song_a = self.addSong(artist=self.addArtist())
+        song_b = self.addSong(artist=self.addArtist())
+        song_c = self.addSong(artist=self.addArtist())
         self.addFavourite(song_a)
         self.addFavourite(song_b)
         self.addFavourite(song_c)

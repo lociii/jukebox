@@ -16,8 +16,7 @@ class ApiSongsTest(ApiTestBase):
         self.assertEquals(len(result["itemList"]), 0)
 
     def testIndex(self):
-        artist = self.addArtist()
-        song = self.addSong(artist)
+        song = self.addSong(artist=self.addArtist())
 
         result = simplejson.loads(
             self.httpGet(
@@ -32,8 +31,8 @@ class ApiSongsTest(ApiTestBase):
         fixture = "thisIsATestFixtureString"
         fixturePart = fixture[0:random.randint(5, len(fixture))]
 
-        artist = self.addArtist()
-        song = self.addSong(artist, None, None, fixture)
+        song = self.addSong(artist=self.addArtist(), title=fixture)
+        self.addSong(artist=self.addArtist(), title="AAAAAAAAAAAAAA")
 
         result = simplejson.loads(
             self.httpGet(
@@ -48,8 +47,8 @@ class ApiSongsTest(ApiTestBase):
         fixture = "thisIsATestFixtureString"
         fixturePart = fixture[0:random.randint(5, len(fixture))]
 
-        artist = self.addArtist(fixture)
-        song = self.addSong(artist)
+        song = self.addSong(artist=self.addArtist(name=fixture))
+        self.addSong(artist=self.addArtist(name="AAAAAAAAAAAAAA"))
 
         result = simplejson.loads(
             self.httpGet(
@@ -65,8 +64,12 @@ class ApiSongsTest(ApiTestBase):
         fixturePart = fixture[0:random.randint(5, len(fixture))]
 
         artist = self.addArtist()
-        album = self.addAlbum(artist, fixture)
-        song = self.addSong(artist, album)
+        album = self.addAlbum(artist=artist, title=fixture)
+        song = self.addSong(artist=artist, album=album)
+        self.addSong(
+            artist=artist,
+            album=self.addAlbum(artist=artist, title="AAAAAAAAAAAAAA")
+        )
 
         result = simplejson.loads(
             self.httpGet(
@@ -81,8 +84,8 @@ class ApiSongsTest(ApiTestBase):
         fixture = "thisIsATestFixtureString"
         fixturePart = fixture[0:random.randint(5, len(fixture))]
 
-        artist = self.addArtist()
-        song = self.addSong(artist, None, None, fixture)
+        song = self.addSong(artist=self.addArtist(), title=fixture)
+        self.addSong(artist=self.addArtist(), title="AAAAAAAAAAAAAA")
 
         result = simplejson.loads(
             self.httpGet(
@@ -97,8 +100,8 @@ class ApiSongsTest(ApiTestBase):
         fixture = "thisIsATestFixtureString"
         fixturePart = fixture[0:random.randint(5, len(fixture))]
 
-        artist = self.addArtist(fixture)
-        song = self.addSong(artist)
+        song = self.addSong(artist=self.addArtist(name=fixture))
+        self.addSong(artist=self.addArtist(name="AAAAAAAAAAAAAA"))
 
         result = simplejson.loads(
             self.httpGet(
@@ -114,8 +117,12 @@ class ApiSongsTest(ApiTestBase):
         fixturePart = fixture[0:random.randint(5, len(fixture))]
 
         artist = self.addArtist()
-        album = self.addAlbum(artist, fixture)
-        song = self.addSong(artist, album)
+        album = self.addAlbum(artist=artist, title=fixture)
+        song = self.addSong(artist=artist, album=album)
+        self.addSong(
+            artist=artist,
+            album=self.addAlbum(artist=artist, title="AAAAAAAAAAAAAA")
+        )
 
         result = simplejson.loads(
             self.httpGet(
@@ -128,9 +135,8 @@ class ApiSongsTest(ApiTestBase):
 
     def testIndexWithFilterYear(self):
         fixture = 2010
-
-        artist = self.addArtist()
-        song = self.addSong(artist, None, None, "TestTitle", fixture)
+        song = self.addSong(artist=self.addArtist(), year=fixture)
+        self.addSong(artist=self.addArtist(), year=2001)
 
         result = simplejson.loads(
             self.httpGet(
@@ -142,9 +148,9 @@ class ApiSongsTest(ApiTestBase):
         self.assertEquals(result["itemList"][0]["id"], song.id)
 
     def testIndexWithFilterGenre(self):
-        artist = self.addArtist()
         genre = self.addGenre()
-        song = self.addSong(artist, None, genre)
+        song = self.addSong(artist=self.addArtist(), genre=genre)
+        self.addSong(artist=self.addArtist(), genre=self.addGenre())
 
         result = simplejson.loads(
             self.httpGet(
@@ -157,8 +163,9 @@ class ApiSongsTest(ApiTestBase):
 
     def testIndexWithFilterAlbumId(self):
         artist = self.addArtist()
-        album = self.addAlbum(artist)
-        song = self.addSong(artist, album)
+        album = self.addAlbum(artist=artist)
+        song = self.addSong(artist=artist, album=album)
+        self.addSong(artist=artist, album=self.addAlbum(artist=artist))
 
         result = simplejson.loads(
             self.httpGet(
@@ -171,7 +178,8 @@ class ApiSongsTest(ApiTestBase):
 
     def testIndexWithFilterArtistId(self):
         artist = self.addArtist()
-        song = self.addSong(artist)
+        song = self.addSong(artist=artist)
+        self.addSong(artist=self.addArtist())
 
         result = simplejson.loads(
             self.httpGet(
@@ -183,11 +191,8 @@ class ApiSongsTest(ApiTestBase):
         self.assertEquals(result["itemList"][0]["id"], song.id)
 
     def testIndexOrderByTitle(self):
-        artist = self.addArtist()
-        album = self.addAlbum(artist)
-        genre = self.addGenre()
-        song_a = self.addSong(artist, album, genre, "A Title")
-        song_b = self.addSong(artist, album, genre, "B Title")
+        song_a = self.addSong(artist=self.addArtist(), title="A Title")
+        song_b = self.addSong(artist=self.addArtist(), title="B Title")
 
         result = simplejson.loads(
             self.httpGet(
@@ -210,10 +215,8 @@ class ApiSongsTest(ApiTestBase):
         self.assertEquals(result["itemList"][1]["id"], song_a.id)
 
     def testIndexOrderByArtist(self):
-        artist_a = self.addArtist("A Name")
-        artist_b = self.addArtist("B Name")
-        song_a = self.addSong(artist_a)
-        song_b = self.addSong(artist_b)
+        song_a = self.addSong(artist=self.addArtist(name="A Name"))
+        song_b = self.addSong(artist=self.addArtist(name="B Name"))
 
         result = simplejson.loads(
             self.httpGet(
@@ -237,10 +240,10 @@ class ApiSongsTest(ApiTestBase):
 
     def testIndexOrderByAlbum(self):
         artist = self.addArtist()
-        album_a = self.addAlbum(artist, "A Title")
-        album_b = self.addAlbum(artist, "B Title")
-        song_a = self.addSong(artist, album_a)
-        song_b = self.addSong(artist, album_b)
+        album_a = self.addAlbum(artist=artist, title="A Title")
+        album_b = self.addAlbum(artist=artist, title="B Title")
+        song_a = self.addSong(artist=artist, album=album_a)
+        song_b = self.addSong(artist=artist, album=album_b)
 
         result = simplejson.loads(
             self.httpGet(
@@ -263,9 +266,8 @@ class ApiSongsTest(ApiTestBase):
         self.assertEquals(result["itemList"][1]["id"], song_a.id)
 
     def testIndexOrderByYear(self):
-        artist = self.addArtist()
-        song_a = self.addSong(artist, None, None, "TestTitle", 2000)
-        song_b = self.addSong(artist, None, None, "TestTitle", 2001)
+        song_a = self.addSong(artist=self.addArtist(), year=2000)
+        song_b = self.addSong(artist=self.addArtist(), year=2001)
 
         result = simplejson.loads(
             self.httpGet(
@@ -288,11 +290,14 @@ class ApiSongsTest(ApiTestBase):
         self.assertEquals(result["itemList"][1]["id"], song_a.id)
 
     def testIndexOrderByGenre(self):
-        artist = self.addArtist()
-        genre_a = self.addGenre("A Genre")
-        genre_b = self.addGenre("B Genre")
-        song_a = self.addSong(artist, None, genre_a)
-        song_b = self.addSong(artist, None, genre_b)
+        song_a = self.addSong(
+            artist=self.addArtist(),
+            genre=self.addGenre(name="A Name")
+        )
+        song_b = self.addSong(
+            artist=self.addArtist(),
+            genre=self.addGenre(name="B Name")
+        )
 
         result = simplejson.loads(
             self.httpGet(
@@ -315,9 +320,8 @@ class ApiSongsTest(ApiTestBase):
         self.assertEquals(result["itemList"][1]["id"], song_a.id)
 
     def testIndexOrderByLength(self):
-        artist = self.addArtist()
-        song_a = self.addSong(artist, None, None, "TestTitle", 2000, 100)
-        song_b = self.addSong(artist, None, None, "TestTitle", 2000, 200)
+        song_a = self.addSong(artist=self.addArtist(), length=100)
+        song_b = self.addSong(artist=self.addArtist(), length=200)
 
         result = simplejson.loads(
             self.httpGet(
@@ -340,10 +344,9 @@ class ApiSongsTest(ApiTestBase):
         self.assertEquals(result["itemList"][1]["id"], song_a.id)
 
     def testCount(self):
-        artist = self.addArtist()
-        song_a = self.addSong(artist)
-        song_b = self.addSong(artist)
-        song_c = self.addSong(artist)
+        song_a = self.addSong(artist=self.addArtist())
+        song_b = self.addSong(artist=self.addArtist())
+        song_c = self.addSong(artist=self.addArtist())
 
         result = simplejson.loads(
             self.httpGet(
@@ -366,10 +369,9 @@ class ApiSongsTest(ApiTestBase):
         self.assertFalse(result["hasNextPage"])
 
     def testCountAndPage(self):
-        artist = self.addArtist()
-        song_a = self.addSong(artist)
-        song_b = self.addSong(artist)
-        song_c = self.addSong(artist)
+        song_a = self.addSong(artist=self.addArtist())
+        song_b = self.addSong(artist=self.addArtist())
+        song_c = self.addSong(artist=self.addArtist())
 
         result = simplejson.loads(
             self.httpGet(
@@ -399,8 +401,7 @@ class ApiSongsTest(ApiTestBase):
         self.assertFalse(result["hasNextPage"])
 
     def testGetNextSongRandom(self):
-        artist = self.addArtist()
-        song = self.addSong(artist, None, None, "TestTitle", 2000, 100, __file__)
+        song = self.addSong(artist=self.addArtist(), filename=__file__)
 
         songs_api = api.songs()
         result = songs_api.getNextSong()
@@ -414,8 +415,7 @@ class ApiSongsTest(ApiTestBase):
         self.assertEqual(result["itemList"][0]["id"], song.id)
 
     def testGetNextSongFromQueue(self):
-        artist = self.addArtist()
-        song = self.addSong(artist, None, None, "TestTitle", 2000, 100, __file__)
+        song = self.addSong(artist=self.addArtist(), filename=__file__)
 
         # add to queue
         queue_api = api.queue()

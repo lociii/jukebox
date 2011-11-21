@@ -16,8 +16,7 @@ class ApiYearsTest(ApiTestBase):
 
     def testIndex(self):
         year = 2000
-        artist = self.addArtist()
-        self.addSong(artist, None, None, "TestTitle", year)
+        self.addSong(artist=self.addArtist(), year=year)
 
         result = simplejson.loads(
             self.httpGet(
@@ -31,9 +30,8 @@ class ApiYearsTest(ApiTestBase):
     def testIndexOrderBy(self):
         year_a = 2000
         year_b = 2010
-        artist = self.addArtist()
-        self.addSong(artist, None, None, "TestTitle", year_a)
-        self.addSong(artist, None, None, "TestTitle", year_b)
+        self.addSong(artist=self.addArtist(), year=year_a)
+        self.addSong(artist=self.addArtist(), year=year_b)
 
         result = simplejson.loads(
             self.httpGet(
@@ -59,10 +57,9 @@ class ApiYearsTest(ApiTestBase):
         year_a = 2000
         year_b = 2005
         year_c = 2010
-        artist = self.addArtist()
-        self.addSong(artist, None, None, "TestTitle", year_a)
-        self.addSong(artist, None, None, "TestTitle", year_b)
-        self.addSong(artist, None, None, "TestTitle", year_c)
+        self.addSong(artist=self.addArtist(), year=year_a)
+        self.addSong(artist=self.addArtist(), year=year_b)
+        self.addSong(artist=self.addArtist(), year=year_c)
 
         result = simplejson.loads(
             self.httpGet(
@@ -88,10 +85,9 @@ class ApiYearsTest(ApiTestBase):
         year_a = 2000
         year_b = 2005
         year_c = 2010
-        artist = self.addArtist()
-        self.addSong(artist, None, None, "TestTitle", year_a)
-        self.addSong(artist, None, None, "TestTitle", year_b)
-        self.addSong(artist, None, None, "TestTitle", year_c)
+        self.addSong(artist=self.addArtist(), year=year_a)
+        self.addSong(artist=self.addArtist(), year=year_b)
+        self.addSong(artist=self.addArtist(), year=year_c)
 
         result = simplejson.loads(
             self.httpGet(
