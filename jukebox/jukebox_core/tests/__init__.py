@@ -7,3 +7,4 @@ from .api_genres import *
 from .api_years import *
 from .api_favourites import *
 from .api_history import *
+from .api_queue import *
