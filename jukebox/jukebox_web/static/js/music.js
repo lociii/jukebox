@@ -43,6 +43,14 @@ Music = {
             $("#searchoptions").click();
             return false;
         });
+        $("#searchdetailsform span.searchreset").bind("click", function() {
+            $("#search_title").val("");
+            $("#search_artist").val("");
+            $("#search_album").val("");
+            $("#search_genre").val("");
+            $("#search_year").val("");
+            return false;
+        });
         $("#searchdetailsform").bind("submit", function() {
             Music.options = Music.getSearchOptions();
             Music.loadList("/api/v1/songs");
@@ -68,11 +76,7 @@ Music = {
             }
             else {
                 // reset all
-                $("#search_title").val("");
-                $("#search_artist").val("");
-                $("#search_album").val("");
-                $("#search_genre").val("");
-                $("#search_year").val("");
+                $("#searchdetailsform span.searchreset").click();
 
                 // fill form by current search options
                 $.each(Music.searchOptions, function(key, value) {
@@ -384,6 +388,8 @@ Music = {
     loadList: function(url) {
         Music.pageNum = 1;
         Music.hasNextPage = false;
+        Music.searchOptions = {};
+        $("#searchdetailsform span.searchreset").click();
 
         // build options
         Music.options.page = Music.pageNum;

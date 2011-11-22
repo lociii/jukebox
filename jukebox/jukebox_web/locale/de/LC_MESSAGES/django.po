@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-11-21 16:45+0100\n"
+"POT-Creation-Date: 2011-11-22 17:19+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Jens Nistler <opensource@jensnistler.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -111,23 +111,27 @@ msgstr "Jahr"
 msgid "All years"
 msgstr "Alle Jahre"
 
-#: templates/index.html:140
+#: templates/index.html:135
+msgid "Reset"
+msgstr "Leeren"
+
+#: templates/index.html:141
 msgid "Switch language"
 msgstr "Sprache ändern"
 
-#: templates/index.html:143
+#: templates/index.html:144
 msgid "English"
 msgstr "Englisch"
 
-#: templates/index.html:146
+#: templates/index.html:147
 msgid "German"
 msgstr "Deutsch"
 
-#: templates/index.html:149
+#: templates/index.html:150
 msgid "Misc"
 msgstr "Verschiedenes"
 
-#: templates/index.html:152
+#: templates/index.html:153
 msgid "Logout"
 msgstr "Abmelden"
 

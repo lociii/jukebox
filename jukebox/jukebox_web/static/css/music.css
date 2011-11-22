@@ -195,6 +195,34 @@ span.searchsubmit {
     cursor: pointer;
 }
 
+span.searchreset {
+    display: block;
+    height: 27px;
+    width: 54px;
+    padding: 0 8px;
+    float: right;
+
+    background-color: #AAAAAA;
+    background: -webkit-linear-gradient(top,#AAAAAA,#888888);
+    background: -moz-linear-gradient(top,#AAAAAA,#888888);
+    background: -ms-linear-gradient(top,#AAAAAA,#888888);
+    background: -o-linear-gradient(top,#AAAAAA,#888888);
+    background: linear-gradient(top,#AAAAAA,#888888);
+
+    border: 1px solid #444444;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    outline: 0;
+
+    font-size: 8pt;
+    line-height: 27px;
+    font-weight: bold;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+
 #search span.searchsubmit {
     position: absolute;
     left: 370px;
