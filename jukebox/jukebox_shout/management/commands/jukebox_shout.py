@@ -103,6 +103,7 @@ class Command(BaseCommand):
             self.print_help("jukebox_shout", "help")
 
     def shutdown(self, signal, action):
+        self.shout.close()
         self.daemon.close()
         sys.exit(0)
 
@@ -150,10 +151,9 @@ class Command(BaseCommand):
         print "Streaming file %s" % song_instance.Filename
         f = open(song_instance.Filename)
         self.shout.set_metadata({"song": self.getMetaData(song_instance)})
-        nbuf = f.read(4096)
         while 1:
-            buf = nbuf
-            nbuf = f.read(4096)
+            print "sending..."
+            buf = f.read(4096)
             if not len(buf):
                 break
             self.shout.send(buf)

@@ -88,8 +88,8 @@ class AlbumsForm(forms.Form):
     )
 
     order_by = forms.CharField(
-        max_length=5,
-        help_text="'album'",
+        max_length=6,
+        help_text="'album', 'artist'",
         required=False
     )
     order_direction = forms.CharField(

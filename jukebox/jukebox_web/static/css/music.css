@@ -371,6 +371,19 @@ span.searchsubmit {
 
 #main table.list th {
     padding:  0 0 10px 0;
+    cursor: pointer;
+}
+
+#main table.list th:hover {
+    color: #ED9005;
+}
+
+#main table.list th.sort_asc:after {
+    content: " ↗";
+}
+
+#main table.list th.sort_desc:after {
+    content: " ↘";
 }
 
 #main table.list th.options {

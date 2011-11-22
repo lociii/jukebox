@@ -26,7 +26,7 @@ class ApiAlbumsTest(ApiTestBase):
         self.assertEquals(len(result["itemList"]), 1)
         self.assertEquals(result["itemList"][0]["id"], album.id)
 
-    def testIndexOrderBy(self):
+    def testIndexOrderByAlbum(self):
         album_a = self.addAlbum(artist=self.addArtist(), title="A Title")
         album_b = self.addAlbum(artist=self.addArtist(), title="B Title")
 
@@ -43,6 +43,30 @@ class ApiAlbumsTest(ApiTestBase):
         result = simplejson.loads(
             self.httpGet(
                 "/api/v1/albums?order_by=album&order_direction=desc"
+            ).content
+        )
+
+        self.assertEquals(len(result["itemList"]), 2)
+        self.assertEquals(result["itemList"][0]["id"], album_b.id)
+        self.assertEquals(result["itemList"][1]["id"], album_a.id)
+
+    def testIndexOrderByArtist(self):
+        album_a = self.addAlbum(artist=self.addArtist("A Name"))
+        album_b = self.addAlbum(artist=self.addArtist("B Name"))
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/albums?order_by=artist"
+            ).content
+        )
+
+        self.assertEquals(len(result["itemList"]), 2)
+        self.assertEquals(result["itemList"][0]["id"], album_a.id)
+        self.assertEquals(result["itemList"][1]["id"], album_b.id)
+
+        result = simplejson.loads(
+            self.httpGet(
+                "/api/v1/albums?order_by=artist&order_direction=desc"
             ).content
         )
 

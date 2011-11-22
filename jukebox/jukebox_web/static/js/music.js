@@ -7,6 +7,7 @@ if (typeof gettext != "function") {
 Music = {
     pageNum: 1,
     hasNextPage: true,
+    options: {},
     infiniteScrollActive: false,
     sessionPing: 60000,
     csrf_token: null,
@@ -15,30 +16,35 @@ Music = {
         Music.csrf_token = $('#csrf_token input').val();
 
         $(".loadList").bind("click", function() {
+            Music.options = {};
             Music.setActiveMenu($(this));
             Music.loadList($(this).attr("href"));
             return false;
         });
 
         $("#searchform span.searchsubmit").bind("click", function() {
-            Music.loadList("/api/v1/songs", {"search_term": $("input.searchterm").val()});
+            Music.options = {"search_term": $("input.searchterm").val()};
+            Music.loadList("/api/v1/songs");
             Music.setActiveMenu($("#sidebar ul li a.loadSongs"));
             return false;
         });
         $("#searchform").bind("submit", function() {
-            Music.loadList("/api/v1/songs", {"search_term": $("input.searchterm").val()});
+            Music.options = {"search_term": $("input.searchterm").val()};
+            Music.loadList("/api/v1/songs");
             Music.setActiveMenu($("#sidebar ul li a.loadSongs"));
             return false;
         });
 
         $("#searchdetailsform span.searchsubmit").bind("click", function() {
-            Music.loadList("/api/v1/songs", Music.getSearchOptions());
+            Music.options = Music.getSearchOptions();
+            Music.loadList("/api/v1/songs");
             Music.setActiveMenu($("#sidebar ul li a.loadSongs"));
             $("#searchoptions").click();
             return false;
         });
         $("#searchdetailsform").bind("submit", function() {
-            Music.loadList("/api/v1/songs", Music.getSearchOptions());
+            Music.options = Music.getSearchOptions();
+            Music.loadList("/api/v1/songs");
             Music.setActiveMenu($("#sidebar ul li a.loadSongs"));
             $("#searchoptions").click();
             return false;
@@ -46,7 +52,8 @@ Music = {
         // chrome doesn't fire submit on #searchdetailsform -> dirty workaround
         $("#search_title, #search_artist, #search_album, #search_album").bind("keydown", function() {
             if (event.which == 13) {
-                Music.loadList("/api/v1/songs", Music.getSearchOptions());
+                Music.options = Music.getSearchOptions();
+                Music.loadList("/api/v1/songs");
                 Music.setActiveMenu($("#sidebar ul li a.loadSongs"));
                 $("#searchoptions").click();
                 return false;
@@ -91,19 +98,88 @@ Music = {
         $("#main table.list img.filter").live("click", function() {
             var id = $(this).closest("tr").find(".value").html();
             if ($(this).hasClass("filter_artist")) {
-                Music.loadList("/api/v1/songs", {"filter_artist_id": id});
+                Music.options = {"filter_artist_id": id};
+                Music.loadList("/api/v1/songs");
             }
             else if ($(this).hasClass("filter_album")) {
-                Music.loadList("/api/v1/songs", {"filter_album_id": id});
+                Music.options = {"filter_album_id": id};
+                Music.loadList("/api/v1/songs");
             }
             else if ($(this).hasClass("filter_genre")) {
-                Music.loadList("/api/v1/songs", {"filter_genre": id});
+                Music.options = {"filter_genre": id};
+                Music.loadList("/api/v1/songs");
             }
             else if ($(this).hasClass("filter_year")) {
-                console.log($(this).parent("tr"));
-                Music.loadList("/api/v1/songs", {"filter_year": id});
+                Music.options = {"filter_year": id};
+                Music.loadList("/api/v1/songs");
             }
             Music.setActiveMenu($("#sidebar ul li a.loadSongs"));
+            return false;
+        });
+
+        $("#main table.list th").live("click", function() {
+            if ($(this).hasClass("sort_asc")) {
+                Music.options.order_direction = "desc";
+            }
+            else {
+                Music.options.order_direction = "asc";
+            }
+
+            if ($(this).hasClass("sort_title")) {
+                Music.options.order_by = "title";
+            }
+            else if ($(this).hasClass("sort_artist")) {
+                Music.options.order_by = "artist";
+            }
+            else if ($(this).hasClass("sort_album")) {
+                Music.options.order_by = "album";
+            }
+            else if ($(this).hasClass("sort_genre")) {
+                Music.options.order_by = "genre";
+            }
+            else if ($(this).hasClass("sort_year")) {
+                Music.options.order_by = "year";
+            }
+            else if ($(this).hasClass("sort_length")) {
+                Music.options.order_by = "length";
+            }
+            else if ($(this).hasClass("sort_created")) {
+                Music.options.order_by = "created";
+            }
+            else if ($(this).hasClass("sort_votes")) {
+                Music.options.order_by = "votes";
+            }
+
+            switch ($(this).closest("tr").attr("class")) {
+                case "queue":
+                    Music.loadList("/api/v1/queue");
+                    break;
+                case "history":
+                    Music.loadList("/api/v1/history");
+                    break;
+                case "history_my":
+                    Music.loadList("/api/v1/history/my");
+                    break;
+                case "favourites":
+                    Music.loadList("/api/v1/favourites");
+                    break;
+                case "songs":
+                    Music.loadList("/api/v1/songs");
+                    break;
+                case "artists":
+                    Music.loadList("/api/v1/artists");
+                    break;
+                case "albums":
+                    Music.loadList("/api/v1/albums");
+                    break;
+                case "genres":
+                    Music.loadList("/api/v1/genres");
+                    break;
+                case "years":
+                    Music.loadList("/api/v1/years");
+                    break;
+            }
+
             return false;
         });
 
@@ -278,21 +354,17 @@ Music = {
         item.closest("li").addClass("active");
     },
 
-    loadList: function(url, options) {
-        if (typeof options == "undefined") {
-            options = {};
-        }
-
+    loadList: function(url) {
         Music.pageNum = 1;
         Music.hasNextPage = false;
 
         // build options
-        options.page = Music.pageNum;
-        options.count = 30;
+        Music.options.page = Music.pageNum;
+        Music.options.count = 30;
 
         $.ajax({
             url: url,
-            data: options,
+            data: Music.options,
             success: function(data) {
                 $(window).unbind("scroll");
                 $(window).scrollTop(0);
@@ -309,7 +381,7 @@ Music = {
                 // load data until page is populated
                 if (Music.hasNextPage && Music.getScrollHeight() <= $(document).height()) {
                     $(window).unbind("scroll");
-                    Music.loadItems(url, options);
+                    Music.loadItems(url, Music.options);
                 }
             }
         });
@@ -364,59 +436,84 @@ Music = {
         });
     },
 
+    getOrderClass: function(field, data) {
+        for (var key in data.order) {
+            var item = data.order[key];
+            if (item.field == field) {
+                switch (item.direction) {
+                    case "asc":
+                        return " sort_asc";
+                    case "desc":
+                        return " sort_desc";
+                }
+            }
+        }
+        return "";
+    },
+
     renderTable: function(data) {
-        var html = "<table class=\"list\"><thead><tr>";
+        var html = "<table class=\"list\"><thead>";
+
         switch (data.type) {
             case "queue":
+                html+= "<tr class=\"queue\">";
                 html+= "<th class=\"options\">&#160;</th>";
-                html+= "<th class=\"favourite_title\">" + gettext("Title") + "</th>";
-                html+= "<th class=\"favourite_artist\">" + gettext("Artist") + "</th>";
-                html+= "<th class=\"favourite_album\">" + gettext("Album") + "</th>";
-                html+= "<th class=\"favourite_genre\">" + gettext("Votes") + "</th>";
-                html+= "<th class=\"favourite_added\">" + gettext("First voted") + "</th>";
+                html+= "<th class=\"favourite_title sort_title" + Music.getOrderClass("title", data) + "\">" + gettext("Title") + "</th>";
+                html+= "<th class=\"favourite_artist sort_artist" + Music.getOrderClass("artist", data) + "\">" + gettext("Artist") + "</th>";
+                html+= "<th class=\"favourite_album sort_album" + Music.getOrderClass("album", data) + "\">" + gettext("Album") + "</th>";
+                html+= "<th class=\"favourite_genre sort_votes" + Music.getOrderClass("votes", data) + "\">" + gettext("Votes") + "</th>";
+                html+= "<th class=\"favourite_added sort_created" + Music.getOrderClass("created", data) + "\">" + gettext("First voted") + "</th>";
                 break;
             case "history":
+                html+= "<tr class=\"history\">";
             case "history/my":
+                html+= "<tr class=\"history_my\">";
                 html+= "<th class=\"options\">&#160;</th>";
-                html+= "<th class=\"favourite_title\">" + gettext("Title") + "</th>";
-                html+= "<th class=\"favourite_artist\">" + gettext("Artist") + "</th>";
-                html+= "<th class=\"favourite_album\">" + gettext("Album") + "</th>";
-                html+= "<th class=\"favourite_genre\">" + gettext("Votes") + "</th>";
-                html+= "<th class=\"favourite_added\">" + gettext("Date added") + "</th>";
+                html+= "<th class=\"favourite_title sort_title" + Music.getOrderClass("title", data) + "\">" + gettext("Title") + "</th>";
+                html+= "<th class=\"favourite_artist sort_artist" + Music.getOrderClass("artist", data) + "\">" + gettext("Artist") + "</th>";
+                html+= "<th class=\"favourite_album sort_album" + Music.getOrderClass("album", data) + "\">" + gettext("Album") + "</th>";
+                html+= "<th class=\"favourite_genre sort_genre" + Music.getOrderClass("votes", data) + "\">" + gettext("Votes") + "</th>";
+                html+= "<th class=\"favourite_added sort_created" + Music.getOrderClass("created", data) + "\">" + gettext("Date added") + "</th>";
                 break;
             case "favourites":
+                html+= "<tr class=\"favourites\">";
                 html+= "<th class=\"options\">&#160;</th>";
-                html+= "<th class=\"favourite_title\">" + gettext("Title") + "</th>";
-                html+= "<th class=\"favourite_artist\">" + gettext("Artist") + "</th>";
-                html+= "<th class=\"favourite_album\">" + gettext("Album") + "</th>";
-                html+= "<th class=\"favourite_genre\">" + gettext("Genre") + "</th>";
-                html+= "<th class=\"favourite_added\">" + gettext("Date added") + "</th>";
+                html+= "<th class=\"favourite_title sort_title" + Music.getOrderClass("title", data) + "\">" + gettext("Title") + "</th>";
+                html+= "<th class=\"favourite_artist sort_artist" + Music.getOrderClass("artist", data) + "\">" + gettext("Artist") + "</th>";
+                html+= "<th class=\"favourite_album sort_album" + Music.getOrderClass("album", data) + "\">" + gettext("Album") + "</th>";
+                html+= "<th class=\"favourite_genre sort_genre" + Music.getOrderClass("genre", data) + "\">" + gettext("Genre") + "</th>";
+                html+= "<th class=\"favourite_added sort_created" + Music.getOrderClass("created", data) + "\">" + gettext("Date added") + "</th>";
                 break;
             case "songs":
+                html+= "<tr class=\"songs\">";
                 html+= "<th class=\"options\">&#160;</th>";
-                html+= "<th class=\"song_title\">" + gettext("Title") + "</th>";
-                html+= "<th class=\"song_artist\">" + gettext("Artist") + "</th>";
-                html+= "<th class=\"song_album\">" + gettext("Album") + "</th>";
-                html+= "<th class=\"song_genre\">" + gettext("Genre") + "</th>";
-                html+= "<th class=\"song_year\">" + gettext("Year") + "</th>";
-                html+= "<th class=\"song_length\">" + gettext("Length") + "</th>";
+                html+= "<th class=\"song_title sort_title" + Music.getOrderClass("title", data) + "\">" + gettext("Title") + "</th>";
+                html+= "<th class=\"song_artist sort_artist" + Music.getOrderClass("artist", data) + "\">" + gettext("Artist") + "</th>";
+                html+= "<th class=\"song_album sort_album" + Music.getOrderClass("album", data) + "\">" + gettext("Album") + "</th>";
+                html+= "<th class=\"song_genre sort_genre" + Music.getOrderClass("genre", data) + "\">" + gettext("Genre") + "</th>";
+                html+= "<th class=\"song_year sort_year" + Music.getOrderClass("year", data) + "\">" + gettext("Year") + "</th>";
+                html+= "<th class=\"song_length sort_length" + Music.getOrderClass("length", data) + "\">" + gettext("Length") + "</th>";
                 break;
             case "artists":
+                html+= "<tr class=\"artists\">";
                 html+= "<th class=\"options_small\">&#160;</th>";
-                html+= "<th class=\"name\">" + gettext("Name") + "</th>";
+                html+= "<th class=\"name sort_artist" + Music.getOrderClass("artist", data) + "\">" + gettext("Name") + "</th>";
                 break;
             case "albums":
+                html+= "<tr class=\"albums\">";
                 html+= "<th class=\"options_small\">&#160;</th>";
-                html+= "<th class=\"album_title\">" + gettext("Title") + "</th>";
-                html+= "<th class=\"album_artist\">" + gettext("Artist") + "</th>";
+                html+= "<th class=\"album_title sort_album" + Music.getOrderClass("album", data) + "\">" + gettext("Title") + "</th>";
+                html+= "<th class=\"album_artist sort_artist" + Music.getOrderClass("artist", data) + "\">" + gettext("Artist") + "</th>";
                 break;
             case "genres":
+                html+= "<tr class=\"genres\">";
                 html+= "<th class=\"options_small\">&#160;</th>";
-                html+= "<th class=\"name\">" + gettext("Name") + "</th>";
+                html+= "<th class=\"name sort_genre" + Music.getOrderClass("genre", data) + "\">" + gettext("Name") + "</th>";
                 break;
             case "years":
+                html+= "<tr class=\"years\">";
                 html+= "<th class=\"options_small\">&#160;</th>";
-                html+= "<th class=\"year\">" + gettext("Year") + "</th>";
+                html+= "<th class=\"year sort_year" + Music.getOrderClass("year", data) + "\">" + gettext("Year") + "</th>";
                 break;
         }
         $(window).bind("scroll", {url: "/api/v1/" + data.type}, Music.loadOnScroll);

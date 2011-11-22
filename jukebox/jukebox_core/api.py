@@ -73,7 +73,8 @@ class api_base:
             "type": result_type,
             "page": page,
             "hasNextPage": False,
-            "itemList": []
+            "itemList": [],
+            "order": [],
         }
 
     def result_add_queue_and_favourite(self, song, dataset):
@@ -102,10 +103,30 @@ class api_base:
 
             return object_list.order_by(field_name)
         elif not self.order_by_default is None:
-            object_list = object_list.order_by(*self.order_by_default)
+            order = []
+            for key, value in self.order_by_default.items():
+                order.append(value)
+
+            object_list = object_list.order_by(*order)
 
         return object_list
 
+    def result_set_order(self, result):
+        result["order"] = []
+
+        if not self.order_by_field is None:
+            result["order"].append({
+                "field": self.order_by_field,
+                "direction": self.order_by_direction,
+            })
+        elif not self.order_by_default is None:
+            for field, order in self.order_by_default.items():
+                result["order"].append({
+                    "field": field,
+                    "direction": "desc" if order.startswith("-") else "asc",
+                })
+
+        return result
 
 class songs(api_base):
     order_by_fields = {
@@ -115,6 +136,9 @@ class songs(api_base):
         "year": "Year",
         "genre": "Genre__Name",
         "length": "Length",
+    }
+    order_by_default = {
+        "title": "Title",
     }
 
     def index(self, page=1):
@@ -173,6 +197,7 @@ class songs(api_base):
         except InvalidPage:
             return result
 
+        result = self.result_set_order(result)
         result["hasNextPage"] = page_obj.has_next()
         for item in page_obj.object_list:
             dataset = {
@@ -255,6 +280,9 @@ class history(api_base):
         "genre": "Song__Genre__Name",
         "created": "Created",
     }
+    order_by_default = {
+        "created": "-Created",
+    }
 
     def index(self, page=1):
         object_list = History.objects.all()
@@ -272,6 +300,7 @@ class history(api_base):
         except InvalidPage:
             return result
 
+        result = self.result_set_order(result)
         result["hasNextPage"] = page_obj.has_next()
         for item in page_obj.object_list:
             dataset = {
@@ -334,11 +363,16 @@ class history_my(history):
         "genre": "Song__Genre__Name",
         "created": "Created",
     }
+    order_by_default = {
+        "created": "-Created",
+    }
 
     def index(self, page=1):
         object_list = History.objects.all().filter(User__id=self.user_id)
         object_list = self.source_set_order(object_list)
         result = self.build_result(object_list, page)
+
+        result = self.result_set_order(result)
         result["type"] = "history/my"
         return result
 
@@ -353,10 +387,10 @@ class queue(api_base):
         "created": "Created",
         "votes": "VoteCount",
     }
-    order_by_default = [
-        "-VoteCount",
-        "MinCreated"
-    ]
+    order_by_default = {
+        "votes": "-VoteCount",
+        "created": "MinCreated",
+    }
 
     def index(self, page=1):
         object_list = Queue.objects.all()
@@ -374,6 +408,7 @@ class queue(api_base):
         except InvalidPage:
             return result
 
+        result = self.result_set_order(result)
         result["hasNextPage"] = page_obj.has_next()
         for item in page_obj.object_list:
             result["itemList"].append(self.get(item.Song.id))
@@ -469,6 +504,9 @@ class favourites(api_base):
         "genre": "Song__Genre__Name",
         "created": "Created",
     }
+    order_by_default = {
+        "created": "-Created",
+    }
 
     def index(self, page=1):
         object_list = Favourite.objects.all().filter(User__id=self.user_id)
@@ -484,6 +522,7 @@ class favourites(api_base):
         except InvalidPage:
             return result
 
+        result = self.result_set_order(result)
         result["hasNextPage"] = page_obj.has_next()
         for item in page_obj.object_list:
             result["itemList"].append(self.get(item.Song.id))
@@ -563,6 +602,9 @@ class artists(api_base):
     order_by_fields = {
         "artist": "Name",
     }
+    order_by_default = {
+        "artist": "Name",
+    }
 
     def index(self, page=1):
         # prepare result
@@ -578,6 +620,7 @@ class artists(api_base):
         except InvalidPage:
             return result
 
+        result = self.result_set_order(result)
         result["hasNextPage"] = page_obj.has_next()
         for item in page_obj.object_list:
             dataset = {
@@ -592,6 +635,10 @@ class artists(api_base):
 
 class albums(api_base):
     order_by_fields = {
+        "album": "Title",
+        "artist": "Artist__Name",
+    }
+    order_by_default = {
         "album": "Title",
     }
 
@@ -609,6 +656,7 @@ class albums(api_base):
         except InvalidPage:
             return result
 
+        result = self.result_set_order(result)
         result["hasNextPage"] = page_obj.has_next()
         for item in page_obj.object_list:
             dataset = {
@@ -629,6 +677,9 @@ class genres(api_base):
     order_by_fields = {
         "genre": "Name",
     }
+    order_by_default = {
+        "genre": "Name",
+    }
 
     def index(self, page=1):
         # prepare result
@@ -644,6 +695,7 @@ class genres(api_base):
         except InvalidPage:
             return result
 
+        result = self.result_set_order(result)
         result["hasNextPage"] = page_obj.has_next()
         for item in page_obj.object_list:
             dataset = {
@@ -660,9 +712,9 @@ class years(api_base):
     order_by_fields = {
         "year": "Year",
     }
-    order_by_default = [
-        "Year"
-    ]
+    order_by_default = {
+        "year": "Year"
+    }
 
     def index(self, page=1):
         # prepare result
@@ -679,6 +731,7 @@ class years(api_base):
         except InvalidPage:
             return result
 
+        result = self.result_set_order(result)
         result["hasNextPage"] = page_obj.has_next()
         for item in page_obj.object_list:
             dataset = {
