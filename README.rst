@@ -83,6 +83,17 @@ API
 
 jukebox_core provides a fully fledged REST API for authenticated users. See `API reference <https://github.com/lociii/jukebox/blob/master/jukebox/jukebox_core/docs/API.rst>`_
 
+Search filters
+===============
+
+Jukebox supports google-like search filter. Available search fields: title, artist, album, genre, year.
+
+::
+
+    title:(love to dance) artist:bobby
+    artist:(bobby baby) lucky
+    title:(in ten years) genre:electronic
+
 Dependencies
 =============
 

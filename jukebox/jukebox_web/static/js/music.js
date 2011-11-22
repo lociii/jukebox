@@ -8,6 +8,7 @@ Music = {
     pageNum: 1,
     hasNextPage: true,
     options: {},
+    searchOptions: {},
     infiniteScrollActive: false,
     sessionPing: 60000,
     csrf_token: null,
@@ -64,13 +65,39 @@ Music = {
             if ($("#searchdetails:visible").length == 1) {
                 $(document).unbind("click.search");
                 $("#searchdetails").hide();
+            }
+            else {
+                // reset all
                 $("#search_title").val("");
                 $("#search_artist").val("");
                 $("#search_album").val("");
-                $("#search_genre").find("option:selected").removeAttr("selected");
-                $("#search_year").find("option:selected").removeAttr("selected");
-            }
-            else {
+                $("#search_genre").val("");
+                $("#search_year").val("");
+
+                // fill form by current search options
+                $.each(Music.searchOptions, function(key, value) {
+                    if (key != "genre_id" && value.substr(0, 1) == "(") {
+                        value = value.substr(1, value.length - 2);
+                    }
+                    switch (key) {
+                        case "title":
+                            $("#search_title").val(value);
+                            break;
+                        case "artist":
+                            $("#search_artist").val(value);
+                            break;
+                        case "album":
+                            $("#search_album").val(value);
+                            break;
+                        case "genre_id":
+                            $("#search_genre").val(value);
+                            break;
+                        case "year":
+                            $("#search_year").val(value);
+                            break;
+                    }
+                });
+
                 $("#searchdetails").show();
                 $(document).bind("click.search", function(event) {
                     if ($(event.target).closest("#searchdetails").length == 0 && $(event.target).closest("#searchoptions").length == 0) {
@@ -377,6 +404,29 @@ Music = {
                 else {
                     $("#main").html("<div class=\"noContent\">" + gettext("No data found") + "</div>");
                 }
+
+                // set search term - don't iterate to get correct order
+                Music.searchOptions = data.search;
+                terms = [];
+                if (data.search.title) {
+                    terms.push("title:" + data.search.title);
+                }
+                if (data.search.artist) {
+                    terms.push("artist:" + data.search.artist);
+                }
+                if (data.search.album) {
+                    terms.push("album:" + data.search.album);
+                }
+                if (data.search.genre) {
+                    terms.push("genre:" + data.search.genre);
+                }
+                if (data.search.year) {
+                    terms.push("year:" + data.search.year);
+                }
+                if (data.search.term) {
+                    terms.push(data.search.term);
+                }
+                $("input.searchterm").val(terms.join(" "));
 
                 // load data until page is populated
                 if (Music.hasNextPage && Music.getScrollHeight() <= $(document).height()) {

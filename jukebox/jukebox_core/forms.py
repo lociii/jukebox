@@ -18,19 +18,15 @@ class SongsForm(forms.Form):
     )
 
     search_term = forms.CharField(
-        max_length=50,
         required=False
     )
     search_title = forms.CharField(
-        max_length=50,
         required=False
     )
     search_artist = forms.CharField(
-        max_length=50,
         required=False
     )
     search_album = forms.CharField(
-        max_length=50,
         required=False
     )
 
