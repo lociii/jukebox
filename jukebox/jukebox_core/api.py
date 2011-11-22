@@ -68,7 +68,7 @@ class api_base:
     def parseSearchString(self, keywords, term):
         values = {}
         for i in range(len(keywords)):
-            do_break = False
+            do_continue = False
             keyword = keywords[i]
             value = None
             pos = term.find(keyword + ":")
@@ -79,7 +79,7 @@ class api_base:
                     value_end = term.find(" ", value_start)
                     if value_end == -1:
                         value_end = len(term)
-                        do_break = True
+                        do_continue = True
                     value = term[value_start:value_end]
                 # search for next closing bracket but count opened ones
                 else:
@@ -93,17 +93,17 @@ class api_base:
                             bracket_count-= 1
                             if not bracket_count:
                                 value = term[value_start:i+1]
-                                break
+                                continue
                         i+= 1
 
                     if not value:
                         value = term[value_start:len(term)]
-                        do_break = True
+                        do_continue = True
 
             if value is not None:
                 values[keyword] = value
-            if do_break:
-                break
+            if do_continue:
+                continue
 
         for key, value in values.items():
             term = term.replace(key + ":" + value, "").strip()
