@@ -3,8 +3,10 @@
 from django.core.paginator import Paginator, InvalidPage
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count, Min, Q
+from django.contrib.sessions.models import Session
 from django.utils import formats
 import os, re
+from datetime import datetime
 
 from django.contrib.auth.models import User
 from models import Song, Artist, Album, Genre, Queue, Favourite, History
@@ -354,14 +356,71 @@ class songs(api_base):
             song_instance = data.Song
             data.delete()
         except ObjectDoesNotExist:
-            song_instance = Song.objects.order_by('?')[0:1].get()
-            self.addToHistory(song_instance, None)
+            try:
+                song_instance = self.getRandomSongByPreferences()
+            except ObjectDoesNotExist:
+                song_instance = Song.objects.order_by('?')[0:1].get()
+                self.addToHistory(song_instance, None)
 
         # remove missing files
         if not os.path.exists(song_instance.Filename):
             Song.objects.all().filter(id=song_instance.id).delete()
             return self.getNextSong()
 
+        return song_instance
+
+    def getRandomSongByPreferences(self):
+        artists = {}
+
+        # get logged in users
+        sessions = Session.objects.exclude(
+            expire_date__gt=datetime.today()
+        )
+        for session in sessions.all():
+            data = session.get_decoded()
+            user_id = data["_auth_user_id"]
+
+            # get newest favourites
+            favourites = Favourite.objects.filter(User__id=user_id)[0:30]
+            for favourite in favourites:
+                if not artists[favourite.Song.Artist.id]:
+                    artists[favourite.Song.Artist.id] = 0
+                artists[favourite.Song.Artist.id]+= 1
+
+            # get last voted songs
+            votes = History.objects.filter(User__id=user_id)[0:30]
+            for vote in votes:
+                if not vote.Song.Artist.id in artists:
+                    artists[vote.Song.Artist.id] = 0
+                artists[vote.Song.Artist.id]+= 1
+
+        # nothing played and no favourites
+        if not len(artists):
+            raise ObjectDoesNotExist
+
+        # calculate top artists
+        from operator import itemgetter
+        sorted_artists = sorted(
+            artists.iteritems(),
+            key=itemgetter(1),
+            reverse=True
+        )[0:30]
+        artists = []
+        for key in range(len(sorted_artists)):
+            artists.append(sorted_artists[key][0])
+
+        # get the 50 last played songs
+        history = History.objects.all()[0:50]
+        last_played = []
+        for item in history:
+            last_played.append(item.Song.id)
+
+        # find a song not played recently
+        song_instance = Song.objects.exclude(
+            id__in=last_played
+        ).filter(
+            Artist__id__in=artists
+        ).order_by('?')[0:1].get()
         return song_instance
 
     def addToHistory(self, song_instance, user_list):
