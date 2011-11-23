@@ -358,6 +358,7 @@ class songs(api_base):
         except ObjectDoesNotExist:
             try:
                 song_instance = self.getRandomSongByPreferences()
+                self.addToHistory(song_instance, None)
             except ObjectDoesNotExist:
                 song_instance = Song.objects.order_by('?')[0:1].get()
                 self.addToHistory(song_instance, None)
