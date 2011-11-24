@@ -139,3 +139,7 @@ Release Notes
 - Google-like search operators
 - Autoplay tries to play appropriate music
 - Improved web interface
+
+0.2.1
+
+- fixed issue with autoplay
