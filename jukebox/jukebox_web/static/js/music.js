@@ -126,24 +126,24 @@ Music = {
             }
         });
 
-        $("#main table.list img.filter").live("click", function() {
-            var id = $(this).closest("tr").find(".value").html();
+        $("#main table.list td.filter").live("click", function() {
+            var value = $(this).attr("data-value");
             if ($(this).hasClass("filter_artist")) {
-                Music.options = {"filter_artist_id": id};
-                Music.loadList("/api/v1/songs");
+                Music.options = {"filter_artist_id": value};
             }
             else if ($(this).hasClass("filter_album")) {
-                Music.options = {"filter_album_id": id};
-                Music.loadList("/api/v1/songs");
+                Music.options = {"filter_album_id": value};
             }
             else if ($(this).hasClass("filter_genre")) {
-                Music.options = {"filter_genre": id};
-                Music.loadList("/api/v1/songs");
+                Music.options = {"filter_genre": value};
             }
             else if ($(this).hasClass("filter_year")) {
-                Music.options = {"filter_year": id};
-                Music.loadList("/api/v1/songs");
+                Music.options = {"filter_year": value};
             }
+            else if ($(this).hasClass("search_title")) {
+                Music.options = {"search_title": value};
+            }
+            Music.loadList("/api/v1/songs");
             Music.setActiveMenu($("#sidebar ul li a.loadSongs"));
             return false;
         });
@@ -219,11 +219,11 @@ Music = {
                 url: "/api/v1/queue",
                 type: "POST",
                 data: {
-                    "id": $(this).closest("tr").find(".value").html(),
+                    "id": $(this).attr("data-id"),
                     "csrfmiddlewaretoken": Music.csrf_token
                 },
                 success: function(data) {
-                    var item = $("#queue_add_" + data.id);
+                    var item = $("img.queue_add[data-id=" + data.id + "]");
                     item.attr("src", "/static/img/queue_active.png");
                     item.removeClass("queue_add");
                     item.addClass("queue_remove");
@@ -240,7 +240,7 @@ Music = {
             var success = null;
             if ($(this).closest("tr.row_queue").length == 0) {
                 success = function(data) {
-                    var item = $("#queue_remove_" + data.id);
+                    var item = $("img.queue_remove[data-id=" + data.id + "]");
                     item.attr("src", "/static/img/queue.png");
                     item.removeClass("queue_remove");
                     item.addClass("queue_add");
@@ -251,7 +251,7 @@ Music = {
             }
             else {
                 success = function(data) {
-                    var item = $("#queue_remove_" + data.id);
+                    var item = $("img.queue_remove[data-id=" + data.id + "]");
 
                     if (data.count == 0) {
                         item.closest("tr").fadeOut(1000, function() {
@@ -270,7 +270,7 @@ Music = {
             }
 
             $.ajax({
-                url: "/api/v1/queue/" + $(this).closest("tr").find(".value").html(),
+                url: "/api/v1/queue/" + $(this).attr("data-id"),
                 type: "DELETE",
                 success: function(data) {
                     success(data);
@@ -284,11 +284,11 @@ Music = {
                 url: "/api/v1/favourites",
                 type: "POST",
                 data: {
-                    "id": $(this).closest("tr").find(".value").html(),
+                    "id": $(this).attr("data-id"),
                     "csrfmiddlewaretoken": Music.csrf_token
                 },
                 success: function(data) {
-                    var item = $("#favourite_add_" + data.id);
+                    var item = $("img.favourite_add[data-id=" + data.id + "]");
                     item.attr("src", "/static/img/favourite_active.png");
                     item.removeClass("favourite_add");
                     item.addClass("favourite_remove");
@@ -304,7 +304,7 @@ Music = {
             var success = null;
             if ($(this).closest("tr.row_favourites").length == 0) {
                 success = function(data) {
-                    var item = $("#favourite_remove_" + data.id);
+                    var item = $("img.favourite_remove[data-id=" + data.id + "]");
                     item.attr("src", "/static/img/favourite.png");
                     item.removeClass("favourite_remove");
                     item.addClass("favourite_add");
@@ -315,7 +315,7 @@ Music = {
             }
             else {
                 success = function(data) {
-                    var item = $("#favourite_remove_" + data.id);
+                    var item = $("img.favourite_remove[data-id=" + data.id + "]");
                     item.closest("tr").fadeOut(1000, function() {
                         item.closest("tr").remove();
                     });
@@ -323,7 +323,7 @@ Music = {
             }
 
             $.ajax({
-                url: "/api/v1/favourites/" + $(this).closest("tr").find(".value").html(),
+                url: "/api/v1/favourites/" + $(this).attr("data-id"),
                 type: "DELETE",
                 success: function(data) {
                     success(data);
@@ -552,23 +552,19 @@ Music = {
                 break;
             case "artists":
                 html+= "<tr class=\"artists\">";
-                html+= "<th class=\"options_small\">&#160;</th>";
                 html+= "<th class=\"name sort_artist" + Music.getOrderClass("artist", data) + "\">" + gettext("Name") + "</th>";
                 break;
             case "albums":
                 html+= "<tr class=\"albums\">";
-                html+= "<th class=\"options_small\">&#160;</th>";
                 html+= "<th class=\"album_title sort_album" + Music.getOrderClass("album", data) + "\">" + gettext("Title") + "</th>";
                 html+= "<th class=\"album_artist sort_artist" + Music.getOrderClass("artist", data) + "\">" + gettext("Artist") + "</th>";
                 break;
             case "genres":
                 html+= "<tr class=\"genres\">";
-                html+= "<th class=\"options_small\">&#160;</th>";
                 html+= "<th class=\"name sort_genre" + Music.getOrderClass("genre", data) + "\">" + gettext("Name") + "</th>";
                 break;
             case "years":
                 html+= "<tr class=\"years\">";
-                html+= "<th class=\"options_small\">&#160;</th>";
                 html+= "<th class=\"year sort_year" + Music.getOrderClass("year", data) + "\">" + gettext("Year") + "</th>";
                 break;
         }
@@ -586,21 +582,43 @@ Music = {
                     html+= "<tr class=\"row_queue\">";
                     html+= "<td>";
                     if (item.queued) {
-                        html+= "<img src=\"/static/img/queue_active.png\" class=\"queue_remove\" id=\"queue_remove_" + item.id + "\" alt=\"" + gettext("Revoke vote") + "\" title=\"" + gettext("Revoke vote") + "\" />";
+                        html+= "<img src=\"/static/img/queue_active.png\" class=\"queue_remove\" data-id=\"" + item.id + "\" alt=\"" + gettext("Revoke vote") + "\" title=\"" + gettext("Revoke vote") + "\" />";
                     }
                     else {
-                        html+= "<img src=\"/static/img/queue.png\" class=\"queue_add\" id=\"queue_add_" + item.id + "\" alt=\"" + gettext("Support vote") + "\" title=\"" + gettext("Support vote") + "\" />";
+                        html+= "<img src=\"/static/img/queue.png\" class=\"queue_add\" data-id=\"" + item.id + "\" alt=\"" + gettext("Support vote") + "\" title=\"" + gettext("Support vote") + "\" />";
                     }
                     if (item.favourite) {
-                        html+= "<img src=\"/static/img/favourite_active.png\" class=\"favourite_remove\" id=\"favourite_remove_" + item.id + "\" alt=\"" + gettext("Remove from favourites") + "\" title=\"" + gettext("Remove from favourites") + "\" />";
+                        html+= "<img src=\"/static/img/favourite_active.png\" class=\"favourite_remove\" data-id=\"" + item.id + "\" alt=\"" + gettext("Remove from favourites") + "\" title=\"" + gettext("Remove from favourites") + "\" />";
                     }
                     else {
-                        html+= "<img src=\"/static/img/favourite.png\" class=\"favourite_add\" id=\"favourite_add_" + item.id + "\" alt=\"" + gettext("Add to favourites") + "\" title=\"" + gettext("Add to favourites") + "\" />";
+                        html+= "<img src=\"/static/img/favourite.png\" class=\"favourite_add\" data-id=\"" + item.id + "\" alt=\"" + gettext("Add to favourites") + "\" title=\"" + gettext("Add to favourites") + "\" />";
                     }
                     html+= "</td>";
-                    html+= "<td>" + ((item.title != null) ? item.title : "")  + "<span class=\"value invisible\">" + item.id + "</span></td>";
-                    html+= "<td>" + ((item.artist.id != null) ? item.artist.name : "") + "</td>";
-                    html+= "<td>" + ((item.album.id != null) ? item.album.title : "") + "</td>";
+
+                    // title
+                    if (item.title != null) {
+                        html+= "<td class=\"filter search_title\" data-value=\"" + item.title + "\">" + item.title + "</td>";
+                    }
+                    else {
+                        html+= "<td>&#160;</td>";
+                    }
+
+                    // artist
+                    if (item.artist.id != null) {
+                        html+= "<td class=\"filter filter_artist\" data-value=\"" + item.artist.id + "\">" + item.artist.name + "</td>";
+                    }
+                    else {
+                        html+= "<td>&#160;</td>";
+                    }
+
+                    // album
+                    if (item.album.id != null) {
+                        html+= "<td class=\"filter filter_album\" data-value=\"" + item.album.id + "\">" + item.album.title + "</td>";
+                    }
+                    else {
+                        html+= "<td>&#160;</td>";
+                    }
+
                     html+= "<td class=\"voteCount\">" + item.votes + "</td>";
                     html+= "<td>" + item.created + "</td>";
                     break;
@@ -609,21 +627,43 @@ Music = {
                     html+= "<tr class=\"row_history\">";
                     html+= "<td>";
                     if (item.queued) {
-                        html+= "<img src=\"/static/img/queue_active.png\" class=\"queue_remove\" id=\"queue_remove_" + item.id + "\" alt=\"" + gettext("Revoke vote") + "\" title=\"" + gettext("Revoke vote") + "\" />";
+                        html+= "<img src=\"/static/img/queue_active.png\" class=\"queue_remove\" data-id=\"" + item.id + "\" alt=\"" + gettext("Revoke vote") + "\" title=\"" + gettext("Revoke vote") + "\" />";
                     }
                     else {
-                        html+= "<img src=\"/static/img/queue.png\" class=\"queue_add\" id=\"queue_add_" + item.id + "\" alt=\"" + gettext("Vote to play") + "\" title=\"" + gettext("Vote to play") + "\" />";
+                        html+= "<img src=\"/static/img/queue.png\" class=\"queue_add\" data-id=\"" + item.id + "\" alt=\"" + gettext("Vote to play") + "\" title=\"" + gettext("Vote to play") + "\" />";
                     }
                     if (item.favourite) {
-                        html+= "<img src=\"/static/img/favourite_active.png\" class=\"favourite_remove\" id=\"favourite_remove_" + item.id + "\" alt=\"" + gettext("Remove from favourites") + "\" title=\"" + gettext("Remove from favourites") + "\" />";
+                        html+= "<img src=\"/static/img/favourite_active.png\" class=\"favourite_remove\" data-id=\"" + item.id + "\" alt=\"" + gettext("Remove from favourites") + "\" title=\"" + gettext("Remove from favourites") + "\" />";
                     }
                     else {
-                        html+= "<img src=\"/static/img/favourite.png\" class=\"favourite_add\" id=\"favourite_add_" + item.id + "\" alt=\"" + gettext("Add to favourites") + "\" title=\"" + gettext("Add to favourites") + "\" />";
+                        html+= "<img src=\"/static/img/favourite.png\" class=\"favourite_add\" data-id=\"" + item.id + "\" alt=\"" + gettext("Add to favourites") + "\" title=\"" + gettext("Add to favourites") + "\" />";
                     }
                     html+= "</td>";
-                    html+= "<td>" + ((item.title != null) ? item.title : "")  + "<span class=\"value invisible\">" + item.id + "</span></td>";
-                    html+= "<td>" + ((item.artist.id != null) ? item.artist.name : "") + "</td>";
-                    html+= "<td>" + ((item.album.id != null) ? item.album.title : "") + "</td>";
+
+                    // title
+                    if (item.title != null) {
+                        html+= "<td class=\"filter search_title\" data-value=\"" + item.title + "\">" + item.title + "</td>";
+                    }
+                    else {
+                        html+= "<td>&#160;</td>";
+                    }
+
+                    // artist
+                    if (item.artist.id != null) {
+                        html+= "<td class=\"filter filter_artist\" data-value=\"" + item.artist.id + "\">" + item.artist.name + "</td>";
+                    }
+                    else {
+                        html+= "<td>&#160;</td>";
+                    }
+
+                    // album
+                    if (item.album.id != null) {
+                        html+= "<td class=\"filter filter_album\" data-value=\"" + item.album.id + "\">" + item.album.title + "</td>";
+                    }
+                    else {
+                        html+= "<td>&#160;</td>";
+                    }
+
                     html+= "<td>" + ((item.votes > 0) ? item.votes : gettext("Autoplay")) + "</td>";
                     html+= "<td>" + item.created + "</td>";
                     break;
@@ -631,40 +671,107 @@ Music = {
                     html+= "<tr class=\"row_favourites\">";
                     html+= "<td>";
                     if (item.queued) {
-                        html+= "<img src=\"/static/img/queue_active.png\" class=\"queue_remove\" id=\"queue_remove_" + item.id + "\" alt=\"" + gettext("Revoke vote") + "\" title=\"" + gettext("Revoke vote") + "\" />";
+                        html+= "<img src=\"/static/img/queue_active.png\" class=\"queue_remove\" data-id=\"" + item.id + "\" alt=\"" + gettext("Revoke vote") + "\" title=\"" + gettext("Revoke vote") + "\" />";
                     }
                     else {
-                        html+= "<img src=\"/static/img/queue.png\" class=\"queue_add\" id=\"queue_add_" + item.id + "\" alt=\"" + gettext("Vote to play") + "\" title=\"" + gettext("Vote to play") + "\" />";
+                        html+= "<img src=\"/static/img/queue.png\" class=\"queue_add\" data-id=\"" + item.id + "\" alt=\"" + gettext("Vote to play") + "\" title=\"" + gettext("Vote to play") + "\" />";
                     }
-                    html+= "<img src=\"/static/img/favourite_active.png\" class=\"favourite_remove\" id=\"favourite_remove_" + item.id + "\" alt=\"" + gettext("Remove from favourites") + "\" title=\"" + gettext("Remove from favourites") + "\" />";
+                    html+= "<img src=\"/static/img/favourite_active.png\" class=\"favourite_remove\" data-id=\"" + item.id + "\" alt=\"" + gettext("Remove from favourites") + "\" title=\"" + gettext("Remove from favourites") + "\" />";
                     html+= "</td>";
-                    html+= "<td>" + ((item.title != null) ? item.title : "")  + "<span class=\"value invisible\">" + item.id + "</span></td>";
-                    html+= "<td>" + ((item.artist.id != null) ? item.artist.name : "") + "</td>";
-                    html+= "<td>" + ((item.album.id != null) ? item.album.title : "") + "</td>";
-                    html+= "<td>" + ((item.genre.id != null) ? item.genre.name : "") + "</td>";
+
+                    // title
+                    if (item.title != null) {
+                        html+= "<td class=\"filter search_title\" data-value=\"" + item.title + "\">" + item.title + "</td>";
+                    }
+                    else {
+                        html+= "<td>&#160;</td>";
+                    }
+
+                    // artist
+                    if (item.artist.id != null) {
+                        html+= "<td class=\"filter filter_artist\" data-value=\"" + item.artist.id + "\">" + item.artist.name + "</td>";
+                    }
+                    else {
+                        html+= "<td>&#160;</td>";
+                    }
+
+                    // album
+                    if (item.album.id != null) {
+                        html+= "<td class=\"filter filter_album\" data-value=\"" + item.album.id + "\">" + item.album.title + "</td>";
+                    }
+                    else {
+                        html+= "<td>&#160;</td>";
+                    }
+
+                    // genre
+                    if (item.genre.id != null) {
+                        html+= "<td class=\"filter filter_genre\" data-value=\"" + item.genre.id + "\">" + item.genre.name + "</td>";
+                    }
+                    else {
+                        html+= "<td>&#160;</td>";
+                    }
+
                     html+= "<td>" + item.created + "</td>";
                     break;
                 case "songs":
                     html+= "<tr class=\"row_songs\">";
                     html+= "<td>";
                     if (item.queued) {
-                        html+= "<img src=\"/static/img/queue_active.png\" class=\"queue_remove\" id=\"queue_remove_" + item.id + "\" alt=\"" + gettext("Revoke vote") + "\" title=\"" + gettext("Revoke vote") + "\" />";
+                        html+= "<img src=\"/static/img/queue_active.png\" class=\"queue_remove\" data-id=\"" + item.id + "\" alt=\"" + gettext("Revoke vote") + "\" title=\"" + gettext("Revoke vote") + "\" />";
                     }
                     else {
-                        html+= "<img src=\"/static/img/queue.png\" class=\"queue_add\" id=\"queue_add_" + item.id + "\" alt=\"" + gettext("Vote to play") + "\" title=\"" + gettext("Vote to play") + "\" />";
+                        html+= "<img src=\"/static/img/queue.png\" class=\"queue_add\" data-id=\"" + item.id + "\" alt=\"" + gettext("Vote to play") + "\" title=\"" + gettext("Vote to play") + "\" />";
                     }
                     if (item.favourite) {
-                        html+= "<img src=\"/static/img/favourite_active.png\" class=\"favourite_remove\" id=\"favourite_remove_" + item.id + "\" alt=\"" + gettext("Remove from favourites") + "\" title=\"" + gettext("Remove from favourites") + "\" />";
+                        html+= "<img src=\"/static/img/favourite_active.png\" class=\"favourite_remove\" data-id=\"" + item.id + "\" alt=\"" + gettext("Remove from favourites") + "\" title=\"" + gettext("Remove from favourites") + "\" />";
                     }
                     else {
-                        html+= "<img src=\"/static/img/favourite.png\" class=\"favourite_add\" id=\"favourite_add_" + item.id + "\" alt=\"" + gettext("Add to favourites") + "\" title=\"" + gettext("Add to favourites") + "\" />";
+                        html+= "<img src=\"/static/img/favourite.png\" class=\"favourite_add\" data-id=\"" + item.id + "\" alt=\"" + gettext("Add to favourites") + "\" title=\"" + gettext("Add to favourites") + "\" />";
                     }
                     html+= "</td>";
-                    html+= "<td>" + ((item.title != null) ? item.title : "")  + "<span class=\"value invisible\">" + item.id + "</span></td>";
-                    html+= "<td>" + ((item.artist.id != null) ? item.artist.name : "") + "</td>";
-                    html+= "<td>" + ((item.album.id != null) ? item.album.title : "") + "</td>";
-                    html+= "<td>" + ((item.genre.id != null) ? item.genre.name : "") + "</td>";
-                    html+= "<td>" + ((item.year != null) ? item.year : "") + "</td>";
+                    // html+= "<td>" + ((item.title != null) ?  : "")  + "<span class=\"value invisible\">" + item.id + "</span></td>";
+
+                    // title
+                    if (item.title != null) {
+                        html+= "<td class=\"filter search_title\" data-value=\"" + item.title + "\">" + item.title + "</td>";
+                    }
+                    else {
+                        html+= "<td>&#160;</td>";
+                    }
+
+                    // artist
+                    if (item.artist.id != null) {
+                        html+= "<td class=\"filter filter_artist\" data-value=\"" + item.artist.id + "\">" + item.artist.name + "</td>";
+                    }
+                    else {
+                        html+= "<td>&#160;</td>";
+                    }
+
+                    // album
+                    if (item.album.id != null) {
+                        html+= "<td class=\"filter filter_album\" data-value=\"" + item.album.id + "\">" + item.album.title + "</td>";
+                    }
+                    else {
+                        html+= "<td>&#160;</td>";
+                    }
+
+                    // genre
+                    if (item.genre.id != null) {
+                        html+= "<td class=\"filter filter_genre\" data-value=\"" + item.genre.id + "\">" + item.genre.name + "</td>";
+                    }
+                    else {
+                        html+= "<td>&#160;</td>";
+                    }
+
+                    // year
+                    if (item.year != null) {
+                        html+= "<td class=\"filter filter_year\" data-value=\"" + item.year + "\">" + item.year + "</td>";
+                    }
+                    else {
+                        html+= "<td>&#160;</td>";
+                    }
+
+                    // length
                     var minutes = parseInt(item.length / 60);
                     var seconds = item.length % 60;
                     if (seconds < 10) {
@@ -674,32 +781,25 @@ Music = {
                     break;
                 case "artists":
                     html+= "<tr class=\"row_artists\">";
-                    html+= "<td>";
-                    html+= "<img src=\"/static/img/search.png\" class=\"filter filter_artist\" />";
-                    html+= "</td>";
-                    html+= "<td>" + item.artist + "<span class=\"value invisible\">" + item.id + "</span></td>";
+                    html+= "<td class=\"filter filter_artist\" data-value=\"" + item.id + "\">" + item.artist + "</td>";
                     break;
                 case "albums":
                     html+= "<tr class=\"row_albums\">";
-                    html+= "<td>";
-                    html+= "<img src=\"/static/img/search.png\" class=\"filter filter_album\" />";
-                    html+= "</td>";
-                    html+= "<td>" + item.album + "<span class=\"value invisible\">" + item.id + "</span></td>";
-                    html+= "<td>" + ((item.artist.id != null) ? item.artist.name : "") + "</td>";
+                    html+= "<td class=\"filter filter_album\" data-value=\"" + item.id + "\">" + item.album + "</td>";
+                    if (item.artist.id != null) {
+                        html+= "<td class=\"filter filter_artist\" data-value=\"" + item.artist.id + "\">" + item.artist.name + "</td>";
+                    }
+                    else {
+                        html+= "<td>&#160;</td>";
+                    }
                     break;
                 case "genres":
                     html+= "<tr class=\"row_genres\">";
-                    html+= "<td>";
-                    html+= "<img src=\"/static/img/search.png\" class=\"filter filter_genre\" />";
-                    html+= "</td>";
-                    html+= "<td>" + item.genre + "<span class=\"value invisible\">" + item.id + "</span></td>";
+                    html+= "<td class=\"filter filter_genre\" data-value=\"" + item.id + "\">" + item.genre + "</td>";
                     break;
                 case "years":
                     html+= "<tr class=\"row_years\">";
-                    html+= "<td>";
-                    html+= "<img src=\"/static/img/search.png\" class=\"filter filter_year\" />";
-                    html+= "</td>";
-                    html+= "<td class=\"value\">" + item.year + "</td>";
+                    html+= "<td class=\"filter filter_year\" data-value=\"" + item.year + "\">" + item.year + "</td>";
                     break;
             }
             html+= "</tr>";

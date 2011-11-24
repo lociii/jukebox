@@ -217,6 +217,7 @@ class history(apiView):
 
         page = 1
         history_api = api.history()
+        history_api = self.set_user_id(request, history_api)
 
         form = forms.HistoryForm(request.GET)
         if form.is_valid():

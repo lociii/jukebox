@@ -189,6 +189,7 @@ class api_base:
                 for user in queue.User.all():
                     if user.id == self.user_id:
                         dataset["queued"] = True
+                        break
             except ObjectDoesNotExist:
                 pass
             try:
@@ -450,7 +451,9 @@ class history(api_base):
     def index(self, page=1):
         object_list = History.objects.all()
         object_list = self.source_set_order(object_list)
-        return self.build_result(object_list, page)
+        result = self.build_result(object_list, page)
+        result = self.result_set_order(result)
+        return result
 
     def build_result(self, object_list, page):
         # prepare result

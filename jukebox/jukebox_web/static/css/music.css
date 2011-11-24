@@ -472,6 +472,14 @@ span.searchreset {
     overflow: hidden;
 }
 
+#main table.list td.filter {
+    cursor: pointer;
+}
+
+#main table.list td.filter:hover {
+    background-color: #EFA73D;
+}
+
 #main table.list td img {
     margin-right: 10px;
     cursor: pointer;
