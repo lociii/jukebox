@@ -7,6 +7,9 @@ Make your music player democratic and give everyone the chance to promote their 
 Jukebox provides a web interface to search your music library and vote for songs to be played.
 The more votes a song gets, the sooner you will listen to it.
 
+At one point in your life your play queue might get empty. Don't worry, the jukebox will keep on playing.
+The playback system figures out who is online using the web interface or API and plays music to their liking.
+
 **Required system libraries**
 
 libshout3, libshout3-dev and python-dev are required to build the dependecy `python-shout <http://pypi.python.org/pypi/python-shout>`_.
