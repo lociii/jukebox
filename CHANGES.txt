@@ -1,2 +1,3 @@
 v0.1.0, 2011-11-17 -- Initial release
 v0.1.1, 2011-11-21 -- Fixed installer bugs, added personal history, added system tests for api
+v0.2.0, 2011-11-24 -- Language switch, sortable lists, google-like search operators, autoplay tries to play appropriate music, improved web interface

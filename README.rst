@@ -128,3 +128,11 @@ Release Notes
 - Fixed installer bugs
 - Added personal history
 - Added system tests for api
+
+0.2.0
+
+- Language switch
+- Sortable lists
+- Google-like search operators
+- Autoplay tries to play appropriate music
+- Improved web interface
