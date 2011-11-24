@@ -385,7 +385,7 @@ class songs(api_base):
             # get newest favourites
             favourites = Favourite.objects.filter(User__id=user_id)[0:30]
             for favourite in favourites:
-                if not artists[favourite.Song.Artist.id]:
+                if not favourite.Song.Artist.id in artists:
                     artists[favourite.Song.Artist.id] = 0
                 artists[favourite.Song.Artist.id]+= 1
 
