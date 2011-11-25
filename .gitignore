@@ -3,5 +3,5 @@ dist/
 jukebox.egg-info/
 *.pyc
 *.sqlite
-daemon.pid
+*.pid
 jukebox/settings_local.py
