@@ -68,6 +68,32 @@ class Command(BaseCommand):
                 10
             )
 
+            self.shout = shout.Shout()
+            print "Using libshout version %s" % shout.version()
+
+            self.shout.audio_info = {
+                shout.SHOUT_AI_BITRATE: "128",
+                shout.SHOUT_AI_SAMPLERATE: "44100",
+                shout.SHOUT_AI_CHANNELS: "2"
+            }
+            self.shout.name = "Democratic Jukebox"
+            self.shout.url = "http://" + options["host"]
+            self.shout.mount = "/stream"
+            self.shout.port = int(options["port"])
+            self.shout.user = "source"
+            self.shout.password = options["password"]
+            self.shout.genre = "Mixed"
+            self.shout.description = "Your democratic music player"
+            self.shout.host = options["host"]
+            self.shout.ogv = 0
+            self.shout.format = "mp3"
+            try:
+                self.shout.open()
+                self.shout.close()
+            except shout.ShoutException as exception:
+                print "Error: " + str(exception)
+                return
+
             print "Starting jukebox_shout daemon..."
             self.daemon = daemon.DaemonContext(
                 uid=os.getuid(),
@@ -81,16 +107,11 @@ class Command(BaseCommand):
             )
 
             with self.daemon:
-                self.stream(
-                    channel_mount="/stream",
-                    station_url="http://" + options["host"],
-                    genre="Mixed",
-                    name="Democratic Jukebox",
-                    description="Your democratic music player",
-                    hostname=options["host"],
-                    port=int(options["port"]),
-                    password=options["password"],
-                )
+                self.shout.open()
+                songs_api = jukebox_core.api.songs()
+                while 1:
+                    self.sendfile(songs_api.getNextSong())
+
         elif options["stop"]:
             if not os.path.exists(pidFile):
                 print "Daemon not running"
@@ -106,42 +127,6 @@ class Command(BaseCommand):
         self.shout.close()
         self.daemon.close()
         sys.exit(0)
-
-    def stream(
-        self,
-        channel_mount,
-        station_url,
-        genre, name,
-        description,
-        hostname,
-        port,
-        password
-    ):
-        self.shout = shout.Shout()
-        print "Using libshout version %s" % shout.version()
-
-        self.shout.audio_info = {
-            shout.SHOUT_AI_BITRATE: "128",
-            shout.SHOUT_AI_SAMPLERATE: "44100",
-            shout.SHOUT_AI_CHANNELS: "2"
-        }
-        self.shout.name = name
-        self.shout.url = station_url
-        self.shout.mount = channel_mount
-        self.shout.port = port
-        self.shout.user = "source"
-        self.shout.password = password
-        self.shout.genre = genre
-        self.shout.description = description
-        self.shout.host = hostname
-        self.shout.ogv = 0
-        self.shout.format = "mp3"
-        self.shout.open()
-
-        songs_api = jukebox_core.api.songs()
-        while 1:
-            self.sendfile(songs_api.getNextSong())
-
 
     def sendfile(self, song_instance):
         if not os.path.exists(song_instance.Filename):
