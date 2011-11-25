@@ -77,7 +77,8 @@ class Command(BaseCommand):
                 shout.SHOUT_AI_CHANNELS: "2"
             }
             self.shout.name = "Democratic Jukebox"
-            self.shout.url = "http://" + options["host"]
+            self.shout.url = "http://" + options["host"] + ":" + \
+                 options["port"] + "/stream"
             self.shout.mount = "/stream"
             self.shout.port = int(options["port"])
             self.shout.user = "source"
