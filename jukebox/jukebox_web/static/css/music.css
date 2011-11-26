@@ -472,6 +472,15 @@ span.searchreset {
     overflow: hidden;
 }
 
+#main table.list td div.voteTooltip {
+    display: none;
+    position: fixed;
+    border: 1px solid #CCC;
+    background-color: #FFFFFF;
+    padding: 5px;
+    z-index: 400;
+}
+
 #main table.list td.filter {
     cursor: pointer;
 }

@@ -511,7 +511,7 @@ class history(api_base):
                 for user in item.User.all():
                     dataset["users"].append({
                         "id": user.id,
-                        "name": user.username
+                        "name": user.get_full_name()
                     })
 
             dataset = self.result_add_queue_and_favourite(item.Song, dataset)
@@ -624,7 +624,7 @@ class queue(api_base):
 
         if not item.User.count() == 0:
             for user in item.User.all():
-                result["users"].append({"id": user.id, "name": user.username})
+                result["users"].append({"id": user.id, "name": user.get_full_name()})
 
         result = self.result_add_queue_and_favourite(item.Song, result)
 

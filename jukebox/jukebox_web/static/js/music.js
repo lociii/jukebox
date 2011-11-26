@@ -332,6 +332,24 @@ Music = {
             return false;
         });
 
+        $("td.voteCount").live({
+            mouseenter: function() {
+                var element = $(this);
+                var tooltip = $(this).find('div.voteTooltip');
+                if (tooltip.length == 1) {
+                    tooltip.css('left', element.offset().left - $(window).scrollLeft() + 50);
+                    tooltip.css('top', element.offset().top - $(window).scrollTop() + 10);
+                    tooltip.show();
+                }
+            },
+            mouseleave: function() {
+                var tooltip = $(this).find('div.voteTooltip');
+                if (tooltip.length == 1) {
+                    tooltip.hide();
+                }
+            }
+        });
+
         $.ajaxSetup({
             type: "GET",
             cache: false,
@@ -619,7 +637,23 @@ Music = {
                         html+= "<td>&#160;</td>";
                     }
 
-                    html+= "<td class=\"voteCount\">" + item.votes + "</td>";
+                    html+= "<td class=\"voteCount\">";
+                    if (item.votes > 0) {
+                        if (item.users.length == item.votes) {
+                            html+= "<div class=\"voteTooltip\"><ul>";
+                            for (var key in item.users) {
+                                var user = item.users[key];
+                                html+= "<li>" + user.name + "</li>"
+                            }
+                            html+= "</ul></div>";
+                        }
+                        html+= item.votes;
+                    }
+                    else {
+                        html+= gettext("Autoplay");
+                    }
+                    html+= "</td>";
+
                     html+= "<td>" + item.created + "</td>";
                     break;
                 case "history":
@@ -664,7 +698,23 @@ Music = {
                         html+= "<td>&#160;</td>";
                     }
 
-                    html+= "<td>" + ((item.votes > 0) ? item.votes : gettext("Autoplay")) + "</td>";
+                    html+= "<td class=\"voteCount\">";
+                    if (item.votes > 0) {
+                        if (item.users.length == item.votes) {
+                            html+= "<div class=\"voteTooltip\"><ul>";
+                            for (var key in item.users) {
+                                var user = item.users[key];
+                                html+= "<li>" + user.name + "</li>"
+                            }
+                            html+= "</ul></div>";
+                        }
+                        html+= item.votes;
+                    }
+                    else {
+                        html+= gettext("Autoplay");
+                    }
+                    html+= "</td>";
+
                     html+= "<td>" + item.created + "</td>";
                     break;
                 case "favourites":
