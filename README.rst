@@ -153,3 +153,9 @@ Release Notes
 0.2.1
 
 - fixed issue with autoplay
+
+0.3.0
+
+- Added jukebox_watch
+- Added list of voters
+- Minor improvements
