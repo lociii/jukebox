@@ -108,6 +108,7 @@ Dependencies
     djangorestframework==0.2.3
     python-shout==0.2
     python-daemon==1.6
+    pyinotify==0.9.1
 
 License
 ========
