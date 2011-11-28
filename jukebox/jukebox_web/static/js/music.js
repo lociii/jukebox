@@ -540,6 +540,13 @@ Music = {
                 break;
             case "history":
                 html+= "<tr class=\"history\">";
+                html+= "<th class=\"options\">&#160;</th>";
+                html+= "<th class=\"favourite_title sort_title" + Music.getOrderClass("title", data) + "\">" + gettext("Title") + "</th>";
+                html+= "<th class=\"favourite_artist sort_artist" + Music.getOrderClass("artist", data) + "\">" + gettext("Artist") + "</th>";
+                html+= "<th class=\"favourite_album sort_album" + Music.getOrderClass("album", data) + "\">" + gettext("Album") + "</th>";
+                html+= "<th class=\"favourite_genre sort_genre" + Music.getOrderClass("votes", data) + "\">" + gettext("Votes") + "</th>";
+                html+= "<th class=\"favourite_added sort_created" + Music.getOrderClass("created", data) + "\">" + gettext("Date added") + "</th>";
+                break;
             case "history/my":
                 html+= "<tr class=\"history_my\">";
                 html+= "<th class=\"options\">&#160;</th>";
