@@ -81,6 +81,15 @@ See `jukebox_mpg123 <https://github.com/lociii/jukebox/blob/master/jukebox/jukeb
 
 Feel free to fork jukebox and add additional playback modules.
 
+Watch library for changes
+===========================
+
+There is a daemon to watch the music directory for changes and add them to the library.
+
+::
+
+    bin/jukebox jukebox_watch --path=/path/to/library
+
 API
 =============
 
