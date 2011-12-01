@@ -97,6 +97,16 @@ class songs(apiView):
         return result
 
 
+class songs_skip(apiView):
+    permissions = (IsAuthenticated, )
+
+    def get(self, request):
+        request.session.modified = True
+
+        songs_api = api.songs()
+        songs_api.skipCurrentSong()
+
+
 class artists(apiView):
     permissions = (IsAuthenticated, )
 

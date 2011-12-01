@@ -66,6 +66,11 @@ class Command(BaseCommand):
             )
 
             with self.daemon:
+                print "Register player"
+                pid = int(open(pidFile).read())
+                players_api = jukebox_core.api.players()
+                players_api.add(pid)
+
                 self.play()
 
         elif options["stop"]:
@@ -76,6 +81,10 @@ class Command(BaseCommand):
             print "Stopping daemon..."
             pid = int(open(pidFile).read())
             os.kill(pid, SIGTSTP)
+
+            print "Unregister player " + str(pid)
+            players_api = jukebox_core.api.players()
+            players_api.remove(pid)
         else:
             self.print_help("jukebox_shout", "help")
 

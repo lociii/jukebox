@@ -112,6 +112,12 @@ class Command(BaseCommand):
 
             with self.daemon:
                 self.shout.open()
+
+                print "Register player"
+                pid = int(open(pidFile).read())
+                players_api = jukebox_core.api.players()
+                players_api.add(pid)
+
                 songs_api = jukebox_core.api.songs()
                 while 1:
                     self.sendfile(songs_api.getNextSong())
@@ -124,6 +130,10 @@ class Command(BaseCommand):
             print "Stopping daemon..."
             pid = int(open(pidFile).read())
             os.kill(pid, SIGTSTP)
+
+            print "Unregister player " + str(pid)
+            players_api = jukebox_core.api.players()
+            players_api.remove(pid)
         else:
             self.print_help("jukebox_shout", "help")
 

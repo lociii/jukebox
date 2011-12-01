@@ -74,3 +74,7 @@ class History(models.Model):
     Song = models.ForeignKey(Song)
     User = models.ManyToManyField(User, null=True)
     Created = models.DateTimeField(auto_now_add=True)
+
+
+class Player(models.Model):
+    Pid = models.IntegerField()

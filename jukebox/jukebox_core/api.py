@@ -7,9 +7,10 @@ from django.contrib.sessions.models import Session
 from django.utils import formats
 import os, re
 from datetime import datetime
+from signal import SIGABRT
 
 from django.contrib.auth.models import User
-from models import Song, Artist, Album, Genre, Queue, Favourite, History
+from models import Song, Artist, Album, Genre, Queue, Favourite, History, Player
 
 
 class api_base:
@@ -434,6 +435,14 @@ class songs(api_base):
         if user_list is not None and user_list.count() > 0:
             for user_instance in user_list.all():
                 history_instance.User.add(user_instance)
+
+    def skipCurrentSong(self):
+        players = Player.objects.all()
+        for player in players:
+            try:
+                os.kill(player.Pid, SIGABRT)
+            except OSError:
+                player.delete()
 
 class history(api_base):
     order_by_fields = {
@@ -907,3 +916,20 @@ class years(api_base):
             result["itemList"].append(dataset)
 
         return result
+
+
+class players(api_base):
+    def add(self, pid):
+        player = Player(
+            Pid=pid
+        )
+        player.save()
+
+        return player.id
+
+    def remove(self, pid):
+        Player.objects.get(Pid=pid).delete()
+
+        return {
+            "pid": pid,
+        }
