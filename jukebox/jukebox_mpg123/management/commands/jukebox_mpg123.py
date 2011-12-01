@@ -4,7 +4,7 @@ from django.core.management.base import BaseCommand
 from optparse import make_option
 import daemon
 import daemon.pidfile
-from signal import SIGTSTP, SIGTERM
+from signal import SIGTSTP, SIGTERM, SIGABRT
 import sys, os, subprocess
 import time
 import jukebox_core.api
@@ -60,7 +60,8 @@ class Command(BaseCommand):
                 working_directory=os.getcwd(),
                 detach_process=True,
                 signal_map={
-                    SIGTSTP: self.shutdown
+                    SIGTSTP: self.shutdown,
+                    SIGABRT: self.skipSong
                 }
             )
 
@@ -104,3 +105,7 @@ class Command(BaseCommand):
         if not self.daemon is None:
             self.daemon.close()
         sys.exit(0)
+
+    def skipSong(self, signal, action):
+        if not self.proc is None:
+            os.kill(self.proc.pid, SIGTERM)

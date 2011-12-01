@@ -6,12 +6,14 @@ import unicodedata
 import shout
 import daemon
 import daemon.pidfile
-from signal import SIGTSTP
+from signal import SIGTSTP, SIGABRT
 import sys, os
 import jukebox_core.api
 
 
 class Command(BaseCommand):
+    skipCurrentSong = False
+
     option_list = BaseCommand.option_list + (
         make_option(
             "--start",
@@ -103,7 +105,8 @@ class Command(BaseCommand):
                 working_directory=os.getcwd(),
                 detach_process=True,
                 signal_map={
-                    SIGTSTP: self.shutdown
+                    SIGTSTP: self.shutdown,
+                    SIGABRT: self.skipSong
                 }
             )
 
@@ -129,6 +132,9 @@ class Command(BaseCommand):
         self.daemon.close()
         sys.exit(0)
 
+    def skipSong(self, signal, action):
+        self.skipCurrentSong = True
+
     def sendfile(self, song_instance):
         if not os.path.exists(song_instance.Filename):
             print "File not found: %s" %  song_instance.Filename
@@ -138,12 +144,18 @@ class Command(BaseCommand):
         f = open(song_instance.Filename)
         self.shout.set_metadata({"song": self.getMetaData(song_instance)})
         while 1:
-            print "sending..."
-            buf = f.read(4096)
-            if not len(buf):
+            if self.skipCurrentSong:
+                print "skipping current song"
+                self.shout.sync()
+                self.skipCurrentSong = False
                 break
-            self.shout.send(buf)
-            self.shout.sync()
+            else:
+                print "sending..."
+                buf = f.read(4096)
+                if not len(buf):
+                    break
+                self.shout.send(buf)
+                self.shout.sync()
         f.close()
 
     def getMetaData(self, song_instance):
