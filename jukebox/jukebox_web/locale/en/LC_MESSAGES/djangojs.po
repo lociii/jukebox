@@ -29,7 +29,7 @@ msgstr "Revoke vote"
 #: static/js/music.js:122 static/js/music.js.py:123 static/js/music.js:439
 #: static/js/music.js.py:461 static/js/music.js:478
 msgid "Vote to play"
-msgstr "Vote to pla"
+msgstr "Vote to play"
 
 #: static/js/music.js:140 static/js/music.js.py:141 static/js/music.js:417
 msgid "Support vote"
