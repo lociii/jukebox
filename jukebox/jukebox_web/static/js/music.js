@@ -11,6 +11,7 @@ Music = {
     searchOptions: {},
     infiniteScrollActive: false,
     sessionPing: 60000,
+    remaining: 0,
     csrf_token: null,
 
     init: function() {
@@ -356,8 +357,8 @@ Music = {
             dataType: "json"
         });
 
-        setTimeout("Music.ping()", Music.sessionPing);
-
+        Music.getCurrentSong();
+        Music.ping();
         Music.loadList("/api/v1/queue");
         Music.setActiveMenu($("#sidebar ul li a.loadQueue"));
     },
@@ -369,6 +370,38 @@ Music = {
                 setTimeout("Music.ping()", Music.sessionPing);
             }
         });
+    },
+
+    getCurrentSong: function() {
+         $.ajax({
+            url: "/api/v1/songs/current",
+            success: function(data) {
+                $('#currentSong span.songTitle').html(data.artist.name + " - " + data.title);
+
+                Music.remaining = data.remaining;
+                Music.updateTimeLeft();
+            }
+        });
+    },
+
+    updateTimeLeft: function() {
+        if (0 == Music.remaining) {
+            $('#currentSong span.timeRemaining').hide();
+            setTimeout("Music.getCurrentSong()", 1000);
+            return;
+        }
+        else if (Music.remaining > 0) {
+            var minutes = parseInt(Music.remaining / 60);
+            var secondsInt = Music.remaining % 60;
+            var seconds = secondsInt.toString();
+            if (secondsInt < 10) {
+                seconds = "0" + seconds;
+            }
+            $('#currentSong span.timeRemaining').show();
+            $('#currentSong span.timeRemaining').html("(" + minutes + ":" + seconds + ")");
+            Music.remaining--;
+        }
+        setTimeout("Music.updateTimeLeft()", 1000);
     },
 
     getSearchOptions: function() {

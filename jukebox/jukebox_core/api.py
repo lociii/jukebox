@@ -5,7 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Count, Min, Q
 from django.contrib.sessions.models import Session
 from django.utils import formats
-import os, re
+import os, re, time
 from datetime import datetime
 from signal import SIGABRT
 
@@ -528,6 +528,49 @@ class history(api_base):
 
         return result
 
+    def getCurrent(self):
+        item = History.objects.all()[0:1].get()
+        createdTimestamp = time.mktime(item.Created.timetuple())
+        dataset = {
+            "id": item.Song.id,
+            "title": None,
+            "artist": {
+                "id": None,
+                "name": None,
+            },
+            "album": {
+                "id": None,
+                "title": None,
+            },
+            "year": None,
+            "genre": {
+                "id": None,
+                "name": None,
+            },
+            "queued": False,
+            "favourite": False,
+            "created": formats.date_format(
+                item.Created, "DATETIME_FORMAT"
+            ),
+            "votes": item.User.count(),
+            "users": [],
+            "remaining": createdTimestamp + item.Song.Length - int(time.time())
+        }
+        if not item.Song.Title is None:
+            dataset["title"] = item.Song.Title
+        if not item.Song.Artist is None:
+            dataset["artist"]["id"] = item.Song.Artist.id
+            dataset["artist"]["name"] = item.Song.Artist.Name
+        if not item.Song.Album is None:
+            dataset["album"]["id"] = item.Song.Album.id
+            dataset["album"]["title"] = item.Song.Album.Title
+        if not item.Song.Year is None:
+            dataset["year"] = item.Song.Year
+        if not item.Song.Genre is None:
+            dataset["genre"]["id"] = item.Song.Genre.id
+            dataset["genre"]["name"] = item.Song.Genre.Name
+
+        return dataset
 
 class history_my(history):
     order_by_fields = {

@@ -15,6 +15,11 @@ urlpatterns = patterns("",
         name="jukebox_api_songs_skip"
     ),
     url(
+        r"^api/v1/songs/current",
+        views.songs_current.as_view(),
+        name="jukebox_api_songs_current"
+    ),
+    url(
         r"^api/v1/artists$",
         views.artists.as_view(),
         name="jukebox_api_artists"
