@@ -1,6 +1,6 @@
 import os
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.normpath(os.path.dirname(__file__))
 
 DEBUG = False
 TEMPLATE_DEBUG = DEBUG
@@ -11,7 +11,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR + '/db.sqlite',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite'),
     }
 }
 
@@ -26,7 +26,7 @@ LANGUAGES = (
 USE_I18N = True
 USE_L10N = True
 
-STATIC_ROOT = ''
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -38,7 +38,7 @@ MIDDLEWARE_CLASSES = (
 )
 
 TEMPLATE_DIRS = (
-    BASE_DIR + "/jukebox_web/templates"
+    os.path.join(BASE_DIR, 'jukebox_web/templates'),
 )
 
 ADMIN_MEDIA_PREFIX = '/static/admin/'
@@ -46,7 +46,7 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 ROOT_URLCONF = 'jukebox.urls'
 
 LOCALE_PATHS = (
-    BASE_DIR + '/jukebox_web/locale',
+    os.path.join(BASE_DIR, 'jukebox_web/locale'),
 )
 
 INSTALLED_APPS = (
