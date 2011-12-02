@@ -35,6 +35,7 @@ Web: http://jukebox.jensnistler.de
 
 Stream: http://jukebox.jensnistler.de:8000/stream
 
+Thanks to `Steffen Zieger <https://github.com/saz>`_ for providing and managing the server.
 
 Setup
 ==================
