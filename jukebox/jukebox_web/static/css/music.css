@@ -273,7 +273,7 @@ span.searchreset {
 #currentSong {
     position: relative;
     text-align: left;
-    margin: 12px 0 0 750px;
+    margin: 12px 120px 0 680px;
 }
 
 #profile {
@@ -333,7 +333,7 @@ span.searchreset {
 }
 
 #sidebar {
-    width: 220px;
+    width: 180px;
     margin-right: 10px;
     position: fixed;
     top: 76px;
@@ -378,7 +378,7 @@ span.searchreset {
 #main {
     position: absolute;
     top: 76px;
-    left: 250px;
+    left: 200px;
     right: 30px;
     padding-bottom: 15px;
 }
