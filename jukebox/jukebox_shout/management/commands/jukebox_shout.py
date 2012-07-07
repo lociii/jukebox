@@ -146,12 +146,13 @@ class Command(BaseCommand):
         self.skipCurrentSong = True
 
     def sendfile(self, song_instance):
-        if not os.path.exists(song_instance.Filename):
-            print "File not found: %s" %  song_instance.Filename
+        if not os.path.exists(song_instance.Filename.encode('utf8')):
+            print "File not found: %s" % (
+                song_instance.Filename.encode('utf8'))
             return
 
-        print "Streaming file %s" % song_instance.Filename
-        f = open(song_instance.Filename)
+        print "Streaming file %s" % song_instance.Filename.encode('utf8')
+        f = open(song_instance.Filename.encode('utf8'))
         self.shout.set_metadata({"song": self.getMetaData(song_instance)})
         while 1:
             if self.skipCurrentSong:
