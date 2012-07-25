@@ -28,6 +28,12 @@ class Command(BaseCommand):
             help="Stop shoutcast streaming"
         ),
         make_option(
+            "--fg",
+            action="store_true",
+            dest="fg",
+            help="Start shoutcast streaming in foreground"
+        ),
+        make_option(
             "--host",
             action="store",
             dest="host",
@@ -52,7 +58,7 @@ class Command(BaseCommand):
             os.path.abspath(__file__)
         ) + "/../../daemon.pid"
 
-        if options["start"]:
+        if options["start"] or options["fg"]:
             if (options["host"] is None or
                 options["port"] is None or
                 options["password"] is None
@@ -97,30 +103,44 @@ class Command(BaseCommand):
                 print "Error: " + str(exception)
                 return
 
-            print "Starting jukebox_shout daemon..."
-            self.daemon = daemon.DaemonContext(
-                uid=os.getuid(),
-                gid=os.getgid(),
-                pidfile=pid,
-                working_directory=os.getcwd(),
-                detach_process=True,
-                signal_map={
-                    SIGTSTP: self.shutdown,
-                    SIGABRT: self.skipSong
-                }
-            )
+            if options["start"]:
+                print "Starting jukebox_shout daemon..."
+                self.daemon = daemon.DaemonContext(
+                    uid=os.getuid(),
+                    gid=os.getgid(),
+                    pidfile=pid,
+                    working_directory=os.getcwd(),
+                    detach_process=True,
+                    signal_map={
+                        SIGTSTP: self.shutdown,
+                        SIGABRT: self.skipSong
+                    }
+                )
 
-            with self.daemon:
-                self.shout.open()
+                with self.daemon:
+                    self.shout.open()
 
-                print "Register player"
-                pid = int(open(pidFile).read())
-                players_api = jukebox_core.api.players()
-                players_api.add(pid)
+                    print "Register player"
+                    pid = int(open(pidFile).read())
+                    players_api = jukebox_core.api.players()
+                    players_api.add(pid)
 
-                songs_api = jukebox_core.api.songs()
-                while 1:
-                    self.sendfile(songs_api.getNextSong())
+                    songs_api = jukebox_core.api.songs()
+                    while 1:
+                        self.sendfile(songs_api.getNextSong())
+
+            elif options["fg"]:
+               self.shout.open()
+
+               print "Register player"
+               pid = os.getpid()
+               players_api = jukebox_core.api.players()
+               players_api.add(pid)
+
+               songs_api = jukebox_core.api.songs()
+               while 1:
+                   song = songs_api.getNextSong()
+                   self.sendfile(song)
 
         elif options["stop"]:
             if not os.path.exists(pidFile):
