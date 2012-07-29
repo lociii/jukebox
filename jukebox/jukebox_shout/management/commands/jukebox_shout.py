@@ -165,7 +165,11 @@ class Command(BaseCommand):
                 buf = f.read(4096)
                 if not len(buf):
                     break
-                self.shout.send(buf)
+                try:
+                    self.shout.send(buf)
+                except shout.ShoutException, exc:
+                    print "Error: " + str(exc)
+                    break
                 self.shout.sync()
         f.close()
 
