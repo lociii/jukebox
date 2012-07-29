@@ -377,7 +377,7 @@ class songs(api_base):
 
         # get logged in users
         sessions = Session.objects.exclude(
-            expire_date__gt=datetime.today()
+            expire_date__lt=datetime.today()
         )
         for session in sessions.all():
             data = session.get_decoded()
