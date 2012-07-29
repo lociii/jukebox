@@ -23,3 +23,11 @@ Stop
 
     bin/jukebox jukebox_shout --stop
 
+Debugging
+========
+
+Same as --start but doesn't daemonize the process.
+
+::
+
+    bin/jukebox jukebox_shout --fg --host=[shoutcast_host] --port[shoutcast_port] --password=[shoutcast_source_password]
