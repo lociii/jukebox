@@ -170,3 +170,9 @@ Release Notes
 - Added jukebox_watch
 - Added list of voters
 - Minor improvements
+
+0.3.1
+
+- Improved exception handling
+- Added rss for current song
+- Minor bug fixes

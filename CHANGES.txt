@@ -3,3 +3,4 @@ v0.1.1, 2011-11-21 -- Fixed installer bugs, added personal history, added system
 v0.2.0, 2011-11-24 -- Language switch, sortable lists, google-like search operators, autoplay tries to play appropriate music, improved web interface
 v0.2.1, 2011-11-24 -- fixed issue with autoplay
 v0.3.0, 2011-11-28 -- Added jukebox_watch, added list of voters, minor improvements
+v0.3.1, 2012-09-11 -- Improved exception handling, added rss for current song, minor bug fixes
