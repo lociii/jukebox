@@ -4,5 +4,5 @@ django-social-auth==0.7.20
 djangorestframework==2.2.1
 python-shout==0.2
 python-daemon==1.6
-pyinotify==0.9.4
 simplejson==3.1.0
+watchdog>=0.6.0
