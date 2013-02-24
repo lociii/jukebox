@@ -45,7 +45,7 @@ class Command(BaseCommand):
 
         print "2.3 Github"
         print "\tGithub authentication requires setup of a Github app on "\
-            "https://github.com/account/applications/new"
+            "https://github.com/settings/applications/new"
         github = self.readAppData("Github")
         print ""
 
