@@ -4,3 +4,4 @@ v0.2.0, 2011-11-24 -- Language switch, sortable lists, google-like search operat
 v0.2.1, 2011-11-24 -- fixed issue with autoplay
 v0.3.0, 2011-11-28 -- Added jukebox_watch, added list of voters, minor improvements
 v0.3.1, 2012-09-11 -- Improved exception handling, added rss for current song, minor bug fixes
+v0.3.2, 2013-02-24 -- Update dependencies, fix authentication problems, switch from inotify to watchdog

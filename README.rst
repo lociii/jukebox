@@ -166,3 +166,9 @@ Release Notes
 - Improved exception handling
 - Added rss for current song
 - Minor bug fixes
+
+0.3.2
+
+- Update dependencies
+- Fix authentication problems
+- Switch from inotify to watchdog
