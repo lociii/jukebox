@@ -26,17 +26,6 @@ General
 - Jukebox is available in english and german
 - Jukebox uses Facebook, Twitter and Github for authentication (see `django-social-auth <https://github.com/omab/django-social-auth>`_ for more authentication providers)
 
-Public Test
-=============
-
-There is a public test server of Democratic Jukebox to try it out. Please note that the icecast server is limited to 10 listeners.
-
-Web: http://jukebox.jensnistler.de
-
-Stream: http://jukebox.jensnistler.de:8000/stream
-
-Thanks to `Steffen Zieger <https://github.com/saz>`_ for providing and managing the server.
-
 Setup
 ==================
 
