@@ -2,37 +2,22 @@
 
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
-from djangorestframework.views import View
-from djangorestframework.response import Response
-from djangorestframework import status
-from djangorestframework.permissions import IsAuthenticated
-from django.contrib.auth.models import User
-from django.core.exceptions import ObjectDoesNotExist
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 import api, base64
 import forms
 
 
-class apiView(View):
-    # djangorestframework does not set request.user on authenticated requests
-    # is there any better way to get the authenticated user id???
-    def set_user_id(self, request, api):
-        if request.user.id is None:
-            foo, auth = request.META["HTTP_AUTHORIZATION"].split(" ", 2)
-            auth = base64.decodestring(auth)
-            username, password = auth.split(":", 2)
-            try:
-                user = User.objects.all().filter(username=username)[0:1].get()
-                if user.check_password(password):
-                    api.set_user_id(user.id)
-            except ObjectDoesNotExist:
-                pass
-        else:
+class JukeboxAPIView(APIView):
+    def api_set_user_id(self, request, api):
+        if request.user.is_authenticated():
             api.set_user_id(request.user.id)
-
         return api
 
 
-class songs(apiView):
+class songs(JukeboxAPIView):
     permissions = (IsAuthenticated, )
 
     def get(self, request):
@@ -40,7 +25,7 @@ class songs(apiView):
 
         page = 1
         songs_api = api.songs()
-        songs_api = self.set_user_id(request, songs_api)
+        songs_api = self.api_set_user_id(request, songs_api)
 
         form = forms.SongsForm(request.GET)
         if form.is_valid():
@@ -94,20 +79,30 @@ class songs(apiView):
 
         result = songs_api.index(page)
         result["form"] = form.cleaned_data
-        return result
+        return Response(
+            data=result
+        )
 
 
-class songs_current(apiView):
+class songs_current(JukeboxAPIView):
     permissions = (IsAuthenticated, )
 
     def get(self, request):
         request.session.modified = True
 
         history = api.history()
-        return history.getCurrent()
+        current = {}
+        try:
+            current = history.getCurrent()
+        except:
+            pass
+
+        return Response(
+            data=current
+        )
 
 
-class songs_skip(apiView):
+class songs_skip(JukeboxAPIView):
     permissions = (IsAuthenticated, )
 
     def get(self, request):
@@ -117,7 +112,7 @@ class songs_skip(apiView):
         songs_api.skipCurrentSong()
 
 
-class artists(apiView):
+class artists(JukeboxAPIView):
     permissions = (IsAuthenticated, )
 
     def get(self, request):
@@ -142,10 +137,12 @@ class artists(apiView):
             if not form.cleaned_data["page"] is None:
                 page = form.cleaned_data["page"]
 
-        return artists_api.index(page)
+        return Response(
+            data=artists_api.index(page)
+        )
 
 
-class albums(apiView):
+class albums(JukeboxAPIView):
     permissions = (IsAuthenticated, )
 
     def get(self, request):
@@ -170,10 +167,12 @@ class albums(apiView):
             if not form.cleaned_data["page"] is None:
                 page = form.cleaned_data["page"]
 
-        return albums_api.index(page)
+        return Response(
+            data=albums_api.index(page)
+        )
 
 
-class genres(apiView):
+class genres(JukeboxAPIView):
     permissions = (IsAuthenticated, )
 
     def get(self, request):
@@ -198,10 +197,12 @@ class genres(apiView):
             if not form.cleaned_data["page"] is None:
                 page = form.cleaned_data["page"]
 
-        return genres_api.index(page)
+        return Response(
+            data=genres_api.index(page)
+        )
 
 
-class years(apiView):
+class years(JukeboxAPIView):
     permissions = (IsAuthenticated, )
 
     def get(self, request):
@@ -226,10 +227,12 @@ class years(apiView):
             if not form.cleaned_data["page"] is None:
                 page = form.cleaned_data["page"]
 
-        return years_api.index(page)
+        return Response(
+            data=years_api.index(page)
+        )
 
 
-class history(apiView):
+class history(JukeboxAPIView):
     permissions = (IsAuthenticated, )
 
     def get(self, request):
@@ -237,7 +240,7 @@ class history(apiView):
 
         page = 1
         history_api = api.history()
-        history_api = self.set_user_id(request, history_api)
+        history_api = self.api_set_user_id(request, history_api)
 
         form = forms.HistoryForm(request.GET)
         if form.is_valid():
@@ -255,10 +258,12 @@ class history(apiView):
             if not form.cleaned_data["page"] is None:
                 page = form.cleaned_data["page"]
 
-        return history_api.index(page)
+        return Response(
+            data=history_api.index(page)
+        )
 
 
-class history_my(apiView):
+class history_my(JukeboxAPIView):
     permissions = (IsAuthenticated, )
 
     def get(self, request):
@@ -266,7 +271,7 @@ class history_my(apiView):
 
         page = 1
         history_api = api.history_my()
-        history_api = self.set_user_id(request, history_api)
+        history_api = self.api_set_user_id(request, history_api)
 
         form = forms.HistoryForm(request.GET)
         if form.is_valid():
@@ -284,10 +289,12 @@ class history_my(apiView):
             if not form.cleaned_data["page"] is None:
                 page = form.cleaned_data["page"]
 
-        return history_api.index(page)
+        return Response(
+            data=history_api.index(page)
+        )
 
 
-class queue(apiView):
+class queue(JukeboxAPIView):
     permissions = (IsAuthenticated, )
     form = forms.IdForm
 
@@ -296,7 +303,7 @@ class queue(apiView):
 
         page = 1
         queue_api = api.queue()
-        queue_api = self.set_user_id(request, queue_api)
+        queue_api = self.api_set_user_id(request, queue_api)
 
         form = forms.QueueForm(request.GET)
         if form.is_valid():
@@ -320,31 +327,36 @@ class queue(apiView):
                 "jukebox_api_queue_item",
                 kwargs={"song_id": v["id"]}
             )
-        return result
+        return Response(
+            data=result
+        )
 
     def post(self, request):
         request.session.modified = True
 
         queue_api = api.queue()
-        queue_api = self.set_user_id(request, queue_api)
+        queue_api = self.api_set_user_id(request, queue_api)
 
         try:
-            song_id = queue_api.add(self.CONTENT["id"])
+            song_id = queue_api.add(self.request.POST["id"])
             return Response(
-                status.HTTP_201_CREATED,
-                self.CONTENT,
-                {"Location": reverse(
+                status=status.HTTP_201_CREATED,
+                data={
+                    'id': int(self.request.POST['id'])
+                },
+                headers={"Location": reverse(
                     "jukebox_api_queue_item",
                     kwargs={"song_id": song_id}
                 )}
             )
         except ObjectDoesNotExist:
-            return Response(status.HTTP_404_NOT_FOUND)
-        except:
-            return Response(status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except Exception, e:
+            print e
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class queue_item(apiView):
+class queue_item(JukeboxAPIView):
     permissions = (IsAuthenticated, )
     form = forms.IdForm
 
@@ -352,7 +364,7 @@ class queue_item(apiView):
         request.session.modified = True
 
         queue_api = api.queue()
-        queue_api = self.set_user_id(request, queue_api)
+        queue_api = self.api_set_user_id(request, queue_api)
 
         try:
             item = queue_api.get(song_id)
@@ -360,27 +372,32 @@ class queue_item(apiView):
                 "jukebox_api_queue_item",
                 kwargs={"song_id": item["id"]}
             )
-            return item
+            return Response(
+                data=item
+            )
         except ObjectDoesNotExist:
-            return Response(status.HTTP_404_NOT_FOUND)
-        except:
-            return Response(status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except Exception, e:
+            print e
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def delete(self, request, song_id):
         request.session.modified = True
 
         queue_api = api.queue()
-        queue_api = self.set_user_id(request, queue_api)
+        queue_api = self.api_set_user_id(request, queue_api)
 
         try:
-            return queue_api.remove(song_id)
+            return Response(
+                data=queue_api.remove(song_id)
+            )
         except ObjectDoesNotExist:
-            return Response(status.HTTP_404_NOT_FOUND)
+            return Response(status=status.HTTP_404_NOT_FOUND)
         except:
-            return Response(status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class favourites(apiView):
+class favourites(JukeboxAPIView):
     permissions = (IsAuthenticated, )
     form = forms.IdForm
 
@@ -389,7 +406,7 @@ class favourites(apiView):
 
         page = 1
         favourites_api = api.favourites()
-        favourites_api = self.set_user_id(request, favourites_api)
+        favourites_api = self.api_set_user_id(request, favourites_api)
 
         form = forms.FavouritesForm(request.GET)
         if form.is_valid():
@@ -413,31 +430,36 @@ class favourites(apiView):
                 "jukebox_api_favourites_item",
                 kwargs={"song_id": v["id"]}
             )
-        return result
+        return Response(
+            data=result
+        )
 
     def post(self, request):
         request.session.modified = True
 
         favourites_api = api.favourites()
-        favourites_api = self.set_user_id(request, favourites_api)
+        favourites_api = self.api_set_user_id(request, favourites_api)
 
         try:
-            song_id = favourites_api.add(self.CONTENT["id"])
+            song_id = favourites_api.add(self.request.POST["id"])
             return Response(
-                status.HTTP_201_CREATED,
-                self.CONTENT,
-                {"Location": reverse(
+                status=status.HTTP_201_CREATED,
+                data={
+                    'id': int(self.request.POST['id']),
+                },
+                headers={"Location": reverse(
                     "jukebox_api_favourites_item",
                     kwargs={"song_id": song_id}
                 )}
             )
         except ObjectDoesNotExist:
-            return Response(status.HTTP_404_NOT_FOUND)
-        except:
-            return Response(status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except Exception, e:
+            print e
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class favourites_item(apiView):
+class favourites_item(JukeboxAPIView):
     permissions = (IsAuthenticated, )
     form = forms.IdForm
 
@@ -445,7 +467,7 @@ class favourites_item(apiView):
         request.session.modified = True
 
         favourites_api = api.favourites()
-        favourites_api = self.set_user_id(request, favourites_api)
+        favourites_api = self.api_set_user_id(request, favourites_api)
 
         try:
             item = favourites_api.get(song_id)
@@ -453,31 +475,37 @@ class favourites_item(apiView):
                 "jukebox_api_favourites_item",
                 kwargs={"song_id": item["id"]}
             )
-            return item
+            return Response(
+                data=item
+            )
         except ObjectDoesNotExist:
-            return Response(status.HTTP_404_NOT_FOUND)
-        except:
-            return Response(status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except Exception, e:
+            print e
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     def delete(self, request, song_id):
         request.session.modified = True
 
         favourites_api = api.favourites()
-        favourites_api = self.set_user_id(request, favourites_api)
+        favourites_api = self.api_set_user_id(request, favourites_api)
 
         try:
-            return favourites_api.remove(song_id)
+            return Response(
+                data=favourites_api.remove(song_id)
+            )
         except ObjectDoesNotExist:
-            return Response(status.HTTP_404_NOT_FOUND)
-        except:
-            return Response(status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        except Exception, e:
+            print e
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class ping(apiView):
-    permissions = (IsAuthenticated, )
-
+class ping(JukeboxAPIView):
     def get(self, request):
         request.session.modified = True
-        return {
-            "ping": True
-        }
+        return Response(
+            data= {
+                "ping": True
+            }
+        )

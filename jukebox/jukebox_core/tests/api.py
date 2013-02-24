@@ -3,7 +3,7 @@
 from django.test import TestCase, Client
 from django.db import transaction
 import base64
-from jukebox_core.models import Artist, Album, Genre, Song
+from jukebox.jukebox_core.models import Artist, Album, Genre, Song
 from django.contrib.auth.models import User
 
 

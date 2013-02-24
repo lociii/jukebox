@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 
-from django.conf.urls.defaults import patterns, url
-from jukebox_core.models import QueueFeed
+from django.conf.urls import patterns, url
+from jukebox.jukebox_core.models import QueueFeed
 import views
 
 js_info_dict = {
@@ -21,7 +21,7 @@ urlpatterns = patterns("",
     ),
     url(r"^logout$", views.logout, name="jukebox_web_logout"),
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
-    
+
      # RSS feed url
     (r'^feed/$', QueueFeed()),
 )

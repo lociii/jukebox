@@ -15,7 +15,12 @@ Music = {
     csrf_token: null,
 
     init: function() {
-        Music.csrf_token = $('#csrf_token input').val();
+        Music.csrf_token = $('#csrf_token input[name="csrfmiddlewaretoken"]').val();
+        jQuery.ajaxSetup({
+            headers: {
+                'X-CSRFToken': Music.csrf_token
+            }
+        });
 
         $(".loadList").bind("click", function() {
             Music.options = {};
@@ -220,8 +225,7 @@ Music = {
                 url: "/api/v1/queue",
                 type: "POST",
                 data: {
-                    "id": $(this).attr("data-id"),
-                    "csrfmiddlewaretoken": Music.csrf_token
+                    "id": $(this).attr("data-id")
                 },
                 success: function(data) {
                     var item = $("img.queue_add[data-id=" + data.id + "]");
@@ -245,7 +249,6 @@ Music = {
                     item.attr("src", "/static/img/queue.png");
                     item.removeClass("queue_remove");
                     item.addClass("queue_add");
-                    item.attr("id", item.attr("id").replace(/remove/, "add"));
                     item.attr("alt", gettext("Vote to play"));
                     item.attr("title", gettext("Vote to play"));
                 };
@@ -263,7 +266,6 @@ Music = {
                     item.attr("src", "/static/img/queue.png");
                     item.removeClass("queue_remove");
                     item.addClass("queue_add");
-                    item.attr("id", item.attr("id").replace(/remove/, "add"));
                     item.attr("alt", gettext("Support vote"));
                     item.attr("title", gettext("Support vote"));
                     item.closest("tr").find(".voteCount").html(data.count);
@@ -285,15 +287,13 @@ Music = {
                 url: "/api/v1/favourites",
                 type: "POST",
                 data: {
-                    "id": $(this).attr("data-id"),
-                    "csrfmiddlewaretoken": Music.csrf_token
+                    "id": $(this).attr("data-id")
                 },
                 success: function(data) {
                     var item = $("img.favourite_add[data-id=" + data.id + "]");
                     item.attr("src", "/static/img/favourite_active.png");
                     item.removeClass("favourite_add");
                     item.addClass("favourite_remove");
-                    item.attr("id", item.attr("id").replace(/add/, "remove"));
                     item.attr("alt", gettext("Remove from favourites"));
                     item.attr("title", gettext("Remove from favourites"));
                 }
@@ -309,7 +309,6 @@ Music = {
                     item.attr("src", "/static/img/favourite.png");
                     item.removeClass("favourite_remove");
                     item.addClass("favourite_add");
-                    item.attr("id", item.attr("id").replace(/remove/, "add"));
                     item.attr("alt", gettext("Add to favourites"));
                     item.attr("title", gettext("Add to favourites"));
                 };
@@ -376,10 +375,15 @@ Music = {
          $.ajax({
             url: "/api/v1/songs/current",
             success: function(data) {
-                $('#currentSong span.songTitle').html(data.artist.name + " - " + data.title);
-
-                Music.remaining = data.remaining;
-                Music.updateTimeLeft();
+                if ("id" in data) {
+                    $('#currentSong strong').show();
+                    $('#currentSong span.songTitle').html(data.artist.name + " - " + data.title);
+                    Music.remaining = data.remaining;
+                    Music.updateTimeLeft();
+                }
+                else {
+                    $('#currentSong strong').hide();
+                }
             }
         });
     },

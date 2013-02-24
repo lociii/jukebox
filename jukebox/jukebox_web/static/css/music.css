@@ -276,6 +276,10 @@ span.searchreset {
     margin: 12px 120px 0 680px;
 }
 
+#currentSong strong {
+    display: none;
+}
+
 #profile {
     float: right;
     margin: 20px 20px 0 0;

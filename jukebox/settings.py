@@ -58,7 +58,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'djangorestframework',
+    'rest_framework',
     'social_auth',
     'jukebox_core',
     'jukebox_shout',

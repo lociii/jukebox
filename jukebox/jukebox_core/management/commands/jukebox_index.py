@@ -3,7 +3,7 @@
 from django.core.management.base import BaseCommand
 from optparse import make_option
 import os
-from jukebox_core.models import Artist, Album, Song, Genre
+from jukebox.jukebox_core.models import Artist, Album, Song, Genre
 from mutagen.easyid3 import EasyID3
 from mutagen.mp3 import MP3, HeaderNotFoundError
 from mutagen.id3 import ID3NoHeaderError

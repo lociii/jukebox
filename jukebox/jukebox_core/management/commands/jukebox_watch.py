@@ -7,7 +7,7 @@ import daemon
 import daemon.pidfile
 from signal import SIGTSTP
 import pyinotify
-from jukebox_core.management.commands.jukebox_index import FileIndexer
+from jukebox.jukebox_core.management.commands.jukebox_index import FileIndexer
 
 
 class EventHandler(pyinotify.ProcessEvent):

@@ -7,7 +7,7 @@ from django.contrib.auth import logout as auth_logout
 from django.template import RequestContext
 from django.contrib.messages.api import get_messages
 from django.conf import settings
-from jukebox_core.models import Song, Genre
+from jukebox.jukebox_core.models import Song, Genre
 
 def index(request):
     if request.user.is_authenticated():

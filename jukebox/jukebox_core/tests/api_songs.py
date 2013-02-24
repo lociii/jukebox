@@ -1,8 +1,8 @@
 # -*- coding: UTF-8 -*-
 
 import random, simplejson
-from jukebox_core import api
-from jukebox_core.tests.api import ApiTestBase
+from jukebox.jukebox_core import api
+from jukebox.jukebox_core.tests.api import ApiTestBase
 
 
 class ApiSongsTest(ApiTestBase):

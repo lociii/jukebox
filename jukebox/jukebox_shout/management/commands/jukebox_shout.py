@@ -8,7 +8,7 @@ import daemon
 import daemon.pidfile
 from signal import SIGTSTP, SIGABRT
 import sys, os
-import jukebox_core.api
+from jukebox.jukebox_core import api
 
 
 class Command(BaseCommand):
@@ -122,10 +122,10 @@ class Command(BaseCommand):
 
                     print "Register player"
                     pid = int(open(pidFile).read())
-                    players_api = jukebox_core.api.players()
+                    players_api = api.players()
                     players_api.add(pid)
 
-                    songs_api = jukebox_core.api.songs()
+                    songs_api = api.songs()
                     while 1:
                         self.sendfile(songs_api.getNextSong())
 
@@ -134,10 +134,10 @@ class Command(BaseCommand):
 
                print "Register player"
                pid = os.getpid()
-               players_api = jukebox_core.api.players()
+               players_api = api.players()
                players_api.add(pid)
 
-               songs_api = jukebox_core.api.songs()
+               songs_api = api.songs()
                while 1:
                    song = songs_api.getNextSong()
                    self.sendfile(song)
@@ -152,7 +152,7 @@ class Command(BaseCommand):
             os.kill(pid, SIGTSTP)
 
             print "Unregister player " + str(pid)
-            players_api = jukebox_core.api.players()
+            players_api = api.players()
             players_api.remove(pid)
         else:
             self.print_help("jukebox_shout", "help")

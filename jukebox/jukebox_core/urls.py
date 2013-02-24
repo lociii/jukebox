@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-from django.conf.urls.defaults import patterns, url
+from django.conf.urls import patterns, url
 import views
 
 urlpatterns = patterns("",

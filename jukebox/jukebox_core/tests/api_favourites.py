@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 
 import simplejson
-from jukebox_core.tests.api import ApiTestBase
+from jukebox.jukebox_core.tests.api import ApiTestBase
 
 # ATTENTION: order tests
 # favourites are ordered by insertion date DESC per default
