@@ -46,7 +46,6 @@ Install ez_setup and finally jukebox in your fresh virtual environment:
 ::
 
     cd jukebox
-    bin/pip install ez_setup
     bin/pip install jukebox
 
 Now it's time to configure the jukebox
