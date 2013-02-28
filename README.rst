@@ -172,3 +172,7 @@ Release Notes
 - Update dependencies
 - Fix authentication problems
 - Switch from inotify to watchdog
+
+0.3.3
+
+- fix manifest

@@ -1,16 +1,14 @@
-import ez_setup
 import glob
-ez_setup.use_setuptools()
 from setuptools import setup, find_packages
 
 setup(
     name="jukebox",
     packages=find_packages(),
-    version="0.3.2",
+    version="0.3.3",
     description="Democratic Jukebox - your democratic music player",
     author="Jens Nistler",
     author_email="opensource@jensnistler.de",
-    url="https://jensnistler.de/jukebox",
+    url="http://jensnistler.de/",
     download_url='http://github.com/lociii/jukebox',
     keywords=["jukebox", "music", "mp3"],
     license="MIT",
