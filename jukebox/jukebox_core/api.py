@@ -381,6 +381,8 @@ class songs(api_base):
         )
         for session in sessions.all():
             data = session.get_decoded()
+            if not "_auth_user_id" in data:
+                continue
             user_id = data["_auth_user_id"]
 
             # get newest favourites
