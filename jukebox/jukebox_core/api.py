@@ -2,6 +2,7 @@
 
 from django.core.paginator import Paginator, InvalidPage
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import transaction
 from django.db.models import Count, Min, Q
 from django.contrib.sessions.models import Session
 from django.utils import formats
@@ -349,6 +350,13 @@ class songs(api_base):
         return result
 
     def getNextSong(self):
+        # commit transaction to force fresh queryset result
+        try:
+            transaction.enter_transaction_management()
+            transaction.commit()
+        except BaseException:
+            pass
+
         try:
             data = Queue.objects.all()
             data = data.annotate(VoteCount=Count("User"))
