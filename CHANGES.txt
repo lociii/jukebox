@@ -6,3 +6,4 @@ v0.3.0, 2011-11-28 -- Added jukebox_watch, added list of voters, minor improveme
 v0.3.1, 2012-09-11 -- Improved exception handling, added rss for current song, minor bug fixes
 v0.3.2, 2013-02-24 -- Update dependencies, fix authentication problems, switch from inotify to watchdog
 v0.3.3, 2013-02-28 -- Fix manifest
+v0.3.4, 2013-04-12 -- Fix to skip unauthorized sessions, updated wsgi handler

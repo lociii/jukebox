@@ -174,4 +174,9 @@ Release Notes
 
 0.3.3
 
-- fix manifest
+- Fix manifest
+
+0.3.4
+
+- Fix to skip unauthorized sessions
+- Updated wsgi handler
