@@ -6,3 +6,4 @@ jukebox.egg-info/
 *.pid
 jukebox/settings_local.py
 build/
+*.sw*
