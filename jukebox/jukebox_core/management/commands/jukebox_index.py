@@ -96,9 +96,9 @@ class Command(BaseCommand):
 
         print "Indexing music in " + options["path"]
         print "This may take a while"
-        self.index(options["path"])
+        self.index(options["path"], int(options["verbosity"]))
 
-    def index(self, path):
+    def index(self, path, verbosity):
         if not path.endswith("/"):
             path += "/"
 
@@ -110,5 +110,6 @@ class Command(BaseCommand):
             if os.path.isdir(filename):
                 self.index(filename + "/")
             elif filename.endswith(".mp3"):
-                print 'Indexing file ' + filename
+                if verbosity >= 2:
+                    print "Indexing file " + filename
                 indexer.index(filename)
