@@ -6,13 +6,12 @@ import sys
 try:
     path = imp.find_module('jukebox')[1]
     sys.path.append(path)
-
-    from django.core.management import execute_manager
-    import settings
-
-    if __name__ == "__main__":
-        execute_manager(settings)
-except ImportError as (errno, errmsg):
-    sys.stderr.write("Error: jukebox not found (" + errno + ", " + errmsg + ")")
-    sys.stderr.write()
+except ImportError, e:
+    sys.stderr.write("Can't find jukebox: " + str(e.message) + "\n")
     sys.exit(1)
+
+from django.core.management import execute_manager
+import settings
+
+if __name__ == '__main__':
+    execute_manager(settings)
