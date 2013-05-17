@@ -110,4 +110,5 @@ class Command(BaseCommand):
             if os.path.isdir(filename):
                 self.index(filename + "/")
             elif filename.endswith(".mp3"):
+                print 'Indexing file ' + filename
                 indexer.index(filename)
