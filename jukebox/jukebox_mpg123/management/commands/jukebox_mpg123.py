@@ -20,13 +20,13 @@ class Command(BaseCommand):
             "--start",
             action="store_true",
             dest="start",
-            help="Start shoutcast streaming"
+            help="Start mpg123 playback"
         ),
         make_option(
             "--stop",
             action="store_true",
             dest="stop",
-            help="Stop shoutcast streaming"
+            help="Stop mpg123 playback"
         ),
     )
 
@@ -86,7 +86,7 @@ class Command(BaseCommand):
             players_api = api.players()
             players_api.remove(pid)
         else:
-            self.print_help("jukebox_shout", "help")
+            self.print_help("jukebox_mpg123", "help")
 
     def play(self):
         songs_api = api.songs()
