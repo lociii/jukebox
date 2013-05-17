@@ -184,4 +184,4 @@ Release Notes
 0.3.5
 
 - Update mutagen (Thanks guys for removing old packages)
-- Fixed minor bugs (Thanks to `saz <https://github.com/saz/>`_
+- Fixed minor bugs (Thanks to `saz <https://github.com/saz/>`_)
