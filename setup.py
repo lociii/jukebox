@@ -25,7 +25,7 @@ setup(
     ],
     install_requires=[
         "Django==1.4.5",
-        "mutagen==1.20",
+        "mutagen==1.21",
         "django-social-auth==0.7.20",
         "djangorestframework==2.2.1",
         "python-shout==0.2",
