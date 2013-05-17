@@ -186,6 +186,6 @@ Release Notes
 - Update mutagen (Thanks guys for removing old packages)
 - Fixed minor bugs (Thanks to `saz <https://github.com/saz/>`_)
 
-0.3.6
+0.3.7
 
 - Fix buggy pypi package
