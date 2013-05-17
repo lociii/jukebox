@@ -180,3 +180,8 @@ Release Notes
 
 - Fix to skip unauthorized sessions
 - Updated wsgi handler
+
+0.3.5
+
+- Update mutagen (Thanks guys for removing old packages)
+- Fixed minor bugs (Thanks to `saz <https://github.com/saz/>`_
