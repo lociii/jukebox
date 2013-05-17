@@ -81,11 +81,8 @@ class FileIndexer:
 
 class Command(BaseCommand):
     option_list = BaseCommand.option_list + (
-        make_option("--path",
-            action="store",
-            dest="path",
-            help="Music library path to scan"
-        ),
+        make_option("--path", action="store", dest="path",
+                    help="Music library path to scan"),
     )
 
     def handle(self, *args, **options):
