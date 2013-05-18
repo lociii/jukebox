@@ -144,7 +144,9 @@ You want to contribute to this project? Just fork the repo and do this:
     pip install -r requirements.txt
     cd jukebox
 
-Follow up configuring jukebox like described in Setup. Use ./manage.py instead of the jukebox command. You can now create a branch to make your actual changes and send a pull request. See `this article <https://www.openshift.com/wiki/github-workflow-for-submitting-pull-requests>`_ for how to do this.
+Follow up configuring jukebox like described in Setup. Use ./manage.py instead of the jukebox command.
+
+You can now create a branch to make your actual changes and send a pull request. See `this article <https://www.openshift.com/wiki/github-workflow-for-submitting-pull-requests>`_ for how to do this.
 
 Release Notes
 ==============
