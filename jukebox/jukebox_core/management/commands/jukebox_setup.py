@@ -1,5 +1,4 @@
 # -*- coding: UTF-8 -*-
-
 from django.core.management.base import BaseCommand
 from django.conf import settings
 
@@ -11,10 +10,10 @@ class Command(BaseCommand):
         print "----------------------------------------------"
         print ""
 
-        print "1. Administrator account"
+        print "Page administrator"
         print "----------------------------------------------"
         print ""
-        admin_user = raw_input("\tUsername: ")
+        admin_user = raw_input("\tName: ")
         admin_email = raw_input("\tE-mail: ")
         print ""
 
@@ -26,24 +25,24 @@ class Command(BaseCommand):
         self.setup(admin_user, admin_email, authentication)
 
     def setAuthentication(self):
-        print "2. Please select your authentication methods"
+        print "Please select your authentication methods"
         print "----------------------------------------------"
         print "Available providers: Facebook, Twitter, Github"
         print ""
 
-        print "2.1 Facebook"
+        print "Facebook"
         print "\tFacebook authentication requires setup of a Facebook app on "\
             "http://developers.facebook.com/setup/"
         facebook = self.readAppData("Facebook")
         print ""
 
-        print "2.2 Twitter"
+        print "Twitter"
         print "\tTwitter authentication requires setup of a Twitter app on "\
             "https://dev.twitter.com/apps/new"
         twitter = self.readAppData("Twitter")
         print ""
 
-        print "2.3 Github"
+        print "Github"
         print "\tGithub authentication requires setup of a Github app on "\
             "https://github.com/settings/applications/new"
         github = self.readAppData("Github")
