@@ -9,10 +9,23 @@ TEMPLATE_DEBUG = DEBUG
 ADMINS = ()
 MANAGERS = ADMINS
 
+JUKEBOX_STORAGE_PATH = os.path.join(
+    os.path.expanduser('~'),
+    '.jukebox',
+)
+if not os.path.exists(JUKEBOX_STORAGE_PATH):
+    try:
+        os.makedirs(JUKEBOX_STORAGE_PATH, 0750)
+    except os.error:
+        JUKEBOX_STORAGE_PATH = BASE_DIR
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite'),
+        'NAME': os.path.join(
+            JUKEBOX_STORAGE_PATH,
+            'db.sqlite'
+        ),
     }
 }
 
