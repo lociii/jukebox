@@ -1,5 +1,6 @@
 import os
 import pkgutil
+import sys
 
 BASE_DIR = os.path.normpath(os.path.dirname(__file__))
 
@@ -98,6 +99,7 @@ LOGIN_REDIRECT_URL = '/'
 
 SESSION_TTL = 300
 
+sys.path.append(JUKEBOX_STORAGE_PATH)
 try:
     from settings_local import *
 except ImportError:

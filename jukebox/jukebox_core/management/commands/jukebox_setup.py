@@ -143,7 +143,7 @@ class Command(BaseCommand):
 
         setup = setup.replace("[auth_data]", auth_data)
 
-        f = open(settings.BASE_DIR + "/settings_local.py", "w+")
+        f = open(settings.JUKEBOX_STORAGE_PATH + "/settings_local.py", "w+")
         f.write(setup)
         f.close()
 
