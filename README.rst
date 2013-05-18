@@ -131,10 +131,20 @@ License
 
 MIT License. See `License <https://github.com/lociii/jukebox/blob/master/LICENSE.rst>`_
 
-Developers
-===========
+Contribute!
+============
 
-Clone the git repository, change directory to jukebox/jukebox/ and replace the calls to "bin/jukebox" by "python manage.py"
+You want to contribute to this project? Just fork the repo and do this:
+
+::
+
+    mkproject jukebox
+    git clone git@github.com:[username]/jukebox.git .
+    git remote add upstream git://github.com/lociii/jukebox.git
+    pip install -r requirements.txt
+    cd jukebox
+
+Follow up configuring jukebox like described in Setup. Use ./manage.py instead of the jukebox command. You can now create a branch to make your actual changes and send a pull request. See `this article <https://www.openshift.com/wiki/github-workflow-for-submitting-pull-requests>`_ for how to do this.
 
 Release Notes
 ==============
