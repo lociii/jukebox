@@ -77,16 +77,23 @@ Currently there are two methods of playing the music chosen in jukebox.
 
 **shoutcast**
 
-See `jukebox_shout <https://github.com/lociii/jukebox/blob/master/jukebox/jukebox_shout/docs/README.rst>`_
+Stream your music to a shoutcast compatible server
+
+::
+
+    pip install jukebox-shout
+
+See `jukebox_shout <https://github.com/lociii/jukebox_shout>`_ for details and startup command.
 
 **mpg123**
+
+Play your music locally on the machine running the jukebox.
 
 ::
 
     pip install jukebox-mpg123
-    bin/jukebox jukebox_mpg123 --start
 
-See `jukebox_mpg123 <https://github.com/lociii/jukebox_mpg123>`_ for details.
+See `jukebox_mpg123 <https://github.com/lociii/jukebox_mpg123>`_ for details and startup command.
 
 **Contribute!**
 
