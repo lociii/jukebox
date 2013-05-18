@@ -68,7 +68,12 @@ The django builtin development webserver will be sufficient to serve your office
 
     bin/jukebox runserver ip:port
 
-Now you're ready to put music in the queue. Jukebox offers several methods to play it:
+Now you're ready to put music in the queue.
+
+Playback
+=========
+
+Currently there are two methods of playing the music chosen in jukebox.
 
 **shoutcast**
 
@@ -76,9 +81,16 @@ See `jukebox_shout <https://github.com/lociii/jukebox/blob/master/jukebox/jukebo
 
 **mpg123**
 
-See `jukebox_mpg123 <https://github.com/lociii/jukebox/blob/master/jukebox/jukebox_mpg123/docs/README.rst>`_
+::
 
-Feel free to fork jukebox and add additional playback modules.
+    pip install jukebox-mpg123
+    bin/jukebox jukebox_mpg123 --start
+
+See `jukebox_mpg123 <https://github.com/lociii/jukebox_mpg123>`_ for details.
+
+**Contribute!**
+
+Feel free to write additional playback modules and I'll add them to the list above.
 
 Watch library for changes
 ===========================
