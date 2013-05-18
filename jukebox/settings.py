@@ -1,4 +1,5 @@
 import os
+import pkgutil
 
 BASE_DIR = os.path.normpath(os.path.dirname(__file__))
 
@@ -61,10 +62,13 @@ INSTALLED_APPS = (
     'rest_framework',
     'social_auth',
     'jukebox_core',
-    'jukebox_shout',
-    'jukebox_mpg123',
     'jukebox_web',
 )
+
+# automatically add jukebox plugins
+for item in pkgutil.iter_modules():
+    if str(item[1]).startswith('jukebox_'):
+        INSTALLED_APPS += (str(item[1]), )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',

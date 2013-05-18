@@ -1,3 +1,4 @@
+# -*- coding: UTF-8 -*-
 import glob
 from setuptools import setup, find_packages
 
@@ -28,9 +29,7 @@ setup(
         "mutagen==1.21",
         "django-social-auth==0.7.20",
         "djangorestframework==2.2.1",
-        "python-daemon==1.6",
         "simplejson==3.1.0",
-        "watchdog>=0.6.0",
     ],
     include_package_data=True,
     scripts=glob.glob("bin/*"),

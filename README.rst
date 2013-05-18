@@ -99,14 +99,16 @@ See `jukebox_mpg123 <https://github.com/lociii/jukebox_mpg123>`_ for details and
 
 Feel free to write additional playback modules and I'll add them to the list above.
 
-Watch library for changes
-===========================
+Live indexing
+===============
 
-There is a daemon to watch the music directory for changes and add them to the library.
+There is no need to update your index every time a new song is added to your library, just use the live indexer package.
 
 ::
 
-    bin/jukebox jukebox_watch --path=/path/to/library
+    pip install jukebox-live-indexer
+
+See `jukebox_live_indexer <https://github.com/lociii/jukebox_live_indexer>`_ for details and startup command.
 
 API
 =============
@@ -123,20 +125,6 @@ Jukebox supports google-like search filter. Available search fields: title, arti
     title:(love to dance) artist:bobby
     artist:(bobby baby) lucky
     title:(in ten years) genre:electronic
-
-Dependencies
-=============
-
-::
-
-    Django==1.4.5
-    mutagen==1.20
-    django-social-auth==0.7.20
-    djangorestframework==2.2.1
-    python-shout==0.2
-    python-daemon==1.6
-    pyinotify==0.9.4
-    simplejson==3.1.0
 
 License
 ========
