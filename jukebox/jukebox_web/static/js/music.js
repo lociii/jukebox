@@ -619,7 +619,6 @@ Music = {
             case "albums":
                 html+= "<tr class=\"albums\">";
                 html+= "<th class=\"album_title sort_album" + Music.getOrderClass("album", data) + "\">" + gettext("Title") + "</th>";
-                html+= "<th class=\"album_artist sort_artist" + Music.getOrderClass("artist", data) + "\">" + gettext("Artist") + "</th>";
                 break;
             case "genres":
                 html+= "<tr class=\"genres\">";
@@ -880,12 +879,6 @@ Music = {
                 case "albums":
                     html+= "<tr class=\"row_albums\">";
                     html+= "<td class=\"filter filter_album\" data-value=\"" + item.id + "\">" + item.album + "</td>";
-                    if (item.artist.id != null) {
-                        html+= "<td class=\"filter filter_artist\" data-value=\"" + item.artist.id + "\">" + item.artist.name + "</td>";
-                    }
-                    else {
-                        html+= "<td>&#160;</td>";
-                    }
                     break;
                 case "genres":
                     html+= "<tr class=\"row_genres\">";
