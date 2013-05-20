@@ -34,7 +34,7 @@ class Command(BaseCommand):
         for filename in listing:
             filename = path + filename
             if os.path.isdir(filename):
-                self.index(filename + "/")
+                self.index(filename + "/", verbosity)
             elif filename.endswith(".mp3"):
                 if verbosity >= 2:
                     print "Indexing file " + filename

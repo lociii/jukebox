@@ -36,7 +36,6 @@ class FileIndexer:
                 )
             if tags["album"] is not None and tags["artist"] is not None:
                 tags["album"], created = Album.objects.get_or_create(
-                    Artist=tags["artist"],
                     Title=tags["album"]
                 )
             if tags["genre"] is not None:
