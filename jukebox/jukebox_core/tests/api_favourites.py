@@ -182,8 +182,8 @@ class ApiFavouritesTest(ApiTestBase):
         self.assertEquals(result["itemList"][1]["id"], song_a.id)
 
     def testIndexOrderByAlbum(self):
-        album_a = self.addAlbum(artist=self.addArtist(), title="A Title")
-        album_b = self.addAlbum(artist=self.addArtist(), title="B Title")
+        album_a = self.addAlbum("A Title")
+        album_b = self.addAlbum("B Title")
         song_a = self.addSong(artist=self.addArtist(), album=album_a)
         song_b = self.addSong(artist=self.addArtist(), album=album_b)
         self.addFavourite(song_a)

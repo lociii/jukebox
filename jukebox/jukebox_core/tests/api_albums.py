@@ -15,7 +15,7 @@ class ApiAlbumsTest(ApiTestBase):
         self.assertEquals(len(result["itemList"]), 0)
 
     def testIndex(self):
-        album = self.addAlbum(artist=self.addArtist())
+        album = self.addAlbum()
 
         result = simplejson.loads(
             self.httpGet(
@@ -27,8 +27,8 @@ class ApiAlbumsTest(ApiTestBase):
         self.assertEquals(result["itemList"][0]["id"], album.id)
 
     def testIndexOrderByAlbum(self):
-        album_a = self.addAlbum(artist=self.addArtist(), title="A Title")
-        album_b = self.addAlbum(artist=self.addArtist(), title="B Title")
+        album_a = self.addAlbum(title="A Title")
+        album_b = self.addAlbum(title="B Title")
 
         result = simplejson.loads(
             self.httpGet(
@@ -50,34 +50,10 @@ class ApiAlbumsTest(ApiTestBase):
         self.assertEquals(result["itemList"][0]["id"], album_b.id)
         self.assertEquals(result["itemList"][1]["id"], album_a.id)
 
-    def testIndexOrderByArtist(self):
-        album_a = self.addAlbum(artist=self.addArtist("A Name"))
-        album_b = self.addAlbum(artist=self.addArtist("B Name"))
-
-        result = simplejson.loads(
-            self.httpGet(
-                "/api/v1/albums?order_by=artist"
-            ).content
-        )
-
-        self.assertEquals(len(result["itemList"]), 2)
-        self.assertEquals(result["itemList"][0]["id"], album_a.id)
-        self.assertEquals(result["itemList"][1]["id"], album_b.id)
-
-        result = simplejson.loads(
-            self.httpGet(
-                "/api/v1/albums?order_by=artist&order_direction=desc"
-            ).content
-        )
-
-        self.assertEquals(len(result["itemList"]), 2)
-        self.assertEquals(result["itemList"][0]["id"], album_b.id)
-        self.assertEquals(result["itemList"][1]["id"], album_a.id)
-
     def testCount(self):
-        album_a = self.addAlbum(artist=self.addArtist())
-        album_b = self.addAlbum(artist=self.addArtist())
-        album_c = self.addAlbum(artist=self.addArtist())
+        album_a = self.addAlbum("AAA")
+        album_b = self.addAlbum("BBB")
+        album_c = self.addAlbum("CCC")
 
         result = simplejson.loads(
             self.httpGet(
@@ -100,9 +76,9 @@ class ApiAlbumsTest(ApiTestBase):
         self.assertFalse(result["hasNextPage"])
 
     def testCountAndPage(self):
-        album_a = self.addAlbum(artist=self.addArtist())
-        album_b = self.addAlbum(artist=self.addArtist())
-        album_c = self.addAlbum(artist=self.addArtist())
+        album_a = self.addAlbum("AAA")
+        album_b = self.addAlbum("BBB")
+        album_c = self.addAlbum("CCC")
 
         result = simplejson.loads(
             self.httpGet(

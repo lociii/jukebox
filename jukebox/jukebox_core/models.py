@@ -30,10 +30,9 @@ class Album(models.Model):
         ordering = ['Title']
 
     def __unicode__(self):
-        return "%s - %s" % (self.Title, self.Artist.Name)
+        return "%s" % self.Title
 
     Title = models.CharField(max_length=200)
-    Artist = models.ForeignKey(Artist)
 
 
 class Song(models.Model):
@@ -79,25 +78,26 @@ class History(models.Model):
 
 class Player(models.Model):
     Pid = models.IntegerField()
-    
+
+
 class QueueFeed(Feed):
     title = "Jukebox Queue Feed"
     link = "/queue/"
     description = "Top song in the queue"
-    
+
     def items(self):
         return Queue.objects.all()[:1]
-    
+
     def item_title(self, item):
         return item.Song.Title
-        
-        
+
+
     def item_description(self, item):
         return unicode(item.Song.Title) + " by " + \
                 unicode(item.Song.Artist) + " from " + \
                 unicode(item.Song.Album)
-        
-        
+
+
     def item_link(self, item):
         # Not sure what to do with url as there isn't any unque url for song
         return "/queue/#" + unicode(int(round(time.time() * 1000)))

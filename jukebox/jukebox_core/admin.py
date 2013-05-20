@@ -14,7 +14,7 @@ class GenreAdmin(admin.ModelAdmin):
 
 
 class AlbumAdmin(admin.ModelAdmin):
-    list_display = ('Title', 'Artist', )
+    list_display = ('Title', )
     search_fields = ['Title']
 
 

@@ -212,12 +212,12 @@ class ApiHistoryTest(ApiTestBase):
         artist = self.addArtist()
         song_a = self.addSong(
             artist=artist,
-            album=self.addAlbum(artist=artist, title="A Title"),
+            album=self.addAlbum(title="A Title"),
             filename=__file__
         )
         song_b = self.addSong(
             artist=artist,
-            album=self.addAlbum(artist=artist, title="B Title"),
+            album=self.addAlbum(title="B Title"),
             filename=__file__
         )
         self.addSongToQueue(song_a)

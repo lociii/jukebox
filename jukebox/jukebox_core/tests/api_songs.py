@@ -64,11 +64,11 @@ class ApiSongsTest(ApiTestBase):
         fixturePart = fixture[0:random.randint(5, len(fixture))]
 
         artist = self.addArtist()
-        album = self.addAlbum(artist=artist, title=fixture)
+        album = self.addAlbum(title=fixture)
         song = self.addSong(artist=artist, album=album)
         self.addSong(
             artist=artist,
-            album=self.addAlbum(artist=artist, title="AAAAAAAAAAAAAA")
+            album=self.addAlbum(title="AAAAAAAAAAAAAA")
         )
 
         result = simplejson.loads(
@@ -117,11 +117,11 @@ class ApiSongsTest(ApiTestBase):
         fixturePart = fixture[0:random.randint(5, len(fixture))]
 
         artist = self.addArtist()
-        album = self.addAlbum(artist=artist, title=fixture)
+        album = self.addAlbum(title=fixture)
         song = self.addSong(artist=artist, album=album)
         self.addSong(
             artist=artist,
-            album=self.addAlbum(artist=artist, title="AAAAAAAAAAAAAA")
+            album=self.addAlbum(title="AAAAAAAAAAAAAA")
         )
 
         result = simplejson.loads(
@@ -163,9 +163,9 @@ class ApiSongsTest(ApiTestBase):
 
     def testIndexWithFilterAlbumId(self):
         artist = self.addArtist()
-        album = self.addAlbum(artist=artist)
+        album = self.addAlbum(title="Foo")
         song = self.addSong(artist=artist, album=album)
-        self.addSong(artist=artist, album=self.addAlbum(artist=artist))
+        self.addSong(artist=artist, album=self.addAlbum(title="Bar"))
 
         result = simplejson.loads(
             self.httpGet(
@@ -240,8 +240,8 @@ class ApiSongsTest(ApiTestBase):
 
     def testIndexOrderByAlbum(self):
         artist = self.addArtist()
-        album_a = self.addAlbum(artist=artist, title="A Title")
-        album_b = self.addAlbum(artist=artist, title="B Title")
+        album_a = self.addAlbum(title="A Title")
+        album_b = self.addAlbum(title="B Title")
         song_a = self.addSong(artist=artist, album=album_a)
         song_b = self.addSong(artist=artist, album=album_b)
 

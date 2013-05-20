@@ -1,5 +1,4 @@
 # -*- coding: UTF-8 -*-
-
 from django.core.paginator import Paginator, InvalidPage
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
@@ -9,7 +8,6 @@ from django.utils import formats
 import os, re, time
 from datetime import datetime
 from signal import SIGABRT
-
 from django.contrib.auth.models import User
 from models import Song, Artist, Album, Genre, Queue, Favourite, History, Player
 
@@ -864,7 +862,6 @@ class artists(api_base):
 class albums(api_base):
     order_by_fields = {
         "album": "Title",
-        "artist": "Artist__Name",
     }
     order_by_default = {
         "album": "Title",
@@ -890,10 +887,6 @@ class albums(api_base):
             dataset = {
                 "id": item.id,
                 "album": item.Title,
-                "artist": {
-                    "id": item.Artist.id,
-                    "name": item.Artist.Name,
-                }
             }
 
             result["itemList"].append(dataset)

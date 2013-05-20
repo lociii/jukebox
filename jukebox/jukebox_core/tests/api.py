@@ -50,9 +50,8 @@ class ApiTestBase(TestCase):
         artist.save()
         return artist
 
-    def addAlbum(self, artist, title="TestTitle"):
+    def addAlbum(self, title="TestTitle"):
         album = Album(
-            Artist=artist,
             Title=title
         )
         album.save()

@@ -75,6 +75,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'rest_framework',
     'social_auth',
+    'south',
     'jukebox_core',
     'jukebox_web',
 )
