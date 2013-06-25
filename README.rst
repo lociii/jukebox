@@ -213,3 +213,7 @@ Release Notes
 
 - Split jukebox in different packages
 - Strip artist from album data
+
+0.4.1
+
+- Add missing wsgi file

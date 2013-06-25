@@ -3,3 +3,4 @@ recursive-include jukebox/jukebox_core/docs *
 recursive-include jukebox/jukebox_web/locale *
 recursive-include jukebox/jukebox_web/static *
 recursive-include jukebox/jukebox_web/templates *
+include jukebox/jukebox.wsgi
