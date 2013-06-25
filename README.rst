@@ -208,3 +208,8 @@ Release Notes
 0.3.7
 
 - Fix buggy pypi package
+
+0.4.0
+
+- Split jukebox in different packages
+- Strip artist from album data
