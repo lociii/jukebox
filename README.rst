@@ -60,6 +60,7 @@ That's all
 
     jukebox jukebox_setup
     jukebox syncdb
+    jukebox migrate
     jukebox jukebox_index --path=/path/to/library
 
 The django builtin development webserver will be sufficient to serve your office or party. Just start it up:
