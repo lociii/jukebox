@@ -110,7 +110,7 @@ class songs_skip(JukeboxAPIView):
 
         songs_api = api.songs()
         songs_api.skipCurrentSong()
-
+        return Response("")
 
 class artists(JukeboxAPIView):
     permissions = (IsAuthenticated, )
