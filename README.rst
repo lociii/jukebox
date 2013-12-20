@@ -149,6 +149,16 @@ Follow up configuring jukebox like described in Setup. Use ./manage.py instead o
 
 You can now create a branch to make your actual changes and send a pull request. See `this article <https://www.openshift.com/wiki/github-workflow-for-submitting-pull-requests>`_ for how to do this.
 
+Contributors
+=============
+- Brazilian portuguese translation by `Luan Fonseca de Farias <https://github.com/luanfonceca>`_
+- Bugfixes by `Peter Hoffmann <https://github.com/hoffmann>`_
+- Bugfixes by `Amir H. Hajizamani <https://github.com/amirhhz>`_
+- Bugfixes by `Gabriel Duman <https://github.com/gabber7>`_
+- Bugfixes by `Steffen Zieger <https://github.com/saz>`_
+- Bugfixes by `Jonas Baumann <https://github.com/jone>`_
+- Bugfixes by `imithun <https://github.com/imithun>`_
+
 Release Notes
 ==============
 
