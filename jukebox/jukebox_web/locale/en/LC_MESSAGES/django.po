@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-12-01 17:20+0100\n"
+"POT-Creation-Date: 2013-12-19 23:32-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Jens Nistler <opensource@jensnistler.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,124 +26,128 @@ msgstr "Democratic Jukebox - your democratic music player"
 msgid "Jukebox logo"
 msgstr "Jukebox logo"
 
-#: templates/index.html:24
+#: templates/index.html:18
 msgid "Account options"
 msgstr "Account options"
 
-#: templates/index.html:31
+#: templates/index.html:25
 msgid "Search term"
 msgstr "Search term"
 
-#: templates/index.html:34 templates/index.html.py:146
+#: templates/index.html:28 templates/index.html.py:140
 msgid "Search"
 msgstr "Search"
 
-#: templates/index.html:41
+#: templates/index.html:35
 msgid "Now playing"
 msgstr "Now playing:"
 
-#: templates/index.html:51
+#: templates/index.html:45
 msgid "Navigation"
 msgstr "Navigation"
 
-#: templates/index.html:56
+#: templates/index.html:50
 msgid "Queue"
 msgstr "Queue"
 
-#: templates/index.html:61
+#: templates/index.html:55
 msgid "History"
 msgstr "History"
 
-#: templates/index.html:66
+#: templates/index.html:60
 #, fuzzy
 msgid "My History"
 msgstr "My History"
 
-#: templates/index.html:71
+#: templates/index.html:65
 msgid "Favourites"
 msgstr "Favourites"
 
-#: templates/index.html:77
+#: templates/index.html:71
 msgid "Music"
 msgstr "Music"
 
-#: templates/index.html:82
+#: templates/index.html:76
 msgid "Songs"
 msgstr "Songs"
 
-#: templates/index.html:87
+#: templates/index.html:81
 msgid "Artists"
 msgstr "Artists"
 
-#: templates/index.html:92
+#: templates/index.html:86
 msgid "Albums"
 msgstr "Albums"
 
-#: templates/index.html:97
+#: templates/index.html:91
 msgid "Genres"
 msgstr "Genres"
 
-#: templates/index.html:102
+#: templates/index.html:96
 msgid "Years"
 msgstr "Years"
 
-#: templates/index.html:115
+#: templates/index.html:109
 msgid "Title"
 msgstr "Title"
 
-#: templates/index.html:119
+#: templates/index.html:113
 msgid "Artist"
 msgstr "Artist"
 
-#: templates/index.html:123
+#: templates/index.html:117
 msgid "Album"
 msgstr "Album"
 
-#: templates/index.html:127
+#: templates/index.html:121
 msgid "Genre"
 msgstr "Genre"
 
-#: templates/index.html:129
+#: templates/index.html:123
 msgid "All genres"
 msgstr "All genres"
 
-#: templates/index.html:136
+#: templates/index.html:130
 msgid "Year"
 msgstr "Year"
 
-#: templates/index.html:138
+#: templates/index.html:132
 msgid "All years"
 msgstr "All years"
 
-#: templates/index.html:145
+#: templates/index.html:139
 msgid "Reset"
 msgstr "Reset"
 
-#: templates/index.html:152
+#: templates/index.html:146
 msgid "Switch language"
 msgstr "Switch language"
 
-#: templates/index.html:155
+#: templates/index.html:149
 msgid "English"
 msgstr "English"
 
-#: templates/index.html:158
+#: templates/index.html:152
 msgid "German"
 msgstr "German"
 
-#: templates/index.html:161
+#: templates/index.html:155
+msgid "Brazilian Portuguese"
+msgstr "Brazilian Portuguese"
+
+#: templates/index.html:158
 msgid "Misc"
 msgstr "Misc"
 
-#: templates/index.html:164
+#: templates/index.html:161
 msgid "Logout"
 msgstr "Logout"
 
-#: templates/login.html:27
+#: templates/login.html:21
 msgid "Login"
 msgstr "Login"
 
-#: templates/login.html:41
+#: templates/login.html:35
 #, python-format
 msgid "Login with your %(backend)s account"
 msgstr "Login with your %(backend)s account"

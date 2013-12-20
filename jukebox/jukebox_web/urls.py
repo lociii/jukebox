@@ -15,7 +15,7 @@ urlpatterns = patterns("",
     url(r"^login$", views.login, name="jukebox_web_login"),
     url(r"^login/error$", views.login_error, name="jukebox_web_login_error"),
     url(
-        r"^language/set/(?P<language>[a-z]{2})",
+        r"^language/set/(?P<language>[-a-z]{5}|[a-z]{2})",
         views.language,
         name="jukebox_web_language"
     ),
