@@ -8,92 +8,92 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-19 23:15-0300\n"
+"POT-Creation-Date: 2013-12-19 23:00-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Jens Nistler <opensource@jensnistler.de>\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: pt_BR\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: templates/index.html:5 templates/index.html.py:6 templates/login.html:5
 #: templates/login.html.py:6
 msgid "Democratic Jukebox - your democratic music player"
-msgstr "Democratic Jukebox - Dein demokratischer Musikspieler"
+msgstr "Democratic Jukebox - o seu player de música democrático"
 
 #: templates/index.html:15 templates/login.html:15
 msgid "Jukebox logo"
-msgstr "Jukebox Logo"
+msgstr "logo do Jukebox"
 
 #: templates/index.html:18
 msgid "Account options"
-msgstr "Benutzereinstellungen"
+msgstr "Opções da Conta"
 
 #: templates/index.html:25
 msgid "Search term"
-msgstr "Suchbegriff"
+msgstr "Buscar palavra"
 
 #: templates/index.html:28 templates/index.html.py:140
 msgid "Search"
-msgstr "Suchen"
+msgstr "Buscar"
 
 #: templates/index.html:35
 msgid "Now playing"
-msgstr "Aktuell läuft:"
+msgstr "Em execução"
 
 #: templates/index.html:45
 msgid "Navigation"
-msgstr "Navigation"
+msgstr "Navegação"
 
 #: templates/index.html:50
 msgid "Queue"
-msgstr "Warteschlange"
+msgstr "Fila"
 
 #: templates/index.html:55
 msgid "History"
-msgstr "Zuletzt gespielt"
+msgstr "Histórico"
 
 #: templates/index.html:60
 msgid "My History"
-msgstr "Von mir gewählt"
+msgstr "Meu Histórico"
 
 #: templates/index.html:65
 msgid "Favourites"
-msgstr "Favoriten"
+msgstr "Favoritos"
 
 #: templates/index.html:71
 msgid "Music"
-msgstr "Musik"
+msgstr "Música"
 
 #: templates/index.html:76
 msgid "Songs"
-msgstr "Titel"
+msgstr "Músicas"
 
 #: templates/index.html:81
 msgid "Artists"
-msgstr "Künstler"
+msgstr "Artistas"
 
 #: templates/index.html:86
 msgid "Albums"
-msgstr "Alben"
+msgstr "Albuns"
 
 #: templates/index.html:91
 msgid "Genres"
-msgstr "Musikrichtungen"
+msgstr "Gêneros"
 
 #: templates/index.html:96
 msgid "Years"
-msgstr "Jahre"
+msgstr "Anos"
 
 #: templates/index.html:109
 msgid "Title"
-msgstr "Titel"
+msgstr "Título"
 
 #: templates/index.html:113
 msgid "Artist"
-msgstr "Künstler"
+msgstr "Artista"
 
 #: templates/index.html:117
 msgid "Album"
@@ -101,53 +101,53 @@ msgstr "Album"
 
 #: templates/index.html:121
 msgid "Genre"
-msgstr "Musikrichtung"
+msgstr "Gênero"
 
 #: templates/index.html:123
 msgid "All genres"
-msgstr "Alle Musikrichtungen"
+msgstr "Todos os gêneros"
 
 #: templates/index.html:130
 msgid "Year"
-msgstr "Jahr"
+msgstr "Anos"
 
 #: templates/index.html:132
 msgid "All years"
-msgstr "Alle Jahre"
+msgstr "Todos os anos"
 
 #: templates/index.html:139
 msgid "Reset"
-msgstr "Leeren"
+msgstr "Limpar"
 
 #: templates/index.html:146
 msgid "Switch language"
-msgstr "Sprache ändern"
+msgstr "Alterar lingua"
 
 #: templates/index.html:149
 msgid "English"
-msgstr "Englisch"
+msgstr "Inglês"
 
 #: templates/index.html:152
 msgid "German"
-msgstr "Deutsch"
+msgstr "Alemão"
 
 #: templates/index.html:155
 msgid "Brazilian Portuguese"
-msgstr "Brasilianisches Portugiesisch"
+msgstr "Português do Brasil"
 
 #: templates/index.html:158
 msgid "Misc"
-msgstr "Verschiedenes"
+msgstr "Outros"
 
 #: templates/index.html:161
 msgid "Logout"
-msgstr "Abmelden"
+msgstr "Sair"
 
 #: templates/login.html:21
 msgid "Login"
-msgstr "Login"
+msgstr "Acessar"
 
 #: templates/login.html:35
 #, python-format
 msgid "Login with your %(backend)s account"
-msgstr "Melde Dich mit Deinem %(backend)s Konto an"
+msgstr "Acessar com sua conta do %(backend)s"
