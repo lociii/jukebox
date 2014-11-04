@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-19 23:15-0300\n"
+"POT-Creation-Date: 2014-11-04 20:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Jens Nistler <opensource@jensnistler.de>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -132,14 +132,18 @@ msgid "German"
 msgstr "Deutsch"
 
 #: templates/index.html:155
+msgid "French"
+msgstr "Französisch"
+
+#: templates/index.html:158
 msgid "Brazilian Portuguese"
 msgstr "Brasilianisches Portugiesisch"
 
-#: templates/index.html:158
+#: templates/index.html:161
 msgid "Misc"
 msgstr "Verschiedenes"
 
-#: templates/index.html:161
+#: templates/index.html:164
 msgid "Logout"
 msgstr "Abmelden"
 
