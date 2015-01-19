@@ -16,142 +16,142 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n > 1)\n"
 
 #: templates/index.html:5 templates/index.html.py:6 templates/login.html:5
 #: templates/login.html.py:6
 msgid "Democratic Jukebox - your democratic music player"
-msgstr "Democratic Jukebox - o seu player de música democrático"
+msgstr ""
 
 #: templates/index.html:15 templates/login.html:15
 msgid "Jukebox logo"
-msgstr "logo do Jukebox"
+msgstr ""
 
 #: templates/index.html:18
 msgid "Account options"
-msgstr "Opções da Conta"
+msgstr "Options du compte"
 
 #: templates/index.html:25
 msgid "Search term"
-msgstr "Buscar palavra"
+msgstr "Mots recherchés"
 
 #: templates/index.html:28 templates/index.html.py:140
 msgid "Search"
-msgstr "Buscar"
+msgstr "Recherche"
 
 #: templates/index.html:35
 msgid "Now playing"
-msgstr "Em execução"
+msgstr "Lecture en cours"
 
 #: templates/index.html:45
 msgid "Navigation"
-msgstr "Navegação"
+msgstr ""
 
 #: templates/index.html:50
 msgid "Queue"
-msgstr "Fila"
+msgstr "File"
 
 #: templates/index.html:55
 msgid "History"
-msgstr "Histórico"
+msgstr "Historique"
 
 #: templates/index.html:60
 msgid "My History"
-msgstr "Meu Histórico"
+msgstr "Mon historique"
 
 #: templates/index.html:65
 msgid "Favourites"
-msgstr "Favoritos"
+msgstr "Favoris"
 
 #: templates/index.html:71
 msgid "Music"
-msgstr "Música"
+msgstr "Musique"
 
 #: templates/index.html:76
 msgid "Songs"
-msgstr "Músicas"
+msgstr "Chansons"
 
 #: templates/index.html:81
 msgid "Artists"
-msgstr "Artistas"
+msgstr "Artistes"
 
 #: templates/index.html:86
 msgid "Albums"
-msgstr "Albuns"
+msgstr ""
 
 #: templates/index.html:91
 msgid "Genres"
-msgstr "Gêneros"
+msgstr ""
 
 #: templates/index.html:96
 msgid "Years"
-msgstr "Anos"
+msgstr "Ans"
 
 #: templates/index.html:109
 msgid "Title"
-msgstr "Título"
+msgstr "Titre"
 
 #: templates/index.html:113
 msgid "Artist"
-msgstr "Artista"
+msgstr "Artiste"
 
 #: templates/index.html:117
 msgid "Album"
-msgstr "Album"
+msgstr ""
 
 #: templates/index.html:121
 msgid "Genre"
-msgstr "Gênero"
+msgstr ""
 
 #: templates/index.html:123
 msgid "All genres"
-msgstr "Todos os gêneros"
+msgstr "Tous les genres"
 
 #: templates/index.html:130
 msgid "Year"
-msgstr "Anos"
+msgstr "Année"
 
 #: templates/index.html:132
 msgid "All years"
-msgstr "Todos os anos"
+msgstr "Tous les ans"
 
 #: templates/index.html:139
 msgid "Reset"
-msgstr "Limpar"
+msgstr "Réinitialiser"
 
 #: templates/index.html:146
 msgid "Switch language"
-msgstr "Alterar lingua"
+msgstr "Changer de langue"
 
 #: templates/index.html:149
 msgid "English"
-msgstr "Inglês"
+msgstr "Anglais"
 
 #: templates/index.html:152
 msgid "German"
-msgstr "Alemão"
+msgstr "Allemand"
 
 #: templates/index.html:155
 msgid "French"
-msgstr "Francês"
+msgstr "Français"
 
 #: templates/index.html:158
 msgid "Brazilian Portuguese"
-msgstr "Português do Brasil"
+msgstr "Brésilien Portugais"
 
 #: templates/index.html:161
 msgid "Misc"
-msgstr "Outros"
+msgstr "Divers"
 
 #: templates/index.html:164
 msgid "Logout"
-msgstr "Sair"
+msgstr "Déconnexion"
 
 #: templates/login.html:21
 msgid "Login"
-msgstr "Acessar"
+msgstr "Connexion"
 
 #: templates/login.html:35
 #, python-format
 msgid "Login with your %(backend)s account"
-msgstr "Acessar com sua conta do %(backend)s"
+msgstr "Connectez-vous avec votre compte %(backend)s"
