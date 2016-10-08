@@ -1,3 +1,9 @@
+Unmaintained
+============
+
+The big time of local mp3 libraries is over. Therefore this project has been abandoned and is currently unmaintained.
+Maybe have a look at https://qca.st/ which provides jukebox functionalities for music streaming services.
+
 Democratic Jukebox - your democratic music player
 ==================================================
 
